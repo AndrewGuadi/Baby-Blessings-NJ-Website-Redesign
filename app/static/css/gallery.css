@@ -1,0 +1,184 @@
+/* gallery.css */
+
+/* Basic Reset and Container */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  .container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  /* 1) HERO / PAGE INTRO */
+  .gallery-hero {
+    position: relative;
+    height: 50vh;
+    background: linear-gradient(135deg, #ffe5d9, #fff3e0);
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 60px; /* offset for fixed nav */
+  }
+  
+  .gallery-hero .hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.3); /* dark overlay for text legibility */
+  }
+  
+  .gallery-hero .hero-content {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    color: #fff;
+  }
+  
+  .gallery-hero h1 {
+    font-size: 3rem;
+    margin-bottom: 10px;
+    text-shadow: 1px 1px 4px rgba(0,0,0,0.5);
+  }
+  
+  .gallery-hero p {
+    font-size: 1.2rem;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.4);
+  }
+  
+  /* 2) GALLERY GRID / SLIDESHOW */
+  .gallery-grid-section {
+    padding: 40px 0;
+    background: #fff;
+  }
+  
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+  }
+  
+  .gallery-item {
+    overflow: hidden;
+    border-radius: 8px;
+    background: #f8f8f8;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .gallery-item img {
+    width: 100%;
+    display: block;
+    border-radius: 8px 8px 0 0;
+  }
+  
+  .gallery-item .caption {
+    padding: 10px;
+    font-size: 0.95rem;
+    color: #555;
+  }
+  
+  /* Hover effect for gallery items */
+  .gallery-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+  }
+  
+  /* 3) OPTIONAL VIDEO SECTION */
+  .gallery-video {
+    padding: 40px 0;
+    background: #f4f4f4;
+    text-align: center;
+  }
+  
+  .gallery-video .section-title {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: #333;
+  }
+  
+  .video-wrapper {
+    position: relative;
+    padding-bottom: 56.25%; /* 16:9 aspect ratio */
+    height: 0;
+    overflow: hidden;
+    max-width: 100%;
+  }
+  
+  .video-wrapper iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+  
+  /* 4) CALL-TO-ACTION */
+  #gallery-cta {
+    padding: 60px 0;
+    background: linear-gradient(135deg, #fff3e0, #ffe5d9);
+    text-align: center;
+  }
+  
+  #gallery-cta .section-title {
+    font-size: 2rem;
+    margin-bottom: 10px;
+    color: #333;
+  }
+  
+  #gallery-cta p {
+    font-size: 1rem;
+    margin-bottom: 20px;
+    color: #555;
+  }
+  
+  #gallery-cta .btn {
+    display: inline-block;
+    padding: 12px 30px;
+    background: #a67c52;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 25px;
+    transition: background 0.3s ease;
+    margin: 0 10px;
+  }
+  
+  #gallery-cta .btn:hover {
+    background: #8c5e3c;
+  }
+  
+  /* Responsive Adjustments */
+  @media (max-width: 768px) {
+    .gallery-hero h1 {
+      font-size: 2.2rem;
+    }
+    .gallery-hero p {
+      font-size: 1rem;
+    }
+    #gallery-cta .section-title {
+      font-size: 1.8rem;
+    }
+    #gallery-cta p {
+      font-size: 0.9rem;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .gallery-hero {
+      height: 40vh;
+    }
+    .gallery-hero h1 {
+      font-size: 1.8rem;
+    }
+    .gallery-hero p {
+      font-size: 0.9rem;
+    }
+  }
+  
