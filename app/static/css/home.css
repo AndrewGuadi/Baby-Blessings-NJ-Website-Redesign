@@ -21,7 +21,7 @@
 @media (max-width: 768px) {
   .hero-section {
       background: 
-        url('/static/images/hero-background.jpg') center/cover no-repeat,
+        url('/static/images/hero-background.jpeg') center/cover no-repeat,
         linear-gradient(135deg, #ffe5d9, #fff3e0);
   }
 }
