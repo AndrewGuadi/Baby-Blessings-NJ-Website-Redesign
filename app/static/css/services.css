@@ -3,20 +3,29 @@
 
 /* --- Services Page Hero --- */
 .services-hero {
+  /* Hero background image */
   background: url('/static/images/services-hero.jpeg') center/cover no-repeat;
   height: 60vh;
   position: relative;
+
+  /* Offset from fixed navbar */
+  margin-top: 60px;
+
+  /* Center hero content */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  overflow: hidden; /* prevent accidental overflow on small screens */
 }
 
 /* Optional overlay for better text readability */
 .services-hero::before {
   content: "";
   position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
+  top: 0; right: 0; bottom: 0; left: 0;
   background: rgba(0, 0, 0, 0.3); /* adjust opacity as needed */
+  z-index: 0;
 }
 
 /* Ensure the hero content sits above the overlay */
@@ -24,12 +33,14 @@
   position: relative;
   z-index: 1;
   color: #fff; /* adjust text color if needed */
+  text-align: center; /* ensure text is centered if that’s what you want */
 }
 
 /* --- Baby Blessings Page Hero --- */
 .baby-blessings-hero {
   background: url('/static/images/baby-blessings-hero.jpg') center/cover no-repeat;
   height: 60vh;
+  margin-top: 60px; /* optional: same offset if it also needs spacing */
 }
 
 /* --- Overview Section --- */
@@ -130,15 +141,12 @@
 
 /* --- MOBILE RESPONSIVE STYLES --- */
 @media (max-width: 768px) {
-
-  .hero-section {
-    margin-top: 60px;
-  }
-
+  /* Let .services-hero and .baby-blessings-hero adapt to smaller screens */
   .services-hero,
   .baby-blessings-hero {
-      height: 60vh;
-      background-position: center center;
+    height: 60vh;
+    background-position: center center;
+    margin-top: 60px; /* keep consistent offset under navbar */
   }
 
   .overview,
@@ -146,42 +154,42 @@
   .special-services,
   .gallery-teaser,
   .final-cta {
-      padding: 20px 15px;
+    padding: 20px 15px;
   }
 
   .overview .overview-content,
   .overview-baby-blessings .overview-content {
-      padding: 0 10px;
+    padding: 0 10px;
   }
 
   .services-grid {
-      grid-template-columns: 1fr;
-      gap: 20px;
+    grid-template-columns: 1fr;
+    gap: 20px;
   }
 
   .gallery-grid {
-      flex-direction: column;
-      gap: 10px;
+    flex-direction: column;
+    gap: 10px;
   }
 
   .gallery-grid img {
-      max-width: 100%;
+    max-width: 100%;
   }
 
   .hero-content h1 {
-      font-size: 1.8rem;
+    font-size: 1.8rem;
   }
 
   .hero-content p {
-      font-size: 1rem;
+    font-size: 1rem;
   }
 
   .section-title {
-      font-size: 1.5rem;
+    font-size: 1.5rem;
   }
 
   .btn {
-      font-size: 0.95rem;
-      padding: 10px 16px;
+    font-size: 0.95rem;
+    padding: 10px 16px;
   }
 }
