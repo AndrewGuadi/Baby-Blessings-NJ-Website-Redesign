@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 {% block head %}
+  <!-- Ensure proper scaling on all devices -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/testimonials.css') }}">
 {% endblock %}
 
@@ -8,11 +10,10 @@
 {% block content %}
   <!-- 1) HERO / PAGE INTRO -->
   <section id="testimonials-hero" class="hero-section">
-    <div class="hero-overlay">
-      <div class="container hero-content">
-        <h1>Testimonials</h1>
-        <p>Heartfelt Experiences from Families We've Served</p>
-      </div>
+    <div class="hero-overlay"></div>
+    <div class="container hero-content">
+      <h1>Testimonials</h1>
+      <p>Heartfelt Experiences from Families We've Served</p>
     </div>
   </section>
 
