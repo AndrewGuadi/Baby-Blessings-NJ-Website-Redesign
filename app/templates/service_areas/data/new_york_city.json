@@ -1,0 +1,35 @@
+{
+    "title": "New York City",
+    "hero": {
+      "headline": "New York City",
+      "subheadline": "Celebrate in the heart of the Big Apple with style and sophistication.",
+      "tagline": "Where every ceremony becomes a city landmark."
+    },
+    "overview": [
+      "New York City offers a dynamic backdrop for unforgettable ceremonies.",
+      "Our team brings creativity and precision to every event in this vibrant metropolis."
+    ],
+    "overview_image": "images/nyc_overview.jpg",
+    "popular_venues": {
+      "title": "Iconic NYC Venues",
+      "items": ["Central Park", "Historic Churches", "Modern Rooftops"]
+    },
+    "services": {
+      "title": "Our NYC Services",
+      "items": ["Baby Blessings", "Baptisms", "Naming Ceremonies", "Celebrations"],
+      "subtext": "From intimate gatherings to grand celebrations, we tailor each event to your vision."
+    },
+    "testimonial": {
+      "text": "Our NYC ceremony was a perfect blend of tradition and modern flair.",
+      "source": "A Satisfied Client"
+    },
+    "cta": {
+      "headline": "Dreaming of a NYC Celebration?",
+      "subheadline": "Let's bring your vision to life in the city that never sleeps.",
+      "cta_text": "Contact Us",
+      "cta_link": "/contact",
+      "secondary_text": "View All Service Areas",
+      "secondary_link": "/service-areas"
+    }
+  }
+  

@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+
+{% block head %}
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/location_template.css') }}">
+{% endblock %}
+
+{% block title %}{{ area_data.title }}{% endblock %}
+
+{% block content %}
+  <!-- 1) HERO / PAGE INTRO -->
+  <section id="service-area-hero" class="hero-section">
+    <div class="hero-overlay">
+      <div class="container hero-content">
+        <h1>{{ area_data.hero.headline }}</h1>
+        <p>{{ area_data.hero.subheadline }}</p>
+        {% if area_data.hero.tagline %}
+          <p class="tagline">{{ area_data.hero.tagline }}</p>
+        {% endif %}
+      </div>
+    </div>
+  </section>
+
+  <!-- 2) OVERVIEW / LOCATION INSIGHTS -->
+  <section id="area-overview" class="section overview">
+    <div class="container">
+      {% for paragraph in area_data.overview %}
+        <p>{{ paragraph }}</p>
+      {% endfor %}
+      {% if area_data.overview_image %}
+         <img src="{{ url_for('static', filename=area_data.overview_image) }}" alt="Overview Image" class="overview-image">
+      {% endif %}
+    </div>
+  </section>
+
+  <!-- 3) POPULAR VENUES OR TYPICAL CEREMONY SETTINGS (OPTIONAL) -->
+  {% if area_data.popular_venues %}
+  <section id="popular-venues" class="section">
+    <div class="container">
+      <h2 class="section-title">{{ area_data.popular_venues.title }}</h2>
+      <ul>
+      {% for venue in area_data.popular_venues.items %}
+         <li>{{ venue }}</li>
+      {% endfor %}
+      </ul>
+    </div>
+  </section>
+  {% endif %}
+
+  <!-- 4) SERVICES AVAILABLE -->
+  <section id="services-available" class="section">
+    <div class="container">
+      <h2 class="section-title">{{ area_data.services.title }}</h2>
+      {% for service in area_data.services.items %}
+         <p>{{ service }}</p>
+      {% endfor %}
+      {% if area_data.services.subtext %}
+         <p class="subtext">{{ area_data.services.subtext }}</p>
+      {% endif %}
+    </div>
+  </section>
+
+  <!-- 5) CLIENT TESTIMONIAL / LOCAL STORIES -->
+  {% if area_data.testimonial %}
+  <section id="local-testimonial" class="section">
+    <div class="container">
+      <blockquote class="testimonial">
+        <p>{{ area_data.testimonial.text }}</p>
+        {% if area_data.testimonial.source %}
+          <footer>{{ area_data.testimonial.source }}</footer>
+        {% endif %}
+      </blockquote>
+      {% if area_data.testimonial.link %}
+         <a href="{{ area_data.testimonial.link }}" class="btn tertiary-btn">See More Testimonials</a>
+      {% endif %}
+    </div>
+  </section>
+  {% endif %}
+
+  <!-- 6) CALL-TO-ACTION -->
+  <section id="area-cta" class="section cta">
+    <div class="container">
+      <h2 class="section-title">{{ area_data.cta.headline }}</h2>
+      <p>{{ area_data.cta.subheadline }}</p>
+      <a href="{{ area_data.cta.cta_link }}" class="btn primary-btn">{{ area_data.cta.cta_text }}</a>
+      {% if area_data.cta.secondary_link and area_data.cta.secondary_text %}
+         <a href="{{ area_data.cta.secondary_link }}" class="btn secondary-btn">{{ area_data.cta.secondary_text }}</a>
+      {% endif %}
+    </div>
+  </section>
+{% endblock %}

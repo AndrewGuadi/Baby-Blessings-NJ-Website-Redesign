@@ -1,0 +1,35 @@
+{
+    "title": "Northern New Jersey",
+    "hero": {
+      "headline": "Northern New Jersey",
+      "subheadline": "Creating heartfelt ceremonies across the Garden State.",
+      "tagline": "From Bergen to Morris County and beyond."
+    },
+    "overview": [
+      "Northern New Jersey offers a rich blend of cultural diversity and scenic venues.",
+      "Our team has extensive experience officiating ceremonies in this area."
+    ],
+    "overview_image": "images/northern_nj_overview.jpg",
+    "popular_venues": {
+      "title": "Where We Celebrate in Northern NJ",
+      "items": ["Bergen County Park", "Morris County Church", "Scenic Gardens"]
+    },
+    "services": {
+      "title": "Services Offered Here",
+      "items": ["Baby Blessings", "Baptisms", "Naming Ceremonies", "Celebrations"],
+      "subtext": "We bring warmth and professionalism to every ceremony in this region."
+    },
+    "testimonial": {
+      "text": "Our baby blessing in Northern NJ was nothing short of magical.",
+      "source": "A Happy Family"
+    },
+    "cta": {
+      "headline": "Ready to Plan Your Ceremony in Northern NJ?",
+      "subheadline": "Reach out today for a personalized, memorable event.",
+      "cta_text": "Contact Us",
+      "cta_link": "/contact",
+      "secondary_text": "View All Service Areas",
+      "secondary_link": "/service-areas"
+    }
+  }
+  

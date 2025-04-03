@@ -1,0 +1,35 @@
+{
+    "title": "Philadelphia",
+    "hero": {
+      "headline": "Philadelphia",
+      "subheadline": "Timeless traditions in the City of Brotherly Love.",
+      "tagline": "Where each ceremony is a heartfelt tribute."
+    },
+    "overview": [
+      "Philadelphia's rich history and vibrant culture make it a perfect setting for meaningful ceremonies.",
+      "Our experienced team ensures every celebration is as unique and enduring as the city itself."
+    ],
+    "overview_image": "images/philadelphia_overview.jpg",
+    "popular_venues": {
+      "title": "Top Venues in Philadelphia",
+      "items": ["Historic Landmarks", "Modern Halls", "Charming Gardens"]
+    },
+    "services": {
+      "title": "Philadelphia Services",
+      "items": ["Baby Blessings", "Baptisms", "Naming Ceremonies", "Celebrations"],
+      "subtext": "We deliver personal and professional ceremonies that resonate with Philadelphia’s spirit."
+    },
+    "testimonial": {
+      "text": "Our ceremony in Philadelphia was steeped in tradition and personal meaning.",
+      "source": "A Proud Family"
+    },
+    "cta": {
+      "headline": "Celebrate in Philadelphia",
+      "subheadline": "Let us help you create a ceremony that echoes with history and heart.",
+      "cta_text": "Contact Us",
+      "cta_link": "/contact",
+      "secondary_text": "View All Service Areas",
+      "secondary_link": "/service-areas"
+    }
+  }
+  

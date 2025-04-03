@@ -1,0 +1,35 @@
+{
+    "title": "Central New Jersey",
+    "hero": {
+      "headline": "Central New Jersey",
+      "subheadline": "Personalized ceremonies in the heart of NJ.",
+      "tagline": "Experience warmth and genuine care in every celebration."
+    },
+    "overview": [
+      "Central New Jersey is known for its vibrant communities and accessible venues.",
+      "Our experienced team brings a personalized touch to every ceremony, ensuring it reflects your family’s spirit."
+    ],
+    "overview_image": "images/central_nj_overview.jpg",
+    "popular_venues": {
+      "title": "Featured Venues in Central NJ",
+      "items": ["Local Halls", "Scenic Outdoors", "Intimate Churches"]
+    },
+    "services": {
+      "title": "Central NJ Services",
+      "items": ["Baby Blessings", "Baptisms", "Naming Ceremonies", "Celebrations"],
+      "subtext": "We offer flexible and heartfelt ceremonies tailored for Central New Jersey families."
+    },
+    "testimonial": {
+      "text": "Our ceremony in Central NJ was both intimate and beautifully orchestrated.",
+      "source": "A Happy Client"
+    },
+    "cta": {
+      "headline": "Plan Your Ceremony in Central NJ",
+      "subheadline": "Reach out today to learn how we can make your day unforgettable.",
+      "cta_text": "Contact Us",
+      "cta_link": "/contact",
+      "secondary_text": "View All Service Areas",
+      "secondary_link": "/service-areas"
+    }
+  }
+  

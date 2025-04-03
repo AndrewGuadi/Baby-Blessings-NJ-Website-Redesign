@@ -1,0 +1,35 @@
+{
+    "title": "Long Island",
+    "hero": {
+      "headline": "Long Island",
+      "subheadline": "Beautiful ceremonies by the shore.",
+      "tagline": "Celebrate life with a touch of coastal charm."
+    },
+    "overview": [
+      "Long Island offers breathtaking seaside venues and a relaxed yet elegant atmosphere.",
+      "Our ceremonies here are designed to capture the beauty of the coast along with heartfelt personalization."
+    ],
+    "overview_image": "images/long_island_overview.jpg",
+    "popular_venues": {
+      "title": "Long Island Venues",
+      "items": ["Beachside Resorts", "Coastal Gardens", "Historic Estates"]
+    },
+    "services": {
+      "title": "Long Island Services",
+      "items": ["Baby Blessings", "Baptisms", "Naming Ceremonies", "Celebrations"],
+      "subtext": "Every ceremony is a unique celebration of life by the beautiful shores of Long Island."
+    },
+    "testimonial": {
+      "text": "Our Long Island ceremony was a perfect blend of elegance and seaside serenity.",
+      "source": "A Delighted Family"
+    },
+    "cta": {
+      "headline": "Celebrate on Long Island",
+      "subheadline": "Contact us to design a coastal ceremony that’s truly yours.",
+      "cta_text": "Contact Us",
+      "cta_link": "/contact",
+      "secondary_text": "View All Service Areas",
+      "secondary_link": "/service-areas"
+    }
+  }
+  

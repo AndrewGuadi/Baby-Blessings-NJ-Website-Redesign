@@ -1,0 +1,35 @@
+{
+    "title": "Westchester",
+    "hero": {
+      "headline": "Westchester",
+      "subheadline": "Elegant ceremonies set in a charming suburban backdrop.",
+      "tagline": "Experience sophistication and heartfelt celebration."
+    },
+    "overview": [
+      "Westchester offers a blend of elegance and warmth with its scenic locales.",
+      "Our local expertise ensures a refined and personalized celebration for every occasion."
+    ],
+    "overview_image": "images/westchester_overview.jpg",
+    "popular_venues": {
+      "title": "Popular Venues in Westchester",
+      "items": ["Historic Estates", "Community Halls", "Outdoor Gardens"]
+    },
+    "services": {
+      "title": "Westchester Services",
+      "items": ["Baby Blessings", "Baptisms", "Naming Ceremonies", "Celebrations"],
+      "subtext": "Every ceremony is crafted to honor your unique story in Westchester."
+    },
+    "testimonial": {
+      "text": "Our celebration in Westchester was the epitome of elegance and warmth.",
+      "source": "A Grateful Family"
+    },
+    "cta": {
+      "headline": "Plan Your Westchester Ceremony",
+      "subheadline": "Contact us today to create a truly unforgettable event.",
+      "cta_text": "Contact Us",
+      "cta_link": "/contact",
+      "secondary_text": "View All Service Areas",
+      "secondary_link": "/service-areas"
+    }
+  }
+  

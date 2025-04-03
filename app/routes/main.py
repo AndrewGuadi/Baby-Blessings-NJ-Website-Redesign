@@ -13,3 +13,9 @@ def about_us():
 @main.route('/contact')
 def contact():
     return render_template('contact.html')
+
+
+@main.route('/privacy-policy')
+def privacy_policy():
+    return render_template('privacy_policy.html')
+

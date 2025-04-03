@@ -1,32 +1,44 @@
+import json
 from flask import Blueprint, render_template
 
 service_areas = Blueprint('service_areas', __name__, url_prefix='/service-areas')
 
-
-@service_areas.route('/service_areas')
-def service_areas():
-    return render_template('service_areas.html')
+@service_areas.route('/')
+def index():
+    return render_template('service_areas/service_areas.html')
 
 @service_areas.route('/northern-new-jersey')
 def northern_new_jersey():
-    return render_template('service_areas/northern-new-jersey.html')
+    with open('service_areas/data/northern_new_jersey.json') as f:
+        area_data = json.load(f)
+    return render_template('service_areas/location_template.html', area_data=area_data)
 
 @service_areas.route('/new-york-city')
 def new_york_city():
-    return render_template('service_areas/new-york-city.html')
+    with open('service_areas/data/new_york_city.json') as f:
+        area_data = json.load(f)
+    return render_template('service_areas/location_template.html', area_data=area_data)
 
 @service_areas.route('/westchester')
 def westchester():
-    return render_template('service_areas/westchester.html')
+    with open('service_areas/data/westchester.json') as f:
+        area_data = json.load(f)
+    return render_template('service_areas/location_template.html', area_data=area_data)
 
 @service_areas.route('/philadelphia')
 def philadelphia():
-    return render_template('service_areas/philadelphia.html')
+    with open('service_areas/data/philadelphia.json') as f:
+        area_data = json.load(f)
+    return render_template('service_areas/location_template.html', area_data=area_data)
 
 @service_areas.route('/central-new-jersey')
 def central_new_jersey():
-    return render_template('service_areas/central-new-jersey.html')
+    with open('service_areas/data/central_new_jersey.json') as f:
+        area_data = json.load(f)
+    return render_template('service_areas/location_template.html', area_data=area_data)
 
 @service_areas.route('/long-island')
 def long_island():
-    return render_template('service_areas/long-island.html')
+    with open('service_areas/data/long_island.json') as f:
+        area_data = json.load(f)
+    return render_template('service_areas/location_template.html', area_data=area_data)
