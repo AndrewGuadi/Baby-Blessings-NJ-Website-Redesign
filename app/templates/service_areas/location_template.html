@@ -38,7 +38,7 @@
     <div class="container">
       <h2 class="section-title">{{ area_data.popular_venues.title }}</h2>
       <ul>
-      {% for venue in area_data.popular_venues.items %}
+      {% for venue in area_data.popular_venues["items"] %}
          <li>{{ venue }}</li>
       {% endfor %}
       </ul>
@@ -50,7 +50,7 @@
   <section id="services-available" class="section">
     <div class="container">
       <h2 class="section-title">{{ area_data.services.title }}</h2>
-      {% for service in area_data.services.items %}
+      {% for service in area_data.services["items"] %}
          <p>{{ service }}</p>
       {% endfor %}
       {% if area_data.services.subtext %}
