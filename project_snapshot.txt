@@ -418,10 +418,16 @@ def create_app():
 
 app/routes/service_areas.py
 ```
+import os
 import json
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template, current_app
 
 service_areas = Blueprint('service_areas', __name__, url_prefix='/service-areas')
+
+def load_area_data(filename):
+    data_path = os.path.join(current_app.root_path, 'data', 'service_areas', filename)
+    with open(data_path) as f:
+        return json.load(f)
 
 @service_areas.route('/')
 def index():
@@ -429,38 +435,32 @@ def index():
 
 @service_areas.route('/northern-new-jersey')
 def northern_new_jersey():
-    with open('service_areas/data/northern_new_jersey.json') as f:
-        area_data = json.load(f)
+    area_data = load_area_data('northern_new_jersey.json')
     return render_template('service_areas/location_template.html', area_data=area_data)
 
 @service_areas.route('/new-york-city')
 def new_york_city():
-    with open('service_areas/data/new_york_city.json') as f:
-        area_data = json.load(f)
+    area_data = load_area_data('new_york_city.json')
     return render_template('service_areas/location_template.html', area_data=area_data)
 
 @service_areas.route('/westchester')
 def westchester():
-    with open('service_areas/data/westchester.json') as f:
-        area_data = json.load(f)
+    area_data = load_area_data('westchester.json')
     return render_template('service_areas/location_template.html', area_data=area_data)
 
 @service_areas.route('/philadelphia')
 def philadelphia():
-    with open('service_areas/data/philadelphia.json') as f:
-        area_data = json.load(f)
+    area_data = load_area_data('philadelphia.json')
     return render_template('service_areas/location_template.html', area_data=area_data)
 
 @service_areas.route('/central-new-jersey')
 def central_new_jersey():
-    with open('service_areas/data/central_new_jersey.json') as f:
-        area_data = json.load(f)
+    area_data = load_area_data('central_new_jersey.json')
     return render_template('service_areas/location_template.html', area_data=area_data)
 
 @service_areas.route('/long-island')
 def long_island():
-    with open('service_areas/data/long_island.json') as f:
-        area_data = json.load(f)
+    area_data = load_area_data('long_island.json')
     return render_template('service_areas/location_template.html', area_data=area_data)
 
 ```
@@ -1091,8 +1091,14 @@ app/templates/base.html
     <!-- FIXED TOP NAVIGATION BAR -->
     <nav class="fixed-nav">
       <div class="container">
+        <!-- LOGO -->
         <a href="{{ url_for('main.home') }}" class="logo">Brand Name</a>
-        <ul class="nav-menu">
+
+        <!-- HAMBURGER BUTTON (visible on mobile) -->
+        <button class="menu-toggle" id="menu-toggle">&#9776;</button>
+
+        <!-- NAV MENU -->
+        <ul class="nav-menu" id="nav-menu">
           <li><a href="{{ url_for('main.about_us') }}">About Us</a></li>
           <li class="dropdown">
             <a href="{{ url_for('services.services_index') }}">Services ▼</a>
@@ -1117,8 +1123,11 @@ app/templates/base.html
           </li>
           <li><a href="{{ url_for('testimonials.index') }}">Testimonials</a></li>
           <li><a href="{{ url_for('main.contact') }}">Contact</a></li>
+          <!-- CTA BUTTON inside nav for mobile convenience -->
+          <li class="nav-cta">
+            <a href="{{ url_for('main.contact') }}" class="cta-button">Book Now</a>
+          </li>
         </ul>
-        <a href="{{ url_for('main.contact') }}" class="cta-button">Book Now</a>
       </div>
     </nav>
   </header>
@@ -1148,7 +1157,16 @@ app/templates/base.html
   </footer>
 
   <script>
+    // Set year in footer
     document.getElementById("year").textContent = new Date().getFullYear();
+
+    // Toggle mobile menu
+    const menuToggle = document.getElementById('menu-toggle');
+    const navMenu = document.getElementById('nav-menu');
+    
+    menuToggle.addEventListener('click', () => {
+      navMenu.classList.toggle('active');
+    });
   </script>
 </body>
 </html>
@@ -1207,7 +1225,7 @@ app/templates/service_areas/location_template.html
     <div class="container">
       <h2 class="section-title">{{ area_data.popular_venues.title }}</h2>
       <ul>
-      {% for venue in area_data.popular_venues.items %}
+      {% for venue in area_data.popular_venues["items"] %}
          <li>{{ venue }}</li>
       {% endfor %}
       </ul>
@@ -1219,7 +1237,7 @@ app/templates/service_areas/location_template.html
   <section id="services-available" class="section">
     <div class="container">
       <h2 class="section-title">{{ area_data.services.title }}</h2>
-      {% for service in area_data.services.items %}
+      {% for service in area_data.services["items"] %}
          <p>{{ service }}</p>
       {% endfor %}
       {% if area_data.services.subtext %}
@@ -1412,240 +1430,6 @@ app/templates/service_areas/service_areas.html
 
 ```
 
-app/templates/service_areas/data/new_york_city.json
-```
-{
-    "title": "New York City",
-    "hero": {
-      "headline": "New York City",
-      "subheadline": "Celebrate in the heart of the Big Apple with style and sophistication.",
-      "tagline": "Where every ceremony becomes a city landmark."
-    },
-    "overview": [
-      "New York City offers a dynamic backdrop for unforgettable ceremonies.",
-      "Our team brings creativity and precision to every event in this vibrant metropolis."
-    ],
-    "overview_image": "images/nyc_overview.jpg",
-    "popular_venues": {
-      "title": "Iconic NYC Venues",
-      "items": ["Central Park", "Historic Churches", "Modern Rooftops"]
-    },
-    "services": {
-      "title": "Our NYC Services",
-      "items": ["Baby Blessings", "Baptisms", "Naming Ceremonies", "Celebrations"],
-      "subtext": "From intimate gatherings to grand celebrations, we tailor each event to your vision."
-    },
-    "testimonial": {
-      "text": "Our NYC ceremony was a perfect blend of tradition and modern flair.",
-      "source": "A Satisfied Client"
-    },
-    "cta": {
-      "headline": "Dreaming of a NYC Celebration?",
-      "subheadline": "Let's bring your vision to life in the city that never sleeps.",
-      "cta_text": "Contact Us",
-      "cta_link": "/contact",
-      "secondary_text": "View All Service Areas",
-      "secondary_link": "/service-areas"
-    }
-  }
-  
-```
-
-app/templates/service_areas/data/west_chester.json
-```
-{
-    "title": "Westchester",
-    "hero": {
-      "headline": "Westchester",
-      "subheadline": "Elegant ceremonies set in a charming suburban backdrop.",
-      "tagline": "Experience sophistication and heartfelt celebration."
-    },
-    "overview": [
-      "Westchester offers a blend of elegance and warmth with its scenic locales.",
-      "Our local expertise ensures a refined and personalized celebration for every occasion."
-    ],
-    "overview_image": "images/westchester_overview.jpg",
-    "popular_venues": {
-      "title": "Popular Venues in Westchester",
-      "items": ["Historic Estates", "Community Halls", "Outdoor Gardens"]
-    },
-    "services": {
-      "title": "Westchester Services",
-      "items": ["Baby Blessings", "Baptisms", "Naming Ceremonies", "Celebrations"],
-      "subtext": "Every ceremony is crafted to honor your unique story in Westchester."
-    },
-    "testimonial": {
-      "text": "Our celebration in Westchester was the epitome of elegance and warmth.",
-      "source": "A Grateful Family"
-    },
-    "cta": {
-      "headline": "Plan Your Westchester Ceremony",
-      "subheadline": "Contact us today to create a truly unforgettable event.",
-      "cta_text": "Contact Us",
-      "cta_link": "/contact",
-      "secondary_text": "View All Service Areas",
-      "secondary_link": "/service-areas"
-    }
-  }
-  
-```
-
-app/templates/service_areas/data/philadelphia.json
-```
-{
-    "title": "Philadelphia",
-    "hero": {
-      "headline": "Philadelphia",
-      "subheadline": "Timeless traditions in the City of Brotherly Love.",
-      "tagline": "Where each ceremony is a heartfelt tribute."
-    },
-    "overview": [
-      "Philadelphia's rich history and vibrant culture make it a perfect setting for meaningful ceremonies.",
-      "Our experienced team ensures every celebration is as unique and enduring as the city itself."
-    ],
-    "overview_image": "images/philadelphia_overview.jpg",
-    "popular_venues": {
-      "title": "Top Venues in Philadelphia",
-      "items": ["Historic Landmarks", "Modern Halls", "Charming Gardens"]
-    },
-    "services": {
-      "title": "Philadelphia Services",
-      "items": ["Baby Blessings", "Baptisms", "Naming Ceremonies", "Celebrations"],
-      "subtext": "We deliver personal and professional ceremonies that resonate with Philadelphia’s spirit."
-    },
-    "testimonial": {
-      "text": "Our ceremony in Philadelphia was steeped in tradition and personal meaning.",
-      "source": "A Proud Family"
-    },
-    "cta": {
-      "headline": "Celebrate in Philadelphia",
-      "subheadline": "Let us help you create a ceremony that echoes with history and heart.",
-      "cta_text": "Contact Us",
-      "cta_link": "/contact",
-      "secondary_text": "View All Service Areas",
-      "secondary_link": "/service-areas"
-    }
-  }
-  
-```
-
-app/templates/service_areas/data/central_new_jersey.json
-```
-{
-    "title": "Central New Jersey",
-    "hero": {
-      "headline": "Central New Jersey",
-      "subheadline": "Personalized ceremonies in the heart of NJ.",
-      "tagline": "Experience warmth and genuine care in every celebration."
-    },
-    "overview": [
-      "Central New Jersey is known for its vibrant communities and accessible venues.",
-      "Our experienced team brings a personalized touch to every ceremony, ensuring it reflects your family’s spirit."
-    ],
-    "overview_image": "images/central_nj_overview.jpg",
-    "popular_venues": {
-      "title": "Featured Venues in Central NJ",
-      "items": ["Local Halls", "Scenic Outdoors", "Intimate Churches"]
-    },
-    "services": {
-      "title": "Central NJ Services",
-      "items": ["Baby Blessings", "Baptisms", "Naming Ceremonies", "Celebrations"],
-      "subtext": "We offer flexible and heartfelt ceremonies tailored for Central New Jersey families."
-    },
-    "testimonial": {
-      "text": "Our ceremony in Central NJ was both intimate and beautifully orchestrated.",
-      "source": "A Happy Client"
-    },
-    "cta": {
-      "headline": "Plan Your Ceremony in Central NJ",
-      "subheadline": "Reach out today to learn how we can make your day unforgettable.",
-      "cta_text": "Contact Us",
-      "cta_link": "/contact",
-      "secondary_text": "View All Service Areas",
-      "secondary_link": "/service-areas"
-    }
-  }
-  
-```
-
-app/templates/service_areas/data/northern_new_jersey.json
-```
-{
-    "title": "Northern New Jersey",
-    "hero": {
-      "headline": "Northern New Jersey",
-      "subheadline": "Creating heartfelt ceremonies across the Garden State.",
-      "tagline": "From Bergen to Morris County and beyond."
-    },
-    "overview": [
-      "Northern New Jersey offers a rich blend of cultural diversity and scenic venues.",
-      "Our team has extensive experience officiating ceremonies in this area."
-    ],
-    "overview_image": "images/northern_nj_overview.jpg",
-    "popular_venues": {
-      "title": "Where We Celebrate in Northern NJ",
-      "items": ["Bergen County Park", "Morris County Church", "Scenic Gardens"]
-    },
-    "services": {
-      "title": "Services Offered Here",
-      "items": ["Baby Blessings", "Baptisms", "Naming Ceremonies", "Celebrations"],
-      "subtext": "We bring warmth and professionalism to every ceremony in this region."
-    },
-    "testimonial": {
-      "text": "Our baby blessing in Northern NJ was nothing short of magical.",
-      "source": "A Happy Family"
-    },
-    "cta": {
-      "headline": "Ready to Plan Your Ceremony in Northern NJ?",
-      "subheadline": "Reach out today for a personalized, memorable event.",
-      "cta_text": "Contact Us",
-      "cta_link": "/contact",
-      "secondary_text": "View All Service Areas",
-      "secondary_link": "/service-areas"
-    }
-  }
-  
-```
-
-app/templates/service_areas/data/long_island.json
-```
-{
-    "title": "Long Island",
-    "hero": {
-      "headline": "Long Island",
-      "subheadline": "Beautiful ceremonies by the shore.",
-      "tagline": "Celebrate life with a touch of coastal charm."
-    },
-    "overview": [
-      "Long Island offers breathtaking seaside venues and a relaxed yet elegant atmosphere.",
-      "Our ceremonies here are designed to capture the beauty of the coast along with heartfelt personalization."
-    ],
-    "overview_image": "images/long_island_overview.jpg",
-    "popular_venues": {
-      "title": "Long Island Venues",
-      "items": ["Beachside Resorts", "Coastal Gardens", "Historic Estates"]
-    },
-    "services": {
-      "title": "Long Island Services",
-      "items": ["Baby Blessings", "Baptisms", "Naming Ceremonies", "Celebrations"],
-      "subtext": "Every ceremony is a unique celebration of life by the beautiful shores of Long Island."
-    },
-    "testimonial": {
-      "text": "Our Long Island ceremony was a perfect blend of elegance and seaside serenity.",
-      "source": "A Delighted Family"
-    },
-    "cta": {
-      "headline": "Celebrate on Long Island",
-      "subheadline": "Contact us to design a coastal ceremony that’s truly yours.",
-      "cta_text": "Contact Us",
-      "cta_link": "/contact",
-      "secondary_text": "View All Service Areas",
-      "secondary_link": "/service-areas"
-    }
-  }
-  
-```
-
 app/templates/services/services.html
 ```
 {% extends "base.html" %}
@@ -1655,6 +1439,7 @@ app/templates/services/services.html
 {% block head %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/services.css') }}">
 {% endblock %}
+
 {% block content %}
   <!-- 1) PAGE HERO / INTRO -->
   <section id="services-hero" class="hero-section services-hero">
@@ -1664,7 +1449,6 @@ app/templates/services/services.html
         <p>Personalized celebrations to welcome your child or loved ones into the world.</p>
       </div>
     </div>
-    <!-- Background can be set via CSS (soft pastel gradient or minimal image overlay) -->
   </section>
 
   <!-- 2) OVERVIEW / WELCOME TEXT -->
@@ -1674,70 +1458,69 @@ app/templates/services/services.html
         <p>
           Our ceremonies are designed to celebrate life's most important moments with warmth, personalization, and inclusivity. We honor your family's unique story while providing a heartfelt experience that welcomes new life and cherishes every milestone.
         </p>
-        <!-- Optional decorative icon or small photo -->
-        <img src="overview-icon.jpg" alt="Celebration Icon" class="overview-icon">
+        <img src="{{ url_for('static', filename='images/overview-icon.jpg') }}" alt="Celebration Icon" class="overview-icon">
       </div>
     </div>
   </section>
 
-  <!-- 3) SERVICE HIGHLIGHTS (GRID OR ASYMMETRICAL LAYOUT) -->
+  <!-- 3) SERVICE HIGHLIGHTS -->
   <section id="service-highlights" class="section service-highlights">
     <div class="container">
       <h2 class="section-title">Explore Our Main Services</h2>
       <div class="services-grid">
         <div class="service-card">
-          <img src="baby-blessings.jpg" alt="Baby Blessings">
+          <img src="{{ url_for('static', filename='images/baby-blessings.jpg') }}" alt="Baby Blessings">
           <h3>Baby Blessings</h3>
           <p>Celebrate new life with a heartfelt ceremony.</p>
-          <a href="/services/baby-blessings.html" class="btn secondary-btn">Learn More</a>
+          <a href="{{ url_for('services.baby_blessings') }}" class="btn secondary-btn">Learn More</a>
         </div>
         <div class="service-card">
-          <img src="baptisms.jpg" alt="Baptisms">
+          <img src="{{ url_for('static', filename='images/baptisms.jpg') }}" alt="Baptisms">
           <h3>Baptisms</h3>
           <p>Create a spiritual foundation in a loving, welcoming way.</p>
-          <a href="/services/baptisms.html" class="btn secondary-btn">Learn More</a>
+          <a href="{{ url_for('services.baptisms') }}" class="btn secondary-btn">Learn More</a>
         </div>
         <div class="service-card">
-          <img src="naming-ceremonies.jpg" alt="Naming Ceremonies">
+          <img src="{{ url_for('static', filename='images/naming-ceremonies.jpg') }}" alt="Naming Ceremonies">
           <h3>Naming Ceremonies</h3>
           <p>Honor tradition or forge a new path to celebrate your child's identity.</p>
-          <a href="/services/naming-ceremonies.html" class="btn secondary-btn">Learn More</a>
+          <a href="{{ url_for('services.naming_ceremonies') }}" class="btn secondary-btn">Learn More</a>
         </div>
         <div class="service-card">
-          <img src="celebrations.jpg" alt="Celebrations">
+          <img src="{{ url_for('static', filename='images/celebrations.jpg') }}" alt="Celebrations">
           <h3>Celebrations</h3>
           <p>Mark milestones and moments with a personal touch.</p>
-          <a href="/services/celebrations.html" class="btn secondary-btn">Learn More</a>
+          <a href="{{ url_for('services.celebrations') }}" class="btn secondary-btn">Learn More</a>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- 4) ADDITIONAL / SPECIAL SERVICES -->
+  <!-- 4) ADDITIONAL SERVICES -->
   <section id="special-services" class="section special-services">
     <div class="container">
       <h2 class="section-title">Looking for Something Else?</h2>
       <p>
         We also offer Private Family Gatherings, Interfaith Celebrations, and more. Contact us to discuss your custom ceremony needs.
       </p>
-      <a href="/contact.html" class="btn tertiary-btn">Contact Us</a>
+      <a href="{{ url_for('main.contact') }}" class="btn tertiary-btn">Contact Us</a>
     </div>
   </section>
 
-  <!-- 5) EMOTIONAL GALLERY TEASER (OPTIONAL) -->
+  <!-- 5) GALLERY TEASER -->
   <section id="gallery-teaser" class="section gallery-teaser">
     <div class="container">
       <h2 class="section-title">Ceremony Moments</h2>
       <div class="gallery-grid">
-        <img src="gallery1.jpg" alt="Ceremony Moment 1">
-        <img src="gallery2.jpg" alt="Ceremony Moment 2">
-        <img src="gallery3.jpg" alt="Ceremony Moment 3">
+        <img src="{{ url_for('static', filename='images/gallery1.jpg') }}" alt="Ceremony Moment 1">
+        <img src="{{ url_for('static', filename='images/gallery2.jpg') }}" alt="Ceremony Moment 2">
+        <img src="{{ url_for('static', filename='images/gallery3.jpg') }}" alt="Ceremony Moment 3">
       </div>
-      <a href="/gallery.html" class="btn tertiary-btn">View Gallery</a>
+      <a href="{{ url_for('services.gallery') }}" class="btn tertiary-btn">View Gallery</a>
     </div>
   </section>
 
-  <!-- 6) TESTIMONIAL TEASER (OPTIONAL) -->
+  <!-- 6) TESTIMONIAL TEASER -->
   <section id="testimonials-teaser-services" class="section testimonials-teaser">
     <div class="container">
       <h2 class="section-title">Hear from Families We've Served</h2>
@@ -1746,9 +1529,8 @@ app/templates/services/services.html
           <p>"Our ceremony was perfectly tailored to our needs. The warmth and attention to detail were exceptional."</p>
           <footer>- Client Name</footer>
         </blockquote>
-        <!-- Additional testimonials can be added here -->
       </div>
-      <a href="/testimonials.html" class="btn tertiary-btn">Read More</a>
+      <a href="{{ url_for('testimonials.index') }}" class="btn tertiary-btn">Read More</a>
     </div>
   </section>
 
@@ -1757,8 +1539,8 @@ app/templates/services/services.html
     <div class="container">
       <h2 class="section-title">Ready to Book Your Ceremony?</h2>
       <p>Reach out to discuss the perfect service for your family.</p>
-      <a href="/contact.html" class="btn primary-btn">Contact Us</a>
-      <a href="/service-areas.html" class="btn secondary-btn">Check Service Areas</a>
+      <a href="{{ url_for('main.contact') }}" class="btn primary-btn">Contact Us</a>
+      <a href="{{ url_for('service_areas.index') }}" class="btn secondary-btn">Check Service Areas</a>
     </div>
   </section>
 {% endblock %}
@@ -2870,137 +2652,222 @@ app/static/css/main.css
 /* main.css */
 /* Global Styles and Layout */
 * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-  }
-  
-  body {
-    font-family: 'Montserrat', sans-serif;
-    line-height: 1.6;
-    background: #f7f7f7;
-    color: #333;
-  }
-  
-  .container {
-    width: 90%;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 15px;
-  }
-  
-  /* FIXED TOP NAVIGATION BAR */
-  .fixed-nav {
-    background: #fff;
-    border-bottom: 1px solid #ddd;
-    position: fixed;
-    width: 100%;
-    top: 0;
-    left: 0;
-    z-index: 1000;
-  }
-  .fixed-nav .container {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 10px 0;
-  }
-  .logo {
-    font-size: 1.8rem;
-    font-weight: bold;
-    text-decoration: none;
-    color: #333;
-  }
-  .nav-menu {
-    list-style: none;
-    display: flex;
-    align-items: center;
-  }
-  .nav-menu li {
-    margin: 0 10px;
-    position: relative;
-  }
-  .nav-menu a {
-    text-decoration: none;
-    color: #333;
-    padding: 8px 5px;
-    transition: color 0.3s;
-  }
-  .nav-menu a:hover {
-    color: #a67c52;
-  }
-  
-  /* Dropdown Styles */
-  .dropdown-content {
-    display: none;
-    position: absolute;
-    background: #fff;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    padding: 10px 0;
-    border: 1px solid #ddd;
-    z-index: 999;
-    min-width: 150px;
-  }
-  .dropdown:hover .dropdown-content {
-    display: block;
-  }
-  .dropdown-content li {
-    padding: 5px 15px;
-  }
-  .dropdown-content li a {
-    color: #333;
-  }
-  
-  /* CTA Button in Nav */
-  .cta-button {
-    background: #a67c52;
-    color: #fff;
-    padding: 8px 20px;
-    border-radius: 25px;
-    text-decoration: none;
-    transition: background 0.3s;
-  }
-  .cta-button:hover {
-    background: #8c5e3c;
-  }
-  
-  /* FOOTER */
-  footer {
-    background: #333;
-    color: #fff;
-    padding: 20px 0;
-  }
-  .footer-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    align-items: center;
-  }
-  .footer-logo {
-    font-size: 1.2rem;
-    font-weight: bold;
-  }
-  .footer-links {
-    list-style: none;
-    display: flex;
-    align-items: center;
-    margin: 10px 0;
-  }
-  .footer-links li {
-    margin: 0 10px;
-  }
-  .footer-links a {
-    color: #fff;
-    text-decoration: none;
-    transition: color 0.3s;
-  }
-  .footer-links a:hover {
-    color: #a67c52;
-  }
-  .footer-copy {
-    margin-top: 10px;
-  }
-  
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Montserrat', sans-serif;
+  line-height: 1.6;
+  background: #f7f7f7;
+  color: #333;
+}
+
+.container {
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 15px;
+}
+
+/* FIXED TOP NAVIGATION BAR */
+.fixed-nav {
+  background: #fff;
+  border-bottom: 1px solid #ddd;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+}
+.fixed-nav .container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 0;
+}
+.logo {
+  font-size: 1.8rem;
+  font-weight: bold;
+  text-decoration: none;
+  color: #333;
+}
+
+/* NAV MENU */
+.nav-menu {
+  list-style: none;
+  display: flex;
+  align-items: center;
+}
+.nav-menu li {
+  margin: 0 10px;
+  position: relative;
+}
+.nav-menu a {
+  text-decoration: none;
+  color: #333;
+  padding: 8px 5px;
+  transition: color 0.3s;
+}
+.nav-menu a:hover {
+  color: #a67c52;
+}
+
+/* Dropdown Styles */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background: #fff;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  padding: 10px 0;
+  border: 1px solid #ddd;
+  z-index: 999;
+  min-width: 150px;
+}
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+.dropdown-content li {
+  padding: 5px 15px;
+}
+.dropdown-content li a {
+  color: #333;
+}
+
+/* CTA Button in Nav */
+.cta-button {
+  background: #a67c52;
+  color: #fff;
+  padding: 8px 20px;
+  border-radius: 25px;
+  text-decoration: none;
+  transition: background 0.3s;
+}
+.cta-button:hover {
+  background: #8c5e3c;
+}
+
+/* FOOTER */
+footer {
+  background: #333;
+  color: #fff;
+  padding: 20px 0;
+}
+.footer-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+}
+.footer-logo {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+.footer-links {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  margin: 10px 0;
+}
+.footer-links li {
+  margin: 0 10px;
+}
+.footer-links a {
+  color: #fff;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+.footer-links a:hover {
+  color: #a67c52;
+}
+.footer-copy {
+  margin-top: 10px;
+}
+
+/* 
+ MOBILE NAV STYLES
+ ------------------------------------- 
+*/
+.menu-toggle {
+  display: none;
+  font-size: 1.8rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #333;
+}
+
+@media (max-width: 768px) {
+
+/* The nav container can wrap lines */
+.fixed-nav .container {
+  flex-wrap: wrap;
+}
+
+/* Show hamburger on small screens */
+.menu-toggle {
+  display: block;
+  margin-left: auto;
+}
+
+/* Hide the nav menu by default on mobile */
+.nav-menu {
+  flex-direction: column;
+  display: none;
+  width: 100%;
+  background: #fff;
+  border-top: 1px solid #ddd;
+  padding: 10px 0;
+  margin-top: 10px;
+}
+
+/* Show the nav when .active is toggled */
+.nav-menu.active {
+  display: flex;
+}
+
+/* Adjust nav items spacing on mobile */
+.nav-menu li {
+  margin: 10px 0;
+}
+
+/* Keep dropdowns on top of the .nav-menu */
+.dropdown:hover .dropdown-content {
+  position: static;
+  display: block;
+  background: none;
+  border: none;
+  box-shadow: none;
+  padding: 0;
+}
+.dropdown-content li {
+  padding: 5px 0;
+}
+.dropdown-content li a {
+  color: #333;
+}
+
+/* CTA button can shift in the menu flow */
+.nav-cta {
+  margin-top: 10px;
+}
+
+/* Footer stacked layout on mobile */
+.footer-container {
+  flex-direction: column;
+  align-items: flex-start;
+}
+.footer-links {
+  flex-direction: column;
+  align-items: flex-start;
+  margin: 15px 0;
+}
+.footer-links li {
+  margin: 5px 0;
+}
+}
+
 ```
 
 app/static/css/home.css
@@ -3714,4 +3581,238 @@ app/static/css/about.css
 app/static/js/script.js
 ```
 // Add your JavaScript here
+```
+
+app/data/service_areas/new_york_city.json
+```
+{
+    "title": "New York City",
+    "hero": {
+      "headline": "New York City",
+      "subheadline": "Celebrate in the heart of the Big Apple with style and sophistication.",
+      "tagline": "Where every ceremony becomes a city landmark."
+    },
+    "overview": [
+      "New York City offers a dynamic backdrop for unforgettable ceremonies.",
+      "Our team brings creativity and precision to every event in this vibrant metropolis."
+    ],
+    "overview_image": "images/nyc_overview.jpg",
+    "popular_venues": {
+      "title": "Iconic NYC Venues",
+      "items": ["Central Park", "Historic Churches", "Modern Rooftops"]
+    },
+    "services": {
+      "title": "Our NYC Services",
+      "items": ["Baby Blessings", "Baptisms", "Naming Ceremonies", "Celebrations"],
+      "subtext": "From intimate gatherings to grand celebrations, we tailor each event to your vision."
+    },
+    "testimonial": {
+      "text": "Our NYC ceremony was a perfect blend of tradition and modern flair.",
+      "source": "A Satisfied Client"
+    },
+    "cta": {
+      "headline": "Dreaming of a NYC Celebration?",
+      "subheadline": "Let's bring your vision to life in the city that never sleeps.",
+      "cta_text": "Contact Us",
+      "cta_link": "/contact",
+      "secondary_text": "View All Service Areas",
+      "secondary_link": "/service-areas"
+    }
+  }
+  
+```
+
+app/data/service_areas/west_chester.json
+```
+{
+    "title": "Westchester",
+    "hero": {
+      "headline": "Westchester",
+      "subheadline": "Elegant ceremonies set in a charming suburban backdrop.",
+      "tagline": "Experience sophistication and heartfelt celebration."
+    },
+    "overview": [
+      "Westchester offers a blend of elegance and warmth with its scenic locales.",
+      "Our local expertise ensures a refined and personalized celebration for every occasion."
+    ],
+    "overview_image": "images/westchester_overview.jpg",
+    "popular_venues": {
+      "title": "Popular Venues in Westchester",
+      "items": ["Historic Estates", "Community Halls", "Outdoor Gardens"]
+    },
+    "services": {
+      "title": "Westchester Services",
+      "items": ["Baby Blessings", "Baptisms", "Naming Ceremonies", "Celebrations"],
+      "subtext": "Every ceremony is crafted to honor your unique story in Westchester."
+    },
+    "testimonial": {
+      "text": "Our celebration in Westchester was the epitome of elegance and warmth.",
+      "source": "A Grateful Family"
+    },
+    "cta": {
+      "headline": "Plan Your Westchester Ceremony",
+      "subheadline": "Contact us today to create a truly unforgettable event.",
+      "cta_text": "Contact Us",
+      "cta_link": "/contact",
+      "secondary_text": "View All Service Areas",
+      "secondary_link": "/service-areas"
+    }
+  }
+  
+```
+
+app/data/service_areas/philadelphia.json
+```
+{
+    "title": "Philadelphia",
+    "hero": {
+      "headline": "Philadelphia",
+      "subheadline": "Timeless traditions in the City of Brotherly Love.",
+      "tagline": "Where each ceremony is a heartfelt tribute."
+    },
+    "overview": [
+      "Philadelphia's rich history and vibrant culture make it a perfect setting for meaningful ceremonies.",
+      "Our experienced team ensures every celebration is as unique and enduring as the city itself."
+    ],
+    "overview_image": "images/philadelphia_overview.jpg",
+    "popular_venues": {
+      "title": "Top Venues in Philadelphia",
+      "items": ["Historic Landmarks", "Modern Halls", "Charming Gardens"]
+    },
+    "services": {
+      "title": "Philadelphia Services",
+      "items": ["Baby Blessings", "Baptisms", "Naming Ceremonies", "Celebrations"],
+      "subtext": "We deliver personal and professional ceremonies that resonate with Philadelphia’s spirit."
+    },
+    "testimonial": {
+      "text": "Our ceremony in Philadelphia was steeped in tradition and personal meaning.",
+      "source": "A Proud Family"
+    },
+    "cta": {
+      "headline": "Celebrate in Philadelphia",
+      "subheadline": "Let us help you create a ceremony that echoes with history and heart.",
+      "cta_text": "Contact Us",
+      "cta_link": "/contact",
+      "secondary_text": "View All Service Areas",
+      "secondary_link": "/service-areas"
+    }
+  }
+  
+```
+
+app/data/service_areas/central_new_jersey.json
+```
+{
+    "title": "Central New Jersey",
+    "hero": {
+      "headline": "Central New Jersey",
+      "subheadline": "Personalized ceremonies in the heart of NJ.",
+      "tagline": "Experience warmth and genuine care in every celebration."
+    },
+    "overview": [
+      "Central New Jersey is known for its vibrant communities and accessible venues.",
+      "Our experienced team brings a personalized touch to every ceremony, ensuring it reflects your family’s spirit."
+    ],
+    "overview_image": "images/central_nj_overview.jpg",
+    "popular_venues": {
+      "title": "Featured Venues in Central NJ",
+      "items": ["Local Halls", "Scenic Outdoors", "Intimate Churches"]
+    },
+    "services": {
+      "title": "Central NJ Services",
+      "items": ["Baby Blessings", "Baptisms", "Naming Ceremonies", "Celebrations"],
+      "subtext": "We offer flexible and heartfelt ceremonies tailored for Central New Jersey families."
+    },
+    "testimonial": {
+      "text": "Our ceremony in Central NJ was both intimate and beautifully orchestrated.",
+      "source": "A Happy Client"
+    },
+    "cta": {
+      "headline": "Plan Your Ceremony in Central NJ",
+      "subheadline": "Reach out today to learn how we can make your day unforgettable.",
+      "cta_text": "Contact Us",
+      "cta_link": "/contact",
+      "secondary_text": "View All Service Areas",
+      "secondary_link": "/service-areas"
+    }
+  }
+  
+```
+
+app/data/service_areas/northern_new_jersey.json
+```
+{
+    "title": "Northern New Jersey",
+    "hero": {
+      "headline": "Northern New Jersey",
+      "subheadline": "Creating heartfelt ceremonies across the Garden State.",
+      "tagline": "From Bergen to Morris County and beyond."
+    },
+    "overview": [
+      "Northern New Jersey offers a rich blend of cultural diversity and scenic venues.",
+      "Our team has extensive experience officiating ceremonies in this area."
+    ],
+    "overview_image": "images/northern_nj_overview.jpg",
+    "popular_venues": {
+      "title": "Where We Celebrate in Northern NJ",
+      "items": ["Bergen County Park", "Morris County Church", "Scenic Gardens"]
+    },
+    "services": {
+      "title": "Services Offered Here",
+      "items": ["Baby Blessings", "Baptisms", "Naming Ceremonies", "Celebrations"],
+      "subtext": "We bring warmth and professionalism to every ceremony in this region."
+    },
+    "testimonial": {
+      "text": "Our baby blessing in Northern NJ was nothing short of magical.",
+      "source": "A Happy Family"
+    },
+    "cta": {
+      "headline": "Ready to Plan Your Ceremony in Northern NJ?",
+      "subheadline": "Reach out today for a personalized, memorable event.",
+      "cta_text": "Contact Us",
+      "cta_link": "/contact",
+      "secondary_text": "View All Service Areas",
+      "secondary_link": "/service-areas"
+    }
+  }
+  
+```
+
+app/data/service_areas/long_island.json
+```
+{
+    "title": "Long Island",
+    "hero": {
+      "headline": "Long Island",
+      "subheadline": "Beautiful ceremonies by the shore.",
+      "tagline": "Celebrate life with a touch of coastal charm."
+    },
+    "overview": [
+      "Long Island offers breathtaking seaside venues and a relaxed yet elegant atmosphere.",
+      "Our ceremonies here are designed to capture the beauty of the coast along with heartfelt personalization."
+    ],
+    "overview_image": "images/long_island_overview.jpg",
+    "popular_venues": {
+      "title": "Long Island Venues",
+      "items": ["Beachside Resorts", "Coastal Gardens", "Historic Estates"]
+    },
+    "services": {
+      "title": "Long Island Services",
+      "items": ["Baby Blessings", "Baptisms", "Naming Ceremonies", "Celebrations"],
+      "subtext": "Every ceremony is a unique celebration of life by the beautiful shores of Long Island."
+    },
+    "testimonial": {
+      "text": "Our Long Island ceremony was a perfect blend of elegance and seaside serenity.",
+      "source": "A Delighted Family"
+    },
+    "cta": {
+      "headline": "Celebrate on Long Island",
+      "subheadline": "Contact us to design a coastal ceremony that’s truly yours.",
+      "cta_text": "Contact Us",
+      "cta_link": "/contact",
+      "secondary_text": "View All Service Areas",
+      "secondary_link": "/service-areas"
+    }
+  }
+  
 ```

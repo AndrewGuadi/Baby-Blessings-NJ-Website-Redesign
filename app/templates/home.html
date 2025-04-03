@@ -13,7 +13,7 @@
       <div class="container hero-content">
         <h1>Welcoming, Heartfelt Ceremonies for Your Growing Family</h1>
         <p>Baby Blessings • Baptisms • Naming Ceremonies • Celebrations</p>
-        <a href="/contact.html" class="btn primary-btn">Schedule a Blessing</a>
+        <a href="{{ url_for('main.contact') }}" class="btn primary-btn">Schedule a Blessing</a>
       </div>
     </div>
     <!-- Hero Image or Subtle Video can be implemented as background -->
@@ -26,28 +26,28 @@
       <p class="section-subtext">Personalized experiences for every milestone</p>
       <div class="services-grid">
         <div class="service-item">
-          <img src="baby-blessings.jpg" alt="Baby Blessings">
+          <img src="{{ url_for('static', filename='images/baby-blessings.jpeg') }}" alt="Baby Blessings">
           <h3>Baby Blessings</h3>
           <p>Experience the warmth and joy of welcoming new life.</p>
-          <a href="/services/baby-blessings.html" class="btn secondary-btn">Learn More</a>
+          <a href="{{ url_for('services.baby_blessings') }}" class="btn secondary-btn">Learn More</a>
         </div>
         <div class="service-item">
-          <img src="baptisms.jpg" alt="Baptisms">
+          <img src="{{ url_for('static', filename='images/baptisms.jpeg') }}" alt="Baptisms">
           <h3>Baptisms</h3>
           <p>Celebrate faith and tradition with a meaningful ceremony.</p>
-          <a href="/services/baptisms.html" class="btn secondary-btn">Learn More</a>
+          <a href="{{ url_for('services.baptisms') }}" class="btn secondary-btn">Learn More</a>
         </div>
         <div class="service-item">
-          <img src="naming-ceremonies.jpg" alt="Naming Ceremonies">
+          <img src="{{ url_for('static', filename='images/naming-ceremonies.jpeg') }}" alt="Naming Ceremonies">
           <h3>Naming Ceremonies</h3>
           <p>Mark the significance of identity with a personalized event.</p>
-          <a href="/services/naming-ceremonies.html" class="btn secondary-btn">Learn More</a>
+          <a href="{{ url_for('services.naming_ceremonies') }}" class="btn secondary-btn">Learn More</a>
         </div>
         <div class="service-item">
-          <img src="celebrations.jpg" alt="Celebrations">
+          <img src="{{ url_for('static', filename='images/celebrations.jpeg') }}" alt="Celebrations">
           <h3>Celebrations</h3>
           <p>Honor life's milestones with elegance and heartfelt joy.</p>
-          <a href="/services/celebrations.html" class="btn secondary-btn">Learn More</a>
+          <a href="{{ url_for('services.celebrations') }}" class="btn secondary-btn">Learn More</a>
         </div>
       </div>
     </div>
@@ -64,7 +64,7 @@
         </blockquote>
         <!-- Additional testimonials can be added here -->
       </div>
-      <a href="/testimonials.html" class="btn tertiary-btn">Read More</a>
+      <a href="{{ url_for('testimonials.index') }}" class="btn tertiary-btn">Read More</a>
     </div>
   </section>
 
@@ -73,8 +73,8 @@
     <div class="container">
       <h2 class="section-title">Meet Our Team</h2>
       <p>With years of experience creating meaningful ceremonies, our team is committed to making your day unforgettable.</p>
-      <a href="/about-us.html" class="btn secondary-btn">Learn More</a>
-      <img src="team.jpg" alt="Team Image" class="about-image">
+      <a href="{{ url_for('main.about_us') }}" class="btn secondary-btn">Learn More</a>
+      <img src="{{ url_for('static', filename='images/team.png') }}" alt="Team Image" class="about-image">
     </div>
   </section>
 
@@ -99,7 +99,7 @@
     <div class="container">
       <h2 class="section-title">Ready to Begin Your Journey?</h2>
       <p>Get in touch or schedule your ceremony today</p>
-      <a href="/contact.html" class="btn primary-btn">Contact Us</a>
+      <a href="{{ url_for('main.contact') }}" class="btn primary-btn">Contact Us</a>
       <a href="tel:1234567890" class="btn secondary-btn"><i class="phone-icon"></i> Call Us</a>
     </div>
   </section>
