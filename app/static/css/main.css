@@ -1,134 +1,218 @@
 /* main.css */
 /* Global Styles and Layout */
 * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-  }
-  
-  body {
-    font-family: 'Montserrat', sans-serif;
-    line-height: 1.6;
-    background: #f7f7f7;
-    color: #333;
-  }
-  
-  .container {
-    width: 90%;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 15px;
-  }
-  
-  /* FIXED TOP NAVIGATION BAR */
-  .fixed-nav {
-    background: #fff;
-    border-bottom: 1px solid #ddd;
-    position: fixed;
-    width: 100%;
-    top: 0;
-    left: 0;
-    z-index: 1000;
-  }
-  .fixed-nav .container {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 10px 0;
-  }
-  .logo {
-    font-size: 1.8rem;
-    font-weight: bold;
-    text-decoration: none;
-    color: #333;
-  }
-  .nav-menu {
-    list-style: none;
-    display: flex;
-    align-items: center;
-  }
-  .nav-menu li {
-    margin: 0 10px;
-    position: relative;
-  }
-  .nav-menu a {
-    text-decoration: none;
-    color: #333;
-    padding: 8px 5px;
-    transition: color 0.3s;
-  }
-  .nav-menu a:hover {
-    color: #a67c52;
-  }
-  
-  /* Dropdown Styles */
-  .dropdown-content {
-    display: none;
-    position: absolute;
-    background: #fff;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    padding: 10px 0;
-    border: 1px solid #ddd;
-    z-index: 999;
-    min-width: 150px;
-  }
-  .dropdown:hover .dropdown-content {
-    display: block;
-  }
-  .dropdown-content li {
-    padding: 5px 15px;
-  }
-  .dropdown-content li a {
-    color: #333;
-  }
-  
-  /* CTA Button in Nav */
-  .cta-button {
-    background: #a67c52;
-    color: #fff;
-    padding: 8px 20px;
-    border-radius: 25px;
-    text-decoration: none;
-    transition: background 0.3s;
-  }
-  .cta-button:hover {
-    background: #8c5e3c;
-  }
-  
-  /* FOOTER */
-  footer {
-    background: #333;
-    color: #fff;
-    padding: 20px 0;
-  }
-  .footer-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    align-items: center;
-  }
-  .footer-logo {
-    font-size: 1.2rem;
-    font-weight: bold;
-  }
-  .footer-links {
-    list-style: none;
-    display: flex;
-    align-items: center;
-    margin: 10px 0;
-  }
-  .footer-links li {
-    margin: 0 10px;
-  }
-  .footer-links a {
-    color: #fff;
-    text-decoration: none;
-    transition: color 0.3s;
-  }
-  .footer-links a:hover {
-    color: #a67c52;
-  }
-  .footer-copy {
-    margin-top: 10px;
-  }
-  
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Montserrat', sans-serif;
+  line-height: 1.6;
+  background: #f7f7f7;
+  color: #333;
+}
+
+.container {
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 15px;
+}
+
+/* FIXED TOP NAVIGATION BAR */
+.fixed-nav {
+  background: #fff;
+  border-bottom: 1px solid #ddd;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+}
+.fixed-nav .container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 0;
+}
+.logo {
+  font-size: 1.8rem;
+  font-weight: bold;
+  text-decoration: none;
+  color: #333;
+}
+
+/* NAV MENU */
+.nav-menu {
+  list-style: none;
+  display: flex;
+  align-items: center;
+}
+.nav-menu li {
+  margin: 0 10px;
+  position: relative;
+}
+.nav-menu a {
+  text-decoration: none;
+  color: #333;
+  padding: 8px 5px;
+  transition: color 0.3s;
+}
+.nav-menu a:hover {
+  color: #a67c52;
+}
+
+/* Dropdown Styles */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background: #fff;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  padding: 10px 0;
+  border: 1px solid #ddd;
+  z-index: 999;
+  min-width: 150px;
+}
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+.dropdown-content li {
+  padding: 5px 15px;
+}
+.dropdown-content li a {
+  color: #333;
+}
+
+/* CTA Button in Nav */
+.cta-button {
+  background: #a67c52;
+  color: #fff;
+  padding: 8px 20px;
+  border-radius: 25px;
+  text-decoration: none;
+  transition: background 0.3s;
+}
+.cta-button:hover {
+  background: #8c5e3c;
+}
+
+/* FOOTER */
+footer {
+  background: #333;
+  color: #fff;
+  padding: 20px 0;
+}
+.footer-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+}
+.footer-logo {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+.footer-links {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  margin: 10px 0;
+}
+.footer-links li {
+  margin: 0 10px;
+}
+.footer-links a {
+  color: #fff;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+.footer-links a:hover {
+  color: #a67c52;
+}
+.footer-copy {
+  margin-top: 10px;
+}
+
+/* 
+ MOBILE NAV STYLES
+ ------------------------------------- 
+*/
+.menu-toggle {
+  display: none;
+  font-size: 1.8rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #333;
+}
+
+@media (max-width: 768px) {
+
+/* The nav container can wrap lines */
+.fixed-nav .container {
+  flex-wrap: wrap;
+}
+
+/* Show hamburger on small screens */
+.menu-toggle {
+  display: block;
+  margin-left: auto;
+}
+
+/* Hide the nav menu by default on mobile */
+.nav-menu {
+  flex-direction: column;
+  display: none;
+  width: 100%;
+  background: #fff;
+  border-top: 1px solid #ddd;
+  padding: 10px 0;
+  margin-top: 10px;
+}
+
+/* Show the nav when .active is toggled */
+.nav-menu.active {
+  display: flex;
+}
+
+/* Adjust nav items spacing on mobile */
+.nav-menu li {
+  margin: 10px 0;
+}
+
+/* Keep dropdowns on top of the .nav-menu */
+.dropdown:hover .dropdown-content {
+  position: static;
+  display: block;
+  background: none;
+  border: none;
+  box-shadow: none;
+  padding: 0;
+}
+.dropdown-content li {
+  padding: 5px 0;
+}
+.dropdown-content li a {
+  color: #333;
+}
+
+/* CTA button can shift in the menu flow */
+.nav-cta {
+  margin-top: 10px;
+}
+
+/* Footer stacked layout on mobile */
+.footer-container {
+  flex-direction: column;
+  align-items: flex-start;
+}
+.footer-links {
+  flex-direction: column;
+  align-items: flex-start;
+  margin: 15px 0;
+}
+.footer-links li {
+  margin: 5px 0;
+}
+}

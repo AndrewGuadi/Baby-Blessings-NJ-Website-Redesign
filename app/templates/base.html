@@ -13,8 +13,14 @@
     <!-- FIXED TOP NAVIGATION BAR -->
     <nav class="fixed-nav">
       <div class="container">
+        <!-- LOGO -->
         <a href="{{ url_for('main.home') }}" class="logo">Brand Name</a>
-        <ul class="nav-menu">
+
+        <!-- HAMBURGER BUTTON (visible on mobile) -->
+        <button class="menu-toggle" id="menu-toggle">&#9776;</button>
+
+        <!-- NAV MENU -->
+        <ul class="nav-menu" id="nav-menu">
           <li><a href="{{ url_for('main.about_us') }}">About Us</a></li>
           <li class="dropdown">
             <a href="{{ url_for('services.services_index') }}">Services ▼</a>
@@ -39,8 +45,11 @@
           </li>
           <li><a href="{{ url_for('testimonials.index') }}">Testimonials</a></li>
           <li><a href="{{ url_for('main.contact') }}">Contact</a></li>
+          <!-- CTA BUTTON inside nav for mobile convenience -->
+          <li class="nav-cta">
+            <a href="{{ url_for('main.contact') }}" class="cta-button">Book Now</a>
+          </li>
         </ul>
-        <a href="{{ url_for('main.contact') }}" class="cta-button">Book Now</a>
       </div>
     </nav>
   </header>
@@ -70,7 +79,16 @@
   </footer>
 
   <script>
+    // Set year in footer
     document.getElementById("year").textContent = new Date().getFullYear();
+
+    // Toggle mobile menu
+    const menuToggle = document.getElementById('menu-toggle');
+    const navMenu = document.getElementById('nav-menu');
+    
+    menuToggle.addEventListener('click', () => {
+      navMenu.classList.toggle('active');
+    });
   </script>
 </body>
 </html>
