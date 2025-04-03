@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+
+{% block title %}About Us{% endblock %}
+
+{% block head %}
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/about.css') }}">
+{% endblock %}
+
+
+{% block content %}
+  <!-- 1) HERO / PAGE INTRO -->
+  <section id="about-hero" class="hero-section about-hero">
+    <div class="hero-overlay">
+      <div class="container hero-content">
+        <h1>About Us</h1>
+        <p>Creating meaningful family ceremonies with warmth and care.</p>
+        <p class="tagline">Meet the team behind your special moments.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2) BRAND STORY / MISSION -->
+  <section id="brand-story" class="section brand-story">
+    <div class="container">
+      <h2 class="section-title">Our Story & Mission</h2>
+      <div class="story-content">
+        <p>Our company was founded with a passion for crafting heartfelt ceremonies that unite families and celebrate life’s milestones. Driven by values of inclusivity, tradition, and genuine care, we design celebrations that honor your unique journey.</p>
+        <p>Every ceremony is a blend of time-honored rituals and personal touches, ensuring that each event is as unique as the family it celebrates.</p>
+        <img src="/static/images/brand_story.jpg" alt="Our Story" class="story-image">
+      </div>
+    </div>
+  </section>
+
+  <!-- 3) TEAM INTRODUCTION -->
+  <section id="team-introduction" class="section team-introduction">
+    <div class="container">
+      <h2 class="section-title">Meet the Team</h2>
+      <div class="team-grid">
+        <!-- Celia -->
+        <div class="team-member">
+          <img src="/static/images/celia.jpg" alt="Celia" class="team-photo">
+          <h3>Celia</h3>
+          <p>
+            Celia is a celebrated celebrant who customizes ceremonies for every occasion. With a background in fashion and culinary arts, a seminary degree, and a celebrant certification, she crafts bespoke celebrations that reflect your personality, preferences, and stories. Celia seamlessly blends tradition with modern creativity—and if you fancy a delicious chocolate mousse recipe, she’s got that secret too.
+          </p>
+        </div>
+        <!-- Michael -->
+        <div class="team-member">
+          <img src="/static/images/michael.jpg" alt="Michael" class="team-photo">
+          <h3>Michael</h3>
+          <p>
+            Michael is a compassionate officiant dedicated to adapting ceremonies to your vision. With a warm and professional approach, he artfully combines cherished traditions with personalized elements and selects distinctive readings to make your ceremony both memorable and meaningful. And if you need help untangling a tricky calculus problem, Michael is always ready to lend a hand.
+          </p>
+        </div>
+        <!-- Cari -->
+        <div class="team-member">
+          <img src="/static/images/cari.jpg" alt="Cari" class="team-photo">
+          <h3>Cari</h3>
+          <p>
+            Cari brings the enchanting magic of musical theatre to your ceremony. With experience from Disney Cruise Lines and a proud membership in Actor’s Equity, her vibrant presence and passionate, melodic voice infuse every event with sincerity and fun. With Cari, you can expect a symphony of heartfelt moments—plus a musical tip perfectly suited to your theme.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4) CORE BELIEFS / DISTINCTIVES -->
+  <section id="core-beliefs" class="section core-beliefs">
+    <div class="container">
+      <h2 class="section-title">What Makes Us Different</h2>
+      <ul class="beliefs-list">
+        <li>Personalized Ceremonies</li>
+        <li>Inclusive Approach (interfaith, multicultural)</li>
+        <li>Attention to Detail & Empathy</li>
+        <li>Experience & Credentials</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 5) TESTIMONIAL TEASER -->
+  <section id="about-testimonials" class="section testimonials">
+    <div class="container">
+      <h2 class="section-title">Hear It From Our Families</h2>
+      <blockquote class="testimonial">
+        <p>"The warmth and attention to detail in every ceremony made us feel truly celebrated."</p>
+        <footer>- The Smith Family</footer>
+      </blockquote>
+      <a href="/testimonials" class="btn tertiary-btn">Read More Testimonials</a>
+    </div>
+  </section>
+
+  <!-- 6) CALL-TO-ACTION -->
+  <section id="about-cta" class="section cta">
+    <div class="container">
+      <h2 class="section-title">Ready to Learn More?</h2>
+      <p>We’d love to discuss your family’s special ceremony.</p>
+      <a href="/contact" class="btn primary-btn">Contact Us</a>
+      <a href="/services" class="btn secondary-btn">View Our Services</a>
+    </div>
+  </section>
+{% endblock %}

@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% block title %}Our Gallery{% endblock %}
+
+{% block head %}
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/specific_service.css') }}">
+{% endblock %}
+
+
+{% block content %}
+  <!-- 1) HERO / PAGE INTRO -->
+  <section id="gallery-hero" class="hero-section gallery-hero">
+    <div class="hero-overlay">
+      <div class="container hero-content">
+        <h1>Our Gallery</h1>
+        <p>A glimpse into the heartfelt moments we've helped create.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2) GALLERY GRID / SLIDESHOW -->
+  <section id="gallery-content" class="section gallery-grid-section">
+    <div class="container">
+      <div class="gallery-grid">
+        <div class="gallery-item">
+          <img src="/static/images/gallery1.jpg" alt="Ceremony Image 1">
+          <p class="caption">Baby Blessing in NYC, Summer 2024</p>
+        </div>
+        <div class="gallery-item">
+          <img src="/static/images/gallery2.jpg" alt="Ceremony Image 2">
+          <p class="caption">Baptism at a serene location</p>
+        </div>
+        <div class="gallery-item">
+          <img src="/static/images/gallery3.jpg" alt="Ceremony Image 3">
+          <p class="caption">Family Celebration moment</p>
+        </div>
+        <div class="gallery-item">
+          <img src="/static/images/gallery4.jpg" alt="Ceremony Image 4">
+          <p class="caption">Naming Ceremony highlight</p>
+        </div>
+        <!-- Additional gallery items can be added here -->
+      </div>
+    </div>
+  </section>
+
+  <!-- 3) OPTIONAL VIDEO SECTION -->
+  <section id="gallery-video" class="section gallery-video">
+    <div class="container">
+      <h2 class="section-title">See the Joy in Motion</h2>
+      <div class="video-wrapper">
+        <!-- Example embedded video (replace URL with your video) -->
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/example_video" title="Ceremony Highlight Video" frameborder="0" allowfullscreen></iframe>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4) CALL-TO-ACTION -->
+  <section id="gallery-cta" class="section cta">
+    <div class="container">
+      <h2 class="section-title">Inspired by Our Work?</h2>
+      <p>Let’s create beautiful moments for your family too.</p>
+      <a href="/contact" class="btn primary-btn">Contact Us to Learn More</a>
+    </div>
+  </section>
+{% endblock %}

@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% block title %}Baptisms{% endblock %}
+
+{% block head %}
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/specific_service.css') }}">
+{% endblock %}
+
+
+{% block content %}
+  <!-- 1) HERO / PAGE INTRO -->
+  <section id="baptisms-hero" class="hero-section baptisms-hero">
+    <div class="hero-overlay">
+      <div class="container hero-content">
+        <h1>Baptisms</h1>
+        <p>A sacred ceremony to begin a life of faith and community.</p>
+        <p class="tagline">Traditional or modern approaches to suit your family.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2) OVERVIEW / WHAT IS A BAPTISM? -->
+  <section id="baptisms-overview" class="section overview">
+    <div class="container">
+      <div class="overview-content">
+        <p>Baptism is a spiritual and religious rite symbolizing initiation into faith. Our inclusive and customized approach ensures that the ceremony reflects your unique traditions while honoring the significance of this sacred ritual.</p>
+        <p>We offer an interdenominational experience that is both heartfelt and respectful of your beliefs.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3) BAPTISM CEREMONY DETAILS -->
+  <section id="baptisms-details" class="section details">
+    <div class="container">
+      <h2 class="section-title">Our Approach</h2>
+      <ul class="details-list">
+        <li>Traditional or modern liturgical elements</li>
+        <li>Venue options: church, home, or outdoor setting</li>
+        <li>Role of godparents, mentors, or extended family</li>
+        <li>Ceremony length and typical order of service</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 4) CUSTOMIZATION & PERSONAL TOUCHES -->
+  <section id="baptisms-customization" class="section customization">
+    <div class="container">
+      <h2 class="section-title">Personalizing Your Baptism</h2>
+      <p>We offer options for selecting special readings, incorporating music or cultural traditions, and providing commemorative certificates or keepsakes to make your baptism truly unique.</p>
+    </div>
+  </section>
+
+  <!-- 5) SPOTLIGHT TESTIMONIAL / SOCIAL PROOF -->
+  <section id="baptisms-testimonials" class="section testimonials">
+    <div class="container">
+      <h2 class="section-title">Stories of Faith & Celebration</h2>
+      <blockquote class="testimonial">
+        <p>"Our baptism was beautifully conducted, with every detail reflecting our family's values."</p>
+        <footer>- Family Name</footer>
+      </blockquote>
+      <a href="/testimonials" class="btn tertiary-btn">Read More</a>
+    </div>
+  </section>
+
+  <!-- 6) CALL-TO-ACTION -->
+  <section id="baptisms-cta" class="section cta">
+    <div class="container">
+      <h2 class="section-title">Ready to Plan a Meaningful Baptism?</h2>
+      <p>Let us guide you every step of the way.</p>
+      <a href="/contact" class="btn primary-btn">Contact Us</a>
+      <a href="/service_areas" class="btn secondary-btn">See Service Areas</a>
+    </div>
+  </section>
+{% endblock %}

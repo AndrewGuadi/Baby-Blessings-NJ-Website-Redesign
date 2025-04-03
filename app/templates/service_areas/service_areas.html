@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+
+{% block head %}
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/service_areas.css') }}">
+{% endblock %}
+
+{% block title %}Service Areas{% endblock %}
+
+{% block content %}
+  <!-- 1) HERO / PAGE INTRO -->
+  <section id="service-areas-hero" class="hero-section service-areas-hero">
+    <div class="hero-overlay">
+      <div class="container hero-content">
+        <h1>Our Service Areas</h1>
+        <p>Proudly officiating ceremonies across the region, bringing warmth and personalization wherever you are.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2) OVERVIEW / WELCOME TEXT -->
+  <section id="areas-overview" class="section areas-overview">
+    <div class="container">
+      <p>
+        We cover a wide region including New York City, New Jersey, Philadelphia, and more. Our flexible approach and willingness to travel ensure that we bring our unique touch to your local community.
+      </p>
+      <!-- Optionally include a friendly map graphic -->
+      <img src="/static/images/map_icon.png" alt="Map Icon" class="map-icon">
+    </div>
+  </section>
+
+  <!-- 3) KEY AREAS GRID / LIST -->
+  <section id="areas-grid" class="section areas-grid">
+    <div class="container">
+      <h2 class="section-title">Explore Our Locations</h2>
+      <div class="grid">
+        <div class="grid-item">
+          <img src="/static/images/northern_nj.jpg" alt="Northern New Jersey">
+          <h3>Northern New Jersey</h3>
+          <p>Experience heartfelt ceremonies in the Garden State.</p>
+          <a href="/service_areas/northern_new_jersey" class="btn secondary-btn">Learn More</a>
+        </div>
+        <div class="grid-item">
+          <img src="/static/images/nyc.jpg" alt="New York City">
+          <h3>New York City</h3>
+          <p>Celebrate in the heart of the Big Apple.</p>
+          <a href="/service_areas/new_york_city" class="btn secondary-btn">Learn More</a>
+        </div>
+        <div class="grid-item">
+          <img src="/static/images/westchester.jpg" alt="Westchester">
+          <h3>Westchester</h3>
+          <p>Elegant ceremonies in a charming setting.</p>
+          <a href="/service_areas/westchester" class="btn secondary-btn">Learn More</a>
+        </div>
+        <div class="grid-item">
+          <img src="/static/images/philadelphia.jpg" alt="Philadelphia">
+          <h3>Philadelphia</h3>
+          <p>Timeless traditions in the City of Brotherly Love.</p>
+          <a href="/service_areas/philadelphia" class="btn secondary-btn">Learn More</a>
+        </div>
+        <div class="grid-item">
+          <img src="/static/images/central_nj.jpg" alt="Central New Jersey">
+          <h3>Central New Jersey</h3>
+          <p>Personalized celebrations in the heart of NJ.</p>
+          <a href="/service_areas/central_new_jersey" class="btn secondary-btn">Learn More</a>
+        </div>
+        <div class="grid-item">
+          <img src="/static/images/long_island.jpg" alt="Long Island">
+          <h3>Long Island</h3>
+          <p>Beautiful ceremonies by the shore.</p>
+          <a href="/service_areas/long_island" class="btn secondary-btn">Learn More</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4) WHY LOCATION MATTERS / BENEFITS -->
+  <section id="location-benefits" class="section location-benefits">
+    <div class="container">
+      <h2 class="section-title">Why Location Matters</h2>
+      <p>
+        Our local expertise means we know the best venues, understand cultural nuances, and have established partnerships with trusted vendors. This local knowledge ensures your ceremony is seamlessly executed and uniquely tailored to your community.
+      </p>
+      <blockquote class="testimonial">
+        <p>"Having a local expert made our celebration stress-free and truly special." – A Satisfied Client</p>
+      </blockquote>
+    </div>
+  </section>
+
+  <!-- 5) CALL-TO-ACTION -->
+  <section id="areas-cta" class="section cta">
+    <div class="container">
+      <h2 class="section-title">Not Sure if We Serve Your Area?</h2>
+      <p>Contact us to discuss your location needs.</p>
+      <a href="/contact" class="btn primary-btn">Get in Touch</a>
+    </div>
+  </section>
+{% endblock %}

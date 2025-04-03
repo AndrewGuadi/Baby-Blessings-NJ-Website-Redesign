@@ -1,0 +1,114 @@
+{% extends "base.html" %}
+
+{% block title %}Services – Our Ceremonies & Services{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/services.css') }}">
+{% endblock %}
+{% block content %}
+  <!-- 1) PAGE HERO / INTRO -->
+  <section id="services-hero" class="hero-section services-hero">
+    <div class="hero-overlay">
+      <div class="container hero-content">
+        <h1>Our Ceremonies & Services</h1>
+        <p>Personalized celebrations to welcome your child or loved ones into the world.</p>
+      </div>
+    </div>
+    <!-- Background can be set via CSS (soft pastel gradient or minimal image overlay) -->
+  </section>
+
+  <!-- 2) OVERVIEW / WELCOME TEXT -->
+  <section id="overview" class="section overview">
+    <div class="container">
+      <div class="overview-content">
+        <p>
+          Our ceremonies are designed to celebrate life's most important moments with warmth, personalization, and inclusivity. We honor your family's unique story while providing a heartfelt experience that welcomes new life and cherishes every milestone.
+        </p>
+        <!-- Optional decorative icon or small photo -->
+        <img src="overview-icon.jpg" alt="Celebration Icon" class="overview-icon">
+      </div>
+    </div>
+  </section>
+
+  <!-- 3) SERVICE HIGHLIGHTS (GRID OR ASYMMETRICAL LAYOUT) -->
+  <section id="service-highlights" class="section service-highlights">
+    <div class="container">
+      <h2 class="section-title">Explore Our Main Services</h2>
+      <div class="services-grid">
+        <div class="service-card">
+          <img src="baby-blessings.jpg" alt="Baby Blessings">
+          <h3>Baby Blessings</h3>
+          <p>Celebrate new life with a heartfelt ceremony.</p>
+          <a href="/services/baby-blessings.html" class="btn secondary-btn">Learn More</a>
+        </div>
+        <div class="service-card">
+          <img src="baptisms.jpg" alt="Baptisms">
+          <h3>Baptisms</h3>
+          <p>Create a spiritual foundation in a loving, welcoming way.</p>
+          <a href="/services/baptisms.html" class="btn secondary-btn">Learn More</a>
+        </div>
+        <div class="service-card">
+          <img src="naming-ceremonies.jpg" alt="Naming Ceremonies">
+          <h3>Naming Ceremonies</h3>
+          <p>Honor tradition or forge a new path to celebrate your child's identity.</p>
+          <a href="/services/naming-ceremonies.html" class="btn secondary-btn">Learn More</a>
+        </div>
+        <div class="service-card">
+          <img src="celebrations.jpg" alt="Celebrations">
+          <h3>Celebrations</h3>
+          <p>Mark milestones and moments with a personal touch.</p>
+          <a href="/services/celebrations.html" class="btn secondary-btn">Learn More</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4) ADDITIONAL / SPECIAL SERVICES -->
+  <section id="special-services" class="section special-services">
+    <div class="container">
+      <h2 class="section-title">Looking for Something Else?</h2>
+      <p>
+        We also offer Private Family Gatherings, Interfaith Celebrations, and more. Contact us to discuss your custom ceremony needs.
+      </p>
+      <a href="/contact.html" class="btn tertiary-btn">Contact Us</a>
+    </div>
+  </section>
+
+  <!-- 5) EMOTIONAL GALLERY TEASER (OPTIONAL) -->
+  <section id="gallery-teaser" class="section gallery-teaser">
+    <div class="container">
+      <h2 class="section-title">Ceremony Moments</h2>
+      <div class="gallery-grid">
+        <img src="gallery1.jpg" alt="Ceremony Moment 1">
+        <img src="gallery2.jpg" alt="Ceremony Moment 2">
+        <img src="gallery3.jpg" alt="Ceremony Moment 3">
+      </div>
+      <a href="/gallery.html" class="btn tertiary-btn">View Gallery</a>
+    </div>
+  </section>
+
+  <!-- 6) TESTIMONIAL TEASER (OPTIONAL) -->
+  <section id="testimonials-teaser-services" class="section testimonials-teaser">
+    <div class="container">
+      <h2 class="section-title">Hear from Families We've Served</h2>
+      <div class="testimonial-carousel">
+        <blockquote class="testimonial">
+          <p>"Our ceremony was perfectly tailored to our needs. The warmth and attention to detail were exceptional."</p>
+          <footer>- Client Name</footer>
+        </blockquote>
+        <!-- Additional testimonials can be added here -->
+      </div>
+      <a href="/testimonials.html" class="btn tertiary-btn">Read More</a>
+    </div>
+  </section>
+
+  <!-- 7) CALL-TO-ACTION -->
+  <section id="cta-services" class="section final-cta">
+    <div class="container">
+      <h2 class="section-title">Ready to Book Your Ceremony?</h2>
+      <p>Reach out to discuss the perfect service for your family.</p>
+      <a href="/contact.html" class="btn primary-btn">Contact Us</a>
+      <a href="/service-areas.html" class="btn secondary-btn">Check Service Areas</a>
+    </div>
+  </section>
+{% endblock %}

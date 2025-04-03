@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% block title %}Baby Blessings{% endblock %}
+
+{% block head %}
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/specific_service.css') }}">
+{% endblock %}
+
+
+{% block content %}
+  <!-- 1) HERO / PAGE INTRO -->
+  <section id="baby-blessings-hero" class="hero-section baby-blessings-hero">
+    <div class="hero-overlay">
+      <div class="container hero-content">
+        <h1>Baby Blessings</h1>
+        <p>Welcome your little one into the world with a heartfelt, personalized ceremony.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2) OVERVIEW / WHAT IS A BABY BLESSING? -->
+  <section id="baby-blessings-overview" class="section overview">
+    <div class="container">
+      <div class="overview-content">
+        <p>A Baby Blessing is a beautiful celebration that honors the emotional and spiritual significance of welcoming new life. Our ceremony is designed to be both inclusive and personalized, reflecting your family's unique traditions and values.</p>
+        <p>Every child deserves a warm and meaningful welcome, and our approach ensures a memorable experience for parents and loved ones alike.</p>
+        <p>Accompanied by gentle pastel accents and soothing imagery, our Baby Blessing ceremonies create a nurturing atmosphere where every detail is thoughtfully arranged.</p>
+        <img src="/static/images/baby_blessings_icon.jpg" alt="Baby Blessings Icon" class="overview-icon">
+      </div>
+    </div>
+  </section>
+
+  <!-- 3) CEREMONY HIGHLIGHTS -->
+  <section id="baby-blessings-highlights" class="section highlights">
+    <div class="container">
+      <h2 class="section-title">What to Expect</h2>
+      <ul class="highlights-list">
+        <li><strong>Personalized Rituals:</strong> Candles, prayers, and family vows.</li>
+        <li><strong>Venue Flexibility:</strong> Home, garden, or spiritual setting.</li>
+        <li><strong>Inclusive Elements:</strong> Multicultural and interfaith practices.</li>
+        <li><strong>Length & Format:</strong> A balanced, memorable ceremony flow.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 4) OPTIONAL ADD-ONS OR CUSTOMIZATION -->
+  <section id="baby-blessings-customization" class="section customization">
+    <div class="container">
+      <h2 class="section-title">Make It Uniquely Yours</h2>
+      <ul class="customization-list">
+        <li>Readings, music, or cultural traditions</li>
+        <li>Sibling/family involvement</li>
+        <li>Keepsakes: blessing certificates or a memory book</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 5) TESTIMONIAL TEASER / SOCIAL PROOF -->
+  <section id="baby-blessings-testimonials" class="section testimonials">
+    <div class="container">
+      <h2 class="section-title">What Families Say About Our Baby Blessings</h2>
+      <blockquote class="testimonial">
+        <p>"Our baby blessing was a truly touching experience that brought our family together."</p>
+        <footer>- Parent Name</footer>
+      </blockquote>
+      <a href="/testimonials" class="btn tertiary-btn">Read More Testimonials</a>
+    </div>
+  </section>
+
+  <!-- 6) CALL-TO-ACTION -->
+  <section id="baby-blessings-cta" class="section cta">
+    <div class="container">
+      <h2 class="section-title">Ready to Welcome Your Little One?</h2>
+      <p>Contact us to plan the perfect baby blessing ceremony.</p>
+      <a href="/contact" class="btn primary-btn">Contact Us</a>
+      <a href="/services/gallery" class="btn secondary-btn">See Our Gallery</a>
+    </div>
+  </section>
+{% endblock %}

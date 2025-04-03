@@ -1,0 +1,105 @@
+/* specific_service.css */
+/* Service-Specific Styles for all Services pages */
+
+/* --- Baby Blessings Hero --- */
+.baby-blessings-hero {
+    background: url('/static/images/baby_blessings_hero.jpg') center/cover no-repeat;
+    height: 60vh;
+  }
+  
+  /* --- Baptisms Hero --- */
+  .baptisms-hero {
+    background: url('/static/images/baptisms_hero.jpg') center/cover no-repeat;
+    height: 60vh;
+  }
+  
+  /* --- Naming Ceremonies Hero --- */
+  .naming-hero {
+    background: url('/static/images/naming_hero.jpg') center/cover no-repeat;
+    height: 60vh;
+  }
+  
+  /* --- Celebrations Hero --- */
+  .celebrations-hero {
+    background: url('/static/images/celebrations_hero.jpg') center/cover no-repeat;
+    height: 60vh;
+  }
+  
+  /* --- Gallery Hero --- */
+  .gallery-hero {
+    background: linear-gradient(135deg, #fff3e0, #ffe5d9);
+    height: 60vh;
+  }
+  
+  /* --- Gallery Grid Section --- */
+  .gallery-grid-section {
+    padding: 60px 0;
+    background: #fff;
+    text-align: center;
+  }
+  
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin-top: 40px;
+  }
+  
+  .gallery-item {
+    position: relative;
+    overflow: hidden;
+    border-radius: 10px;
+  }
+  
+  .gallery-item img {
+    width: 100%;
+    display: block;
+    transition: transform 0.3s ease;
+  }
+  
+  .gallery-item:hover img {
+    transform: scale(1.05);
+  }
+  
+  .gallery-item .caption {
+    margin-top: 10px;
+    font-size: 0.9rem;
+    color: #666;
+  }
+  
+  /* --- Gallery Video Section --- */
+  .gallery-video {
+    padding: 60px 0;
+    background: #f0f0f0;
+    text-align: center;
+  }
+  
+  .video-wrapper {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  
+  .video-wrapper iframe {
+    width: 100%;
+    height: auto;
+  }
+  
+  /* --- Common Section Overrides for Service Pages --- */
+  /* Adjust as needed for padding, typography, or background colors */
+  .section {
+    padding: 60px 0;
+  }
+  
+  .section .section-title {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  .section p,
+  .section ul {
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto 20px;
+  }
+  

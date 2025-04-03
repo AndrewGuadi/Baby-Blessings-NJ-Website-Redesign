@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block head %}
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/testimonials.css') }}">
+{% endblock %}
+
+{% block title %}Testimonials{% endblock %}
+
+{% block content %}
+  <!-- 1) HERO / PAGE INTRO -->
+  <section id="testimonials-hero" class="hero-section">
+    <div class="hero-overlay">
+      <div class="container hero-content">
+        <h1>Testimonials</h1>
+        <p>Heartfelt Experiences from Families We've Served</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2) SHORT INTRO / THANK YOU NOTE -->
+  <section id="thank-you" class="section">
+    <div class="container">
+      <p>We thank our clients for their trust and for allowing us to be part of their most cherished moments. Each ceremony is uniquely special, and your stories inspire us every day.</p>
+    </div>
+  </section>
+
+  <!-- 3) TESTIMONIALS SECTION -->
+  <section id="testimonials-list" class="section">
+    <div class="container">
+      <div class="testimonials-grid">
+        <div class="testimonial-item">
+          <p>"Our ceremony was beautifully personal and deeply moving."</p>
+          <footer>- J.S., NYC</footer>
+        </div>
+        <div class="testimonial-item">
+          <p>"A truly heartfelt experience that exceeded our expectations."</p>
+          <footer>- M.K., NJ</footer>
+        </div>
+        <div class="testimonial-item">
+          <p>"Every detail was thoughtfully curated, making our day unforgettable."</p>
+          <footer>- R.L., Philly</footer>
+        </div>
+        <!-- Additional testimonial items -->
+      </div>
+    </div>
+  </section>
+
+  <!-- 4) (OPTIONAL) FILTER OR CATEGORY -->
+  <!-- Optional: Insert a dropdown or tab system here if needed -->
+
+  <!-- 5) CALL-TO-ACTION -->
+  <section id="testimonial-cta" class="section cta">
+    <div class="container">
+      <h2>Inspired by These Stories?</h2>
+      <p>Create your own cherished moments with our help.</p>
+      <a href="/contact" class="btn primary-btn">Contact Us</a>
+      <a href="/services" class="btn secondary-btn">View Our Gallery</a>
+    </div>
+  </section>
+{% endblock %}

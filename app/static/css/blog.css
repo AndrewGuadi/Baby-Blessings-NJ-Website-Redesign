@@ -1,0 +1,135 @@
+/* blog.css */
+
+/* HERO / PAGE INTRO */
+#blog-hero {
+    position: relative;
+    height: 50vh;
+    background: linear-gradient(135deg, #ffe5d9, #fff3e0);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    margin-top: 60px;
+  }
+  #blog-hero .hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255,255,255,0.3);
+  }
+  #blog-hero .hero-content {
+    position: relative;
+    z-index: 1;
+    color: #333;
+  }
+  #blog-hero h1 {
+    font-size: 2.8rem;
+    margin-bottom: 10px;
+  }
+  #blog-hero p {
+    font-size: 1.2rem;
+  }
+  
+  /* BLOG POST LIST / FEED */
+  #blog-feed {
+    padding: 60px 0;
+    background: #fff;
+  }
+  .blog-posts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+  }
+  .blog-post {
+    background: #f7f7f7;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform 0.3s ease;
+  }
+  .blog-post:hover {
+    transform: translateY(-5px);
+  }
+  .blog-post img {
+    width: 100%;
+    display: block;
+  }
+  .blog-post h2 {
+    font-size: 1.8rem;
+    margin: 15px;
+    color: #333;
+  }
+  .blog-post .post-date {
+    margin: 0 15px;
+    font-size: 0.9rem;
+    color: #777;
+  }
+  .blog-post p {
+    margin: 15px;
+    font-size: 1rem;
+    color: #555;
+  }
+  .blog-post .btn {
+    margin: 15px;
+    padding: 10px 20px;
+    background: #a67c52;
+    color: #fff;
+    border: none;
+    border-radius: 20px;
+    text-decoration: none;
+    transition: background 0.3s ease;
+  }
+  .blog-post .btn:hover {
+    background: #8c5e3c;
+  }
+  
+  /* PAGINATION */
+  #pagination {
+    padding: 40px 0;
+    text-align: center;
+  }
+  .pagination-nav a {
+    margin: 0 15px;
+    text-decoration: none;
+    color: #a67c52;
+    font-size: 1.1rem;
+  }
+  .pagination-nav a:hover {
+    color: #8c5e3c;
+  }
+  
+  /* CALL-TO-ACTION */
+  #blog-cta {
+    padding: 40px 0;
+    background: linear-gradient(135deg, #fff3e0, #ffe5d9);
+    text-align: center;
+  }
+  #blog-cta p {
+    font-size: 1rem;
+    color: #555;
+    margin-bottom: 20px;
+  }
+  #blog-cta .btn {
+    padding: 12px 30px;
+    background: #a67c52;
+    color: #fff;
+    border: none;
+    border-radius: 25px;
+    text-decoration: none;
+    transition: background 0.3s ease;
+  }
+  #blog-cta .btn:hover {
+    background: #8c5e3c;
+  }
+  
+  /* Responsive */
+  @media (max-width: 768px) {
+    .blog-posts-grid {
+      grid-template-columns: 1fr;
+    }
+    #blog-hero h1 {
+      font-size: 2.2rem;
+    }
+  }
+  

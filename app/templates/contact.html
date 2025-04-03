@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+
+{% block title %}Contact Us{% endblock %}
+
+
+{% block head %}
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/contact.css') }}">
+{% endblock %}
+
+
+{% block content %}
+  <!-- 1) HERO / PAGE INTRO -->
+  <section id="contact-hero" class="hero-section contact-hero">
+    <div class="hero-overlay">
+      <div class="container hero-content">
+        <h1>Contact Us</h1>
+        <p>We’d love to help create your perfect ceremony.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2) CONTACT FORM SECTION -->
+  <section id="contact-form-section" class="section contact-form-section">
+    <div class="container">
+      <h2 class="section-title">Get in Touch</h2>
+      <form action="/contact" method="post" class="contact-form">
+        <div class="form-group">
+          <label for="name">Name</label>
+          <input type="text" id="name" name="name" placeholder="Your name" required>
+        </div>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" placeholder="Your email" required>
+        </div>
+        <div class="form-group">
+          <label for="phone">Phone <small>(optional)</small></label>
+          <input type="tel" id="phone" name="phone" placeholder="Your phone number">
+        </div>
+        <div class="form-group">
+          <label for="ceremony_type">Type of Ceremony</label>
+          <select id="ceremony_type" name="ceremony_type" required>
+            <option value="">Select one...</option>
+            <option value="baby_blessings">Baby Blessings</option>
+            <option value="baptisms">Baptisms</option>
+            <option value="naming_ceremonies">Naming Ceremonies</option>
+            <option value="celebrations">Family Celebrations</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="desired_date">Desired Date or Timeframe</label>
+          <input type="text" id="desired_date" name="desired_date" placeholder="e.g., Summer 2024">
+        </div>
+        <div class="form-group">
+          <label for="message">Message / Details</label>
+          <textarea id="message" name="message" rows="5" placeholder="Tell us about your vision"></textarea>
+        </div>
+        <button type="submit" class="btn primary-btn">Send Message</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- 3) ALTERNATIVE CONTACT OPTIONS -->
+  <section id="alternative-contact" class="section alternative-contact">
+    <div class="container">
+      <h2 class="section-title">Prefer Another Way?</h2>
+      <div class="contact-options">
+        <div class="contact-option">
+          <i class="icon-phone"></i>
+          <p>Call us at <strong>(123) 456-7890</strong></p>
+        </div>
+        <div class="contact-option">
+          <i class="icon-email"></i>
+          <p>Email: <strong>hello@yourbrand.com</strong></p>
+        </div>
+        <div class="contact-option">
+          <i class="icon-location"></i>
+          <p>Visit us at: <strong>123 Ceremonies Ave, Suite 100</strong></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4) CALL-TO-ACTION (OPTIONAL) -->
+  <section id="contact-cta" class="section cta">
+    <div class="container">
+      <h2 class="section-title">Ready to Book Now?</h2>
+      <p>Secure your date by completing our booking form.</p>
+      <a href="/booking" class="btn primary-btn">Book Now</a>
+    </div>
+  </section>
+{% endblock %}

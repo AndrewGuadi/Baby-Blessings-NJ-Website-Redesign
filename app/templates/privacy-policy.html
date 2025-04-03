@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% block head %}
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/privacy_policy.css') }}">
+{% endblock %}
+
+{% block title %}Privacy Policy{% endblock %}
+
+{% block content %}
+  <!-- 1) PAGE INTRO -->
+  <section id="privacy-hero" class="hero-section">
+    <div class="container hero-content">
+      <h1>Privacy Policy</h1>
+      <p>Your information is safe with us.</p>
+    </div>
+  </section>
+
+  <!-- 2) EFFECTIVE DATE & OVERVIEW -->
+  <section id="policy-overview" class="section">
+    <div class="container">
+      <p>Effective Date: January 1, 2024</p>
+      <p>This Privacy Policy outlines how we collect, use, and protect your information while providing our services.</p>
+    </div>
+  </section>
+
+  <!-- 3) INFORMATION COLLECTION -->
+  <section id="info-collection" class="section">
+    <div class="container">
+      <h2 class="section-title">Information We Collect</h2>
+      <ul>
+        <li>Data from contact forms (name, email, phone, etc.)</li>
+        <li>Data from cookies or analytics tools</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 4) USAGE & SHARING -->
+  <section id="usage-sharing" class="section">
+    <div class="container">
+      <h2 class="section-title">How We Use Your Information</h2>
+      <p>We use your information to respond to inquiries, schedule services, and improve your overall experience. In certain cases, third-party service providers (such as payment processors or analytics) may also access this data.</p>
+    </div>
+  </section>
+
+  <!-- 5) COOKIES & TRACKING (OPTIONAL) -->
+  <section id="cookies-tracking" class="section">
+    <div class="container">
+      <h2 class="section-title">Cookies & Tracking</h2>
+      <p>We use cookies to enable basic site functionality and analytics. You may adjust your cookie preferences at any time.</p>
+    </div>
+  </section>
+
+  <!-- 6) SECURITY -->
+  <section id="security" class="section">
+    <div class="container">
+      <h2 class="section-title">Security Measures</h2>
+      <p>We protect your data using SSL, secure servers, and regular security audits.</p>
+    </div>
+  </section>
+
+  <!-- 7) USER RIGHTS / OPT-OUT -->
+  <section id="user-rights" class="section">
+    <div class="container">
+      <h2 class="section-title">Your Choices & Rights</h2>
+      <p>You have the right to request data deletion and opt-out of communications. Contact us for more details.</p>
+    </div>
+  </section>
+
+  <!-- 8) POLICY UPDATES -->
+  <section id="policy-updates" class="section">
+    <div class="container">
+      <h2 class="section-title">Policy Updates</h2>
+      <p>We may update this policy from time to time. Any changes will be posted with an updated effective date.</p>
+    </div>
+  </section>
+
+  <!-- 9) CONTACT FOR PRIVACY QUESTIONS -->
+  <section id="privacy-questions" class="section">
+    <div class="container">
+      <h2 class="section-title">Have Questions?</h2>
+      <p>Please contact us at <strong>privacy@yourbrand.com</strong> for any privacy-related queries.</p>
+    </div>
+  </section>
+{% endblock %}

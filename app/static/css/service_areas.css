@@ -1,0 +1,167 @@
+/* service_areas.css */
+
+/* HERO / PAGE INTRO */
+.service-areas-hero {
+    position: relative;
+    height: 50vh;
+    background: linear-gradient(135deg, #fff3e0, #ffe5d9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    margin-top: 60px; /* offset for fixed navigation */
+  }
+  .service-areas-hero .hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.3);
+  }
+  .service-areas-hero .hero-content {
+    position: relative;
+    z-index: 1;
+    color: #333;
+  }
+  .service-areas-hero h1 {
+    font-size: 2.8rem;
+    margin-bottom: 10px;
+  }
+  .service-areas-hero p {
+    font-size: 1.2rem;
+  }
+  
+  /* OVERVIEW / WELCOME TEXT */
+  .areas-overview {
+    padding: 40px 0;
+    background: #fff;
+    text-align: center;
+    color: #555;
+  }
+  .areas-overview p {
+    font-size: 1.1rem;
+    max-width: 800px;
+    margin: 0 auto 20px;
+  }
+  .map-icon {
+    width: 80px;
+    margin-top: 20px;
+  }
+  
+  /* KEY AREAS GRID / LIST */
+  .areas-grid {
+    padding: 60px 0;
+    background: #f7f7f7;
+    text-align: center;
+  }
+  .areas-grid .section-title {
+    font-size: 2rem;
+    margin-bottom: 20px;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+  }
+  .grid-item {
+    background: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    padding: 15px;
+    transition: transform 0.3s ease, background 0.3s ease;
+  }
+  .grid-item:hover {
+    transform: translateY(-5px);
+    background: #fff3e0;
+  }
+  .grid-item img {
+    width: 100%;
+    border-radius: 4px;
+    margin-bottom: 10px;
+  }
+  .grid-item h3 {
+    font-size: 1.5rem;
+    margin: 10px 0;
+    color: #333;
+  }
+  .grid-item p {
+    font-size: 1rem;
+    color: #555;
+    margin-bottom: 10px;
+  }
+  .grid-item .btn {
+    padding: 8px 20px;
+    background: #a67c52;
+    color: #fff;
+    border: none;
+    border-radius: 20px;
+    text-decoration: none;
+    transition: background 0.3s ease;
+  }
+  .grid-item .btn:hover {
+    background: #8c5e3c;
+  }
+  
+  /* WHY LOCATION MATTERS / BENEFITS */
+  .location-benefits {
+    padding: 60px 0;
+    background: #fff;
+    text-align: center;
+    color: #555;
+  }
+  .location-benefits .section-title {
+    font-size: 2rem;
+    margin-bottom: 20px;
+  }
+  .location-benefits p {
+    font-size: 1.1rem;
+    max-width: 800px;
+    margin: 0 auto 20px;
+  }
+  .location-benefits .testimonial {
+    font-style: italic;
+    font-size: 1rem;
+    color: #777;
+    max-width: 600px;
+    margin: 20px auto 0;
+  }
+  
+  /* CALL-TO-ACTION */
+  .areas-cta {
+    padding: 60px 0;
+    background: linear-gradient(135deg, #fff3e0, #ffe5d9);
+    text-align: center;
+  }
+  .areas-cta .section-title {
+    font-size: 2rem;
+    margin-bottom: 20px;
+  }
+  .areas-cta p {
+    font-size: 1rem;
+    color: #555;
+    margin-bottom: 30px;
+  }
+  .areas-cta .btn {
+    padding: 12px 30px;
+    background: #a67c52;
+    color: #fff;
+    border: none;
+    border-radius: 25px;
+    text-decoration: none;
+    transition: background 0.3s ease;
+  }
+  .areas-cta .btn:hover {
+    background: #8c5e3c;
+  }
+  
+  /* Responsive Adjustments */
+  @media (max-width: 768px) {
+    .service-areas-hero h1 {
+      font-size: 2.2rem;
+    }
+    .grid {
+      grid-template-columns: 1fr;
+    }
+  }
+  

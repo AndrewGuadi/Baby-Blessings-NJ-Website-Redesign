@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}Ceremonies Home{% endblock %}</title>
+  <!-- Global Styles -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+  {% block head %}{% endblock %}
+</head>
+<body>
+  <header>
+    <!-- FIXED TOP NAVIGATION BAR -->
+    <nav class="fixed-nav">
+      <div class="container">
+        <a href="{{ url_for('main.home') }}" class="logo">Brand Name</a>
+        <ul class="nav-menu">
+          <li><a href="{{ url_for('main.about_us') }}">About Us</a></li>
+          <li class="dropdown">
+            <a href="{{ url_for('services.services_index') }}">Services ▼</a>
+            <ul class="dropdown-content">
+              <li><a href="{{ url_for('services.baby_blessings') }}">Baby Blessings</a></li>
+              <li><a href="{{ url_for('services.baptisms') }}">Baptisms</a></li>
+              <li><a href="{{ url_for('services.naming_ceremonies') }}">Naming Ceremonies</a></li>
+              <li><a href="{{ url_for('services.celebrations') }}">Celebrations</a></li>
+            </ul>
+          </li>
+          <li class="dropdown">
+            <!-- Using the first service area as the default link for the dropdown -->
+            <a href="{{ url_for('service_areas.northern_new_jersey') }}">Service Areas ▼</a>
+            <ul class="dropdown-content">
+              <li><a href="{{ url_for('service_areas.northern_new_jersey') }}">Northern New Jersey</a></li>
+              <li><a href="{{ url_for('service_areas.new_york_city') }}">New York City</a></li>
+              <li><a href="{{ url_for('service_areas.westchester') }}">Westchester</a></li>
+              <li><a href="{{ url_for('service_areas.philadelphia') }}">Philadelphia</a></li>
+              <li><a href="{{ url_for('service_areas.central_new_jersey') }}">Central New Jersey</a></li>
+              <li><a href="{{ url_for('service_areas.long_island') }}">Long Island</a></li>
+            </ul>
+          </li>
+          <li><a href="{{ url_for('testimonials.index') }}">Testimonials</a></li>
+          <li><a href="{{ url_for('main.contact') }}">Contact</a></li>
+        </ul>
+        <a href="{{ url_for('main.contact') }}" class="cta-button">Book Now</a>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer>
+    <div class="container footer-container">
+      <div class="footer-logo">Brand Name</div>
+      <ul class="footer-links">
+        <li><a href="{{ url_for('main.about_us') }}">About Us</a></li>
+        <li><a href="{{ url_for('services.services_index') }}">Services</a></li>
+        <li><a href="{{ url_for('service_areas.northern_new_jersey') }}">Service Areas</a></li>
+        <li><a href="{{ url_for('testimonials.index') }}">Testimonials</a></li>
+        <li><a href="{{ url_for('main.contact') }}">Contact</a></li>
+        <li><a href="{{ url_for('main.privacy_policy') }}">Privacy Policy</a></li>
+      </ul>
+      <div class="footer-social">
+        <!-- Social media icons/links with soft pastel hover effects -->
+      </div>
+      <div class="footer-copy">
+        &copy; <span id="year"></span> Brand Name
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>

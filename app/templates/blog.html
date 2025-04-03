@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block head %}
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/blog.css') }}">
+{% endblock %}
+
+{% block title %}Our Blog{% endblock %}
+
+{% block content %}
+  <!-- 1) HERO / PAGE INTRO -->
+  <section id="blog-hero" class="hero-section">
+    <div class="hero-overlay">
+      <div class="container hero-content">
+        <h1>Our Blog</h1>
+        <p>Insights, Stories, and Inspiration for Your Family Ceremonies</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2) BLOG POST LIST / FEED -->
+  <section id="blog-feed" class="section">
+    <div class="container">
+      <div class="blog-posts-grid">
+        <article class="blog-post">
+          <img src="/static/images/blog_post1.jpg" alt="Blog Post 1">
+          <h2>Celebrating New Beginnings</h2>
+          <p class="post-date">March 10, 2024</p>
+          <p>A heartfelt story of how one family celebrated a unique ceremony...</p>
+          <a href="/blog/post1" class="btn tertiary-btn">Read More</a>
+        </article>
+        <article class="blog-post">
+          <img src="/static/images/blog_post2.jpg" alt="Blog Post 2">
+          <h2>Traditions Reimagined</h2>
+          <p class="post-date">February 25, 2024</p>
+          <p>Discover innovative ways to blend tradition with modern celebrations...</p>
+          <a href="/blog/post2" class="btn tertiary-btn">Read More</a>
+        </article>
+        <!-- Additional blog posts -->
+      </div>
+    </div>
+  </section>
+
+  <!-- 3) SIDEBAR (OPTIONAL) -->
+  <!-- Optionally, include a sidebar for search, categories, or recent posts -->
+
+  <!-- 4) PAGINATION -->
+  <section id="pagination" class="section">
+    <div class="container">
+      <nav class="pagination-nav">
+        <a href="#" class="prev">« Older Posts</a>
+        <a href="#" class="next">Newer Posts »</a>
+      </nav>
+    </div>
+  </section>
+
+  <!-- 5) CALL-TO-ACTION (OPTIONAL) -->
+  <section id="blog-cta" class="section cta">
+    <div class="container">
+      <p>Got questions about a topic? Reach out to us!</p>
+      <a href="/contact" class="btn primary-btn">Contact Us</a>
+    </div>
+  </section>
+{% endblock %}

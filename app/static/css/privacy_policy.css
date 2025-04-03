@@ -1,0 +1,65 @@
+/* privacy_policy.css */
+
+/* PAGE INTRO */
+#privacy-hero {
+    position: relative;
+    padding: 80px 0;
+    background: linear-gradient(135deg, #fff3e0, #ffe5d9);
+    text-align: center;
+  }
+  #privacy-hero .hero-content {
+    color: #333;
+  }
+  #privacy-hero h1 {
+    font-size: 2.8rem;
+    margin-bottom: 10px;
+  }
+  #privacy-hero p {
+    font-size: 1.2rem;
+  }
+  
+  /* EFFECTIVE DATE & OVERVIEW */
+  .section {
+    padding: 40px 0;
+    background: #fff;
+    color: #555;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  .section .section-title {
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+    text-align: center;
+    color: #333;
+  }
+  .section p {
+    line-height: 1.6;
+    margin-bottom: 15px;
+  }
+  .section ul {
+    list-style: disc inside;
+    margin-bottom: 15px;
+    padding-left: 20px;
+  }
+  
+  /* Additional Sections (Information Collection, Usage, etc.) */
+  .section h2 {
+    color: #333;
+  }
+  
+  /* CONTACT INFO FOR PRIVACY QUESTIONS */
+  #privacy-questions {
+    text-align: center;
+    padding: 40px 0;
+  }
+  
+  /* Responsive */
+  @media (max-width: 768px) {
+    .section {
+      padding: 20px 15px;
+    }
+    #privacy-hero h1 {
+      font-size: 2.2rem;
+    }
+  }
+  

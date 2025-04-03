@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% block title %}Naming Ceremonies{% endblock %}
+
+{% block head %}
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/specific_service.css') }}">
+{% endblock %}
+
+
+{% block content %}
+  <!-- 1) HERO / PAGE INTRO -->
+  <section id="naming-hero" class="hero-section naming-hero">
+    <div class="hero-overlay">
+      <div class="container hero-content">
+        <h1>Naming Ceremonies</h1>
+        <p>Celebrate identity and heritage in a warm, personal ceremony.</p>
+        <p class="tagline">Honoring tradition, embracing modern values.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2) OVERVIEW / IMPORTANCE OF A NAMING CEREMONY -->
+  <section id="naming-overview" class="section overview">
+    <div class="container">
+      <div class="overview-content">
+        <p>Naming ceremonies hold deep cultural and familial significance. They celebrate a child's identity and heritage while providing a meaningful way to welcome new life.</p>
+        <p>Our ceremonies emphasize inclusivity and personalization, ensuring every detail reflects your family's values.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3) CEREMONY FORMAT / STRUCTURE -->
+  <section id="naming-format" class="section details">
+    <div class="container">
+      <h2 class="section-title">How We Structure the Ceremony</h2>
+      <ul class="details-list">
+        <li>Gathering and welcome</li>
+        <li>Significance of the chosen name(s)</li>
+        <li>Involvement of family members/guardians</li>
+        <li>Special readings, blessings, or traditions</li>
+        <li>Celebration and closing</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 4) CUSTOM ELEMENTS / PERSONALIZATION -->
+  <section id="naming-customization" class="section customization">
+    <div class="container">
+      <h2 class="section-title">Make It Meaningful</h2>
+      <ul class="customization-list">
+        <li>Cultural traditions from around the world</li>
+        <li>Symbolic rituals (lighting candles, planting a tree, etc.)</li>
+        <li>Custom vows or dedications from parents, godparents, or siblings</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 5) TESTIMONIAL TEASER -->
+  <section id="naming-testimonials" class="section testimonials">
+    <div class="container">
+      <h2 class="section-title">What Parents Are Saying</h2>
+      <blockquote class="testimonial">
+        <p>"Our naming ceremony was a beautiful blend of tradition and personal touch that left a lasting impression."</p>
+        <footer>- Parent Name</footer>
+      </blockquote>
+      <a href="/testimonials" class="btn tertiary-btn">See All Testimonials</a>
+    </div>
+  </section>
+
+  <!-- 6) CALL-TO-ACTION -->
+  <section id="naming-cta" class="section cta">
+    <div class="container">
+      <h2 class="section-title">Ready to Honor Your Child’s Name?</h2>
+      <p>Contact us to create a ceremony that reflects your family's values and heritage.</p>
+      <a href="/contact" class="btn primary-btn">Contact Us</a>
+    </div>
+  </section>
+{% endblock %}

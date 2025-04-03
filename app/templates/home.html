@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+
+{% block title %}Home - Ceremonies{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+{% endblock %}
+
+{% block content %}
+  <!-- 1) HERO / INTRO SECTION -->
+  <section id="hero" class="hero-section">
+    <div class="hero-overlay">
+      <div class="container hero-content">
+        <h1>Welcoming, Heartfelt Ceremonies for Your Growing Family</h1>
+        <p>Baby Blessings • Baptisms • Naming Ceremonies • Celebrations</p>
+        <a href="/contact.html" class="btn primary-btn">Schedule a Blessing</a>
+      </div>
+    </div>
+    <!-- Hero Image or Subtle Video can be implemented as background -->
+  </section>
+
+  <!-- 2) KEY SERVICES HIGHLIGHT -->
+  <section id="services-highlight" class="section services-highlight">
+    <div class="container">
+      <h2 class="section-title">Our Ceremonies & Services</h2>
+      <p class="section-subtext">Personalized experiences for every milestone</p>
+      <div class="services-grid">
+        <div class="service-item">
+          <img src="baby-blessings.jpg" alt="Baby Blessings">
+          <h3>Baby Blessings</h3>
+          <p>Experience the warmth and joy of welcoming new life.</p>
+          <a href="/services/baby-blessings.html" class="btn secondary-btn">Learn More</a>
+        </div>
+        <div class="service-item">
+          <img src="baptisms.jpg" alt="Baptisms">
+          <h3>Baptisms</h3>
+          <p>Celebrate faith and tradition with a meaningful ceremony.</p>
+          <a href="/services/baptisms.html" class="btn secondary-btn">Learn More</a>
+        </div>
+        <div class="service-item">
+          <img src="naming-ceremonies.jpg" alt="Naming Ceremonies">
+          <h3>Naming Ceremonies</h3>
+          <p>Mark the significance of identity with a personalized event.</p>
+          <a href="/services/naming-ceremonies.html" class="btn secondary-btn">Learn More</a>
+        </div>
+        <div class="service-item">
+          <img src="celebrations.jpg" alt="Celebrations">
+          <h3>Celebrations</h3>
+          <p>Honor life's milestones with elegance and heartfelt joy.</p>
+          <a href="/services/celebrations.html" class="btn secondary-btn">Learn More</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3) EMOTIONAL ENGAGEMENT / TESTIMONIAL TEASER -->
+  <section id="testimonials-teaser" class="section testimonials-teaser">
+    <div class="container">
+      <h2 class="section-title">What Families Are Saying</h2>
+      <div class="testimonial-carousel">
+        <blockquote class="testimonial">
+          <p>"This ceremony truly touched our hearts and made our day unforgettable."</p>
+          <footer>- Client Name</footer>
+        </blockquote>
+        <!-- Additional testimonials can be added here -->
+      </div>
+      <a href="/testimonials.html" class="btn tertiary-btn">Read More</a>
+    </div>
+  </section>
+
+  <!-- 4) ABOUT US PREVIEW -->
+  <section id="about-us-preview" class="section about-us-preview">
+    <div class="container">
+      <h2 class="section-title">Meet Our Team</h2>
+      <p>With years of experience creating meaningful ceremonies, our team is committed to making your day unforgettable.</p>
+      <a href="/about-us.html" class="btn secondary-btn">Learn More</a>
+      <img src="team.jpg" alt="Team Image" class="about-image">
+    </div>
+  </section>
+
+  <!-- 5) SERVICES AREA SPOTLIGHT -->
+  <section id="service-areas-spotlight" class="section service-areas-spotlight">
+    <div class="container">
+      <h2 class="section-title">Where We Serve</h2>
+      <p>From New York City to Philadelphia, we’re here for you.</p>
+      <div class="areas-grid">
+        <a href="/service-areas/northern-new-jersey.html" class="area-item">Northern New Jersey</a>
+        <a href="/service-areas/new-york-city.html" class="area-item">New York City</a>
+        <a href="/service-areas/westchester.html" class="area-item">Westchester</a>
+        <a href="/service-areas/philadelphia.html" class="area-item">Philadelphia</a>
+        <a href="/service-areas/central-new-jersey.html" class="area-item">Central New Jersey</a>
+        <a href="/service-areas/long-island.html" class="area-item">Long Island</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6) FINAL CTA / CONTACT SECTION -->
+  <section id="final-cta" class="section final-cta">
+    <div class="container">
+      <h2 class="section-title">Ready to Begin Your Journey?</h2>
+      <p>Get in touch or schedule your ceremony today</p>
+      <a href="/contact.html" class="btn primary-btn">Contact Us</a>
+      <a href="tel:1234567890" class="btn secondary-btn"><i class="phone-icon"></i> Call Us</a>
+    </div>
+  </section>
+{% endblock %}

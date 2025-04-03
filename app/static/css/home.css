@@ -1,0 +1,265 @@
+/* home.css */
+/* Homepage Specific Styles */
+
+/* 1) HERO / INTRO SECTION */
+.hero-section {
+    position: relative;
+    height: 80vh;
+    background: linear-gradient(135deg, #ffe5d9, #fff3e0); /* peach to mint/light gradient */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    margin-top: 60px; /* offset for fixed nav */
+    overflow: hidden;
+  }
+  .hero-overlay {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: rgba(255,255,255,0.5); /* optional overlay effect */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .hero-content {
+    position: relative;
+    z-index: 1;
+    color: #333;
+    padding: 20px;
+  }
+  .hero-content h1 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    animation: fadeIn 1s ease-in-out;
+  }
+  .hero-content p {
+    font-size: 1.1rem;
+    margin-bottom: 30px;
+    animation: fadeIn 1.5s ease-in-out;
+  }
+  .primary-btn {
+    background: #a67c52;
+    color: #fff;
+    padding: 12px 30px;
+    border: none;
+    border-radius: 25px;
+    text-decoration: none;
+    font-size: 1rem;
+    transition: background 0.3s;
+    animation: fadeIn 2s ease-in-out;
+  }
+  .primary-btn:hover {
+    background: #8c5e3c;
+  }
+  
+  /* 2) KEY SERVICES HIGHLIGHT */
+  .services-highlight {
+    padding: 60px 0;
+    background: #fff;
+    text-align: center;
+  }
+  .services-highlight .section-title {
+    font-size: 2rem;
+    margin-bottom: 10px;
+  }
+  .services-highlight .section-subtext {
+    font-size: 1rem;
+    margin-bottom: 40px;
+    color: #666;
+  }
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+  }
+  .service-item {
+    background: #f7f7f7;
+    border-radius: 10px;
+    padding: 20px;
+    transition: transform 0.3s;
+  }
+  .service-item:hover {
+    transform: translateY(-5px);
+  }
+  .service-item img {
+    width: 100%;
+    border-radius: 10px;
+    margin-bottom: 15px;
+  }
+  .service-item h3 {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+  }
+  .service-item p {
+    font-size: 0.9rem;
+    margin-bottom: 15px;
+  }
+  
+  /* 3) EMOTIONAL ENGAGEMENT / TESTIMONIAL TEASER */
+  .testimonials-teaser {
+    padding: 60px 0;
+    background: #f0f0f0;
+    text-align: center;
+  }
+  .testimonials-teaser .section-title {
+    font-size: 2rem;
+    margin-bottom: 20px;
+  }
+  .testimonial-carousel {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    gap: 20px;
+    padding: 20px 0;
+    justify-content: center;
+  }
+  .testimonial {
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    width: 300px;
+    flex: 0 0 auto;
+    scroll-snap-align: center;
+    animation: fadeIn 1s ease-in-out;
+  }
+  .testimonial p {
+    font-style: italic;
+    font-size: 1rem;
+  }
+  
+  /* 4) ABOUT US PREVIEW */
+  .about-us-preview {
+    padding: 60px 0;
+    background: #fff;
+    text-align: center;
+  }
+  .about-us-preview .section-title {
+    font-size: 2rem;
+    margin-bottom: 20px;
+  }
+  .about-us-preview p {
+    font-size: 1rem;
+    margin-bottom: 20px;
+    color: #555;
+  }
+  .about-us-preview .btn {
+    margin-bottom: 20px;
+  }
+  .about-image {
+    max-width: 100%;
+    border-radius: 10px;
+    margin-top: 20px;
+  }
+  
+  /* 5) SERVICES AREA SPOTLIGHT */
+  .service-areas-spotlight {
+    padding: 60px 0;
+    background: #f7f7f7;
+    text-align: center;
+  }
+  .service-areas-spotlight .section-title {
+    font-size: 2rem;
+    margin-bottom: 10px;
+  }
+  .service-areas-spotlight p {
+    font-size: 1rem;
+    margin-bottom: 40px;
+    color: #666;
+  }
+  .areas-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+  }
+  .area-item {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 15px 25px;
+    text-decoration: none;
+    color: #333;
+    transition: background 0.3s;
+  }
+  .area-item:hover {
+    background: #f0f0f0;
+  }
+  
+  /* 6) FINAL CTA / CONTACT SECTION */
+  .final-cta {
+    padding: 60px 0;
+    background: linear-gradient(135deg, #fff3e0, #ffe5d9);
+    text-align: center;
+  }
+  .final-cta .section-title {
+    font-size: 2rem;
+    margin-bottom: 20px;
+  }
+  .final-cta p {
+    font-size: 1rem;
+    margin-bottom: 30px;
+    color: #555;
+  }
+  .final-cta .btn {
+    background: #a67c52;
+    color: #fff;
+    padding: 12px 30px;
+    border: none;
+    border-radius: 25px;
+    text-decoration: none;
+    transition: background 0.3s;
+  }
+  .final-cta .btn:hover {
+    background: #8c5e3c;
+  }
+  
+  /* Button Variations */
+  .secondary-btn {
+    background: #a67c52;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 20px;
+    text-decoration: none;
+    transition: background 0.3s;
+  }
+  .secondary-btn:hover {
+    background: #8c5e3c;
+  }
+  .tertiary-btn {
+    background: transparent;
+    border: 2px solid #a67c52;
+    color: #a67c52;
+    padding: 10px 20px;
+    border-radius: 20px;
+    text-decoration: none;
+    transition: background 0.3s, color 0.3s;
+  }
+  .tertiary-btn:hover {
+    background: #a67c52;
+    color: #fff;
+  }
+  
+  /* Animations */
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  
+  /* Responsive Styles */
+  @media (max-width: 768px) {
+    .services-grid {
+      grid-template-columns: 1fr;
+    }
+    .areas-grid {
+      flex-direction: column;
+      align-items: center;
+    }
+    .testimonial-carousel {
+      flex-direction: column;
+    }
+  }
+  
