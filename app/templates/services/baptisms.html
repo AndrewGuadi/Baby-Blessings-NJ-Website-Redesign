@@ -5,16 +5,14 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='css/specific_service.css') }}">
 {% endblock %}
 
-
 {% block content %}
   <!-- 1) HERO / PAGE INTRO -->
   <section id="baptisms-hero" class="hero-section baptisms-hero">
-    <div class="hero-overlay">
-      <div class="container hero-content">
-        <h1>Baptisms</h1>
-        <p>A sacred ceremony to begin a life of faith and community.</p>
-        <p class="tagline">Traditional or modern approaches to suit your family.</p>
-      </div>
+    <div class="hero-overlay"></div>
+    <div class="container hero-content">
+      <h1>Baptisms</h1>
+      <p>A sacred ceremony to begin a life of faith and community.</p>
+      <p class="tagline">Traditional or modern approaches to suit your family.</p>
     </div>
   </section>
 
@@ -24,6 +22,8 @@
       <div class="overview-content">
         <p>Baptism is a spiritual and religious rite symbolizing initiation into faith. Our inclusive and customized approach ensures that the ceremony reflects your unique traditions while honoring the significance of this sacred ritual.</p>
         <p>We offer an interdenominational experience that is both heartfelt and respectful of your beliefs.</p>
+        <!-- Baptisms Icon -->
+        <img src="{{ url_for('static', filename='images/baptisms_icon.jpeg') }}" alt="Baptisms Icon" class="overview-icon">
       </div>
     </div>
   </section>
