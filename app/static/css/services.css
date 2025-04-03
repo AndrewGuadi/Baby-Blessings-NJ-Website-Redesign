@@ -3,97 +3,185 @@
 
 /* --- Services Page Hero --- */
 .services-hero {
-    background: linear-gradient(135deg, #fff3e0, #ffe5d9);
-    height: 60vh;
+  background: url('/static/images/services-hero.jpeg') center/cover no-repeat;
+  height: 60vh;
+  position: relative;
+}
+
+/* Optional overlay for better text readability */
+.services-hero::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.3); /* adjust opacity as needed */
+}
+
+/* Ensure the hero content sits above the overlay */
+.hero-content {
+  position: relative;
+  z-index: 1;
+  color: #fff; /* adjust text color if needed */
+}
+
+/* --- Baby Blessings Page Hero --- */
+.baby-blessings-hero {
+  background: url('/static/images/baby-blessings-hero.jpg') center/cover no-repeat;
+  height: 60vh;
+}
+
+/* --- Overview Section --- */
+.overview,
+.overview-baby-blessings {
+  padding: 40px 0;
+  text-align: center;
+}
+
+.overview .overview-content,
+.overview-baby-blessings .overview-content {
+  max-width: 800px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.overview .overview-content p,
+.overview-baby-blessings .overview-content p {
+  margin-bottom: 20px;
+}
+
+.overview .overview-icon,
+.overview-baby-blessings .overview-icon {
+  max-width: 100px;
+  width: 100%;
+  height: auto;
+  margin-top: 20px;
+}
+
+/* --- Service Highlights --- */
+.service-highlights {
+  padding: 60px 0;
+  background: #fff;
+  text-align: center;
+}
+
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  margin-top: 40px;
+}
+
+.service-card {
+  background: #f7f7f7;
+  border-radius: 10px;
+  padding: 20px;
+  transition: transform 0.3s;
+}
+
+.service-card:hover {
+  transform: translateY(-5px);
+}
+
+/* Make service card images responsive */
+.service-card img {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+}
+
+/* --- Special Services --- */
+.special-services {
+  padding: 40px 0;
+  text-align: center;
+  background: #f0f0f0;
+}
+
+/* --- Gallery Teaser --- */
+.gallery-teaser {
+  padding: 60px 0;
+  text-align: center;
+}
+
+.gallery-grid {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin: 20px 0;
+  flex-wrap: wrap;
+}
+
+.gallery-grid img {
+  width: 100%;
+  max-width: 30%;
+  height: auto;
+  border-radius: 10px;
+}
+
+/* --- Final CTA --- */
+.final-cta {
+  padding: 60px 0;
+  background: linear-gradient(135deg, #fff3e0, #ffe5d9);
+  text-align: center;
+}
+
+/* --- MOBILE RESPONSIVE STYLES --- */
+@media (max-width: 768px) {
+
+  .hero-section {
+    margin-top: 60px;
   }
-  
-  /* --- Baby Blessings Page Hero --- */
+
+  .services-hero,
   .baby-blessings-hero {
-    background: url('baby-blessings-hero.jpg') center/cover no-repeat;
-    height: 60vh;
+      height: 60vh;
+      background-position: center center;
   }
-  
-  /* --- Overview Section --- */
+
   .overview,
-  .overview-baby-blessings {
-    padding: 40px 0;
-    text-align: center;
+  .service-highlights,
+  .special-services,
+  .gallery-teaser,
+  .final-cta {
+      padding: 20px 15px;
   }
-  
+
   .overview .overview-content,
   .overview-baby-blessings .overview-content {
-    max-width: 800px;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+      padding: 0 10px;
   }
-  
-  .overview .overview-content p,
-  .overview-baby-blessings .overview-content p {
-    margin-bottom: 20px;
-  }
-  
-  .overview .overview-icon,
-  .overview-baby-blessings .overview-icon {
-    max-width: 100px;
-    margin-top: 20px;
-  }
-  
-  /* --- Service Highlights --- */
-  .service-highlights {
-    padding: 60px 0;
-    background: #fff;
-    text-align: center;
-  }
-  
+
   .services-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 20px;
-    margin-top: 40px;
+      grid-template-columns: 1fr;
+      gap: 20px;
   }
-  
-  .service-card {
-    background: #f7f7f7;
-    border-radius: 10px;
-    padding: 20px;
-    transition: transform 0.3s;
-  }
-  
-  .service-card:hover {
-    transform: translateY(-5px);
-  }
-  
-  /* --- Special Services --- */
-  .special-services {
-    padding: 40px 0;
-    text-align: center;
-    background: #f0f0f0;
-  }
-  
-  /* --- Gallery Teaser --- */
-  .gallery-teaser {
-    padding: 60px 0;
-    text-align: center;
-  }
-  
+
   .gallery-grid {
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-    margin: 20px 0;
+      flex-direction: column;
+      gap: 10px;
   }
-  
+
   .gallery-grid img {
-    max-width: 30%;
-    border-radius: 10px;
+      max-width: 100%;
   }
-  
-  /* --- Final CTA --- */
-  .final-cta {
-    padding: 60px 0;
-    background: linear-gradient(135deg, #fff3e0, #ffe5d9);
-    text-align: center;
+
+  .hero-content h1 {
+      font-size: 1.8rem;
   }
-  
+
+  .hero-content p {
+      font-size: 1rem;
+  }
+
+  .section-title {
+      font-size: 1.5rem;
+  }
+
+  .btn {
+      font-size: 0.95rem;
+      padding: 10px 16px;
+  }
+}
