@@ -9,7 +9,7 @@ def services_index():
 
 @services.route('/baby-blessings')
 def baby_blessings():
-    return render_template('baby-blessings.html')
+    return render_template('services/baby-blessings.html')
 
 @services.route('/baptisms')
 def baptisms():

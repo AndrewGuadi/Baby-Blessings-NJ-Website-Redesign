@@ -1,0 +1,3717 @@
+config.py
+```
+# Global configuration file
+DEBUG = True
+SECRET_KEY = "your-secret-key-here"
+
+```
+
+requirements.txt
+```
+Flask
+# Add additional packages here
+
+```
+
+init_project.py
+```
+#!/usr/bin/env python3
+import os
+
+# Function to create directories if they don't exist
+def create_directories(dirs):
+    for directory in dirs:
+        os.makedirs(directory, exist_ok=True)
+        print(f"Created directory: {directory}")
+
+# Function to create files with given content
+def create_file(filepath, content=""):
+    with open(filepath, "w", encoding="utf-8") as f:
+        f.write(content)
+    print(f"Created file: {filepath}")
+
+def main():
+    # Root-level files
+    root_files = {
+        "run.py": '''#!/usr/bin/env python3
+from app import create_app
+
+app = create_app()
+
+if __name__ == "__main__":
+    app.run(debug=True)
+''',
+        "config.py": '''# Global configuration file
+DEBUG = True
+SECRET_KEY = "your-secret-key-here"
+''',
+        "requirements.txt": '''Flask
+# Add additional packages here
+'''
+    }
+    
+    for filepath, content in root_files.items():
+        create_file(filepath, content)
+    
+    # Create instance directory and config file
+    create_directories(["instance"])
+    create_file(os.path.join("instance", "config.py"), '''# Instance-specific configuration
+# For example, override secret keys or database URIs here.
+''')
+    
+    # Define directories to be created under the app folder
+    app_dirs = [
+        "app",
+        "app/routes",
+        "app/templates",
+        "app/templates/services",
+        "app/templates/service_areas",
+        "app/static",
+        "app/static/css",
+        "app/static/js",
+        "app/static/images",
+    ]
+    create_directories(app_dirs)
+    
+    # Create app/__init__.py with app factory and blueprint registration
+    create_file("app/__init__.py", '''from flask import Flask
+
+def create_app():
+    app = Flask(__name__)
+    app.config.from_object("config")
+
+    # Register blueprints
+    from app.routes.main import main as main_blueprint
+    app.register_blueprint(main_blueprint)
+
+    from app.routes.services import services as services_blueprint
+    app.register_blueprint(services_blueprint)
+
+    from app.routes.service_areas import service_areas as service_areas_blueprint
+    app.register_blueprint(service_areas_blueprint)
+
+    from app.routes.testimonials import testimonials as testimonials_blueprint
+    app.register_blueprint(testimonials_blueprint)
+
+    return app
+''')
+    
+    # Create a stub models.py
+    create_file("app/models.py", "# Database models go here\n")
+    
+    # Create route files in app/routes
+    # __init__.py for routes
+    create_file("app/routes/__init__.py", "# This file can be used to import and register all blueprints\n")
+    
+    create_file("app/routes/main.py", '''from flask import Blueprint, render_template
+
+main = Blueprint('main', __name__)
+
+@main.route('/')
+def home():
+    return render_template('home.html')
+''')
+    
+    create_file("app/routes/services.py", '''from flask import Blueprint, render_template
+
+services = Blueprint('services', __name__, url_prefix='/services')
+
+@services.route('/baby-blessings')
+def baby_blessings():
+    return render_template('services/baby-blessings.html')
+
+@services.route('/baptisms')
+def baptisms():
+    return render_template('services/baptisms.html')
+
+@services.route('/celebrations')
+def celebrations():
+    return render_template('services/celebrations.html')
+
+@services.route('/naming-ceremonies')
+def naming_ceremonies():
+    return render_template('services/naming-ceremonies.html')
+
+@services.route('/gallery')
+def gallery():
+    return render_template('services/gallery.html')
+''')
+    
+    create_file("app/routes/service_areas.py", '''from flask import Blueprint, render_template
+
+service_areas = Blueprint('service_areas', __name__, url_prefix='/service-areas')
+
+@service_areas.route('/northern-new-jersey')
+def northern_new_jersey():
+    return render_template('service_areas/northern-new-jersey.html')
+
+@service_areas.route('/new-york-city')
+def new_york_city():
+    return render_template('service_areas/new-york-city.html')
+
+@service_areas.route('/westchester')
+def westchester():
+    return render_template('service_areas/westchester.html')
+
+@service_areas.route('/philadelphia')
+def philadelphia():
+    return render_template('service_areas/philadelphia.html')
+
+@service_areas.route('/central-new-jersey')
+def central_new_jersey():
+    return render_template('service_areas/central-new-jersey.html')
+
+@service_areas.route('/long-island')
+def long_island():
+    return render_template('service_areas/long-island.html')
+''')
+    
+    create_file("app/routes/testimonials.py", '''from flask import Blueprint, render_template
+
+testimonials = Blueprint('testimonials', __name__, url_prefix='/testimonials')
+
+@testimonials.route('/')
+def index():
+    return render_template('testimonials.html')
+''')
+    
+    # Create templates
+    # Base template
+    create_file("app/templates/base.html", '''<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Baby Blessings NJ</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <header>
+        <h1>Baby Blessings NJ</h1>
+        <!-- Navigation goes here -->
+    </header>
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+    <footer>
+        <p>&copy; 2025 Baby Blessings NJ</p>
+    </footer>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
+''')
+    
+    # Home template
+    create_file("app/templates/home.html", '''{% extends 'base.html' %}
+{% block content %}
+<h2>Welcome to Baby Blessings NJ</h2>
+<p>Your premier officiant service provider for baby blessings, baptisms, and more.</p>
+{% endblock %}
+''')
+    
+    # Additional top-level templates
+    create_file("app/templates/about-us.html", "<h2>About Us</h2>\n<p>Information about the company.</p>")
+    create_file("app/templates/privacy-policy.html", "<h2>Privacy Policy</h2>\n<p>Our privacy practices.</p>")
+    create_file("app/templates/contact.html", "<h2>Contact</h2>\n<p>Contact us via this page.</p>")
+    create_file("app/templates/testimonials.html", "<h2>Testimonials</h2>\n<p>Our clients’ stories.</p>")
+    
+    # Create templates for services
+    services_templates = {
+        "baby-blessings.html": '''{% extends 'base.html' %}
+{% block content %}
+<h2>Baby Blessings</h2>
+<p>Details about our baby blessing ceremonies.</p>
+{% endblock %}
+''',
+        "baptisms.html": '''{% extends 'base.html' %}
+{% block content %}
+<h2>Baptisms</h2>
+<p>Information on baptism services.</p>
+{% endblock %}
+''',
+        "celebrations.html": '''{% extends 'base.html' %}
+{% block content %}
+<h2>Ceremonial Celebrations</h2>
+<p>Details on various celebratory services.</p>
+{% endblock %}
+''',
+        "naming-ceremonies.html": '''{% extends 'base.html' %}
+{% block content %}
+<h2>Naming Ceremonies</h2>
+<p>Details on personalized naming ceremonies.</p>
+{% endblock %}
+''',
+        "gallery.html": '''{% extends 'base.html' %}
+{% block content %}
+<h2>Gallery</h2>
+<p>Our past ceremonies and event highlights.</p>
+{% endblock %}
+'''
+    }
+    for filename, content in services_templates.items():
+        create_file(os.path.join("app", "templates", "services", filename), content)
+    
+    # Create templates for service areas
+    service_areas_templates = {
+        "northern-new-jersey.html": '''{% extends 'base.html' %}
+{% block content %}
+<h2>Northern New Jersey</h2>
+<p>Serving communities in Northern New Jersey.</p>
+{% endblock %}
+''',
+        "new-york-city.html": '''{% extends 'base.html' %}
+{% block content %}
+<h2>New York City</h2>
+<p>Offering services to New York City and nearby areas.</p>
+{% endblock %}
+''',
+        "westchester.html": '''{% extends 'base.html' %}
+{% block content %}
+<h2>Westchester County</h2>
+<p>Providing services in affluent Westchester communities.</p>
+{% endblock %}
+''',
+        "philadelphia.html": '''{% extends 'base.html' %}
+{% block content %}
+<h2>Philadelphia Metropolitan Area</h2>
+<p>Bringing our offerings to the Philadelphia area.</p>
+{% endblock %}
+''',
+        "central-new-jersey.html": '''{% extends 'base.html' %}
+{% block content %}
+<h2>Central New Jersey</h2>
+<p>Serving central New Jersey regions including Princeton and beyond.</p>
+{% endblock %}
+''',
+        "long-island.html": '''{% extends 'base.html' %}
+{% block content %}
+<h2>Long Island</h2>
+<p>Our services extend to Northern Long Island communities.</p>
+{% endblock %}
+'''
+    }
+    for filename, content in service_areas_templates.items():
+        create_file(os.path.join("app", "templates", "service_areas", filename), content)
+    
+    # Create basic static asset files
+    create_file(os.path.join("app", "static", "css", "style.css"), "/* Add your CSS styles here */")
+    create_file(os.path.join("app", "static", "js", "script.js"), "// Add your JavaScript here")
+
+    print("Project structure has been initialized.")
+
+if __name__ == "__main__":
+    main()
+
+```
+
+README.md
+```
+# Baby-Blessings-NJ-Website-Redesign
+This project is a full redesign of the Baby Blessings NJ website, a service dedicated to providing personalized officiant services for newborn blessings, baptisms, naming ceremonies, and other special celebrations.
+
+```
+
+run.py
+```
+#!/usr/bin/env python3
+from app import create_app
+
+app = create_app()
+
+if __name__ == "__main__":
+    app.run(debug=True)
+
+```
+
+tests/test_routes.py
+```
+import os
+import unittest
+import traceback
+from run import app
+from werkzeug.routing import BuildError
+
+class TestAllPages(unittest.TestCase):
+    def setUp(self):
+        self.client = app.test_client()
+        self.client.testing = True
+        self.service_area_data_dir = os.path.abspath(
+            os.path.join(os.path.dirname(__file__), '..', 'app', 'templates', 'service_areas', 'data')
+        )
+
+    def get_service_area_urls(self):
+        urls = []
+        if os.path.exists(self.service_area_data_dir):
+            for filename in os.listdir(self.service_area_data_dir):
+                if filename.endswith('.json'):
+                    area_name = filename[:-5].replace('_', '-')
+                    urls.append(f'/service-areas/{area_name}')
+        return urls
+
+    def test_all_pages(self):
+        static_urls = [
+            '/', '/about-us', '/privacy-policy', '/contact', '/testimonials',
+            '/services/baby-blessings', '/services/baptisms', '/services/celebrations',
+            '/services/naming-ceremonies', '/services/gallery', '/services/services',
+            '/service_areas/service_areas', '/service_areas/location_templates'
+        ]
+
+        all_urls = static_urls + self.get_service_area_urls()
+
+        errors = {}
+
+        for url in all_urls:
+            try:
+                response = self.client.get(url)
+                if response.status_code != 200:
+                    errors[url] = f"Status code: {response.status_code}"
+            except Exception as e:
+                tb = traceback.format_exc()
+                errors[url] = f"Exception:\n{tb}"
+
+        if errors:
+            error_log = "\n\n".join([f"{url}:\n{msg}" for url, msg in errors.items()])
+            self.fail(f"\n\nErrors found in route tests:\n\n{error_log}")
+        else:
+            print("✅ All pages passed.")
+
+if __name__ == '__main__':
+    unittest.main()
+
+```
+
+tests/_init__.py
+```
+
+```
+
+app/models.py
+```
+# Database models go here
+
+```
+
+app/__init__.py
+```
+from flask import Flask
+
+def create_app():
+    app = Flask(__name__)
+    app.config.from_object("config")
+
+    # Register blueprints
+    from app.routes.main import main as main_blueprint
+    app.register_blueprint(main_blueprint)
+
+    from app.routes.services import services as services_blueprint
+    app.register_blueprint(services_blueprint)
+
+    from app.routes.service_areas import service_areas as service_areas_blueprint
+    app.register_blueprint(service_areas_blueprint)
+
+    from app.routes.testimonials import testimonials as testimonials_blueprint
+    app.register_blueprint(testimonials_blueprint)
+
+    return app
+
+```
+
+app/routes/service_areas.py
+```
+import json
+from flask import Blueprint, render_template
+
+service_areas = Blueprint('service_areas', __name__, url_prefix='/service-areas')
+
+@service_areas.route('/')
+def index():
+    return render_template('service_areas/service_areas.html')
+
+@service_areas.route('/northern-new-jersey')
+def northern_new_jersey():
+    with open('service_areas/data/northern_new_jersey.json') as f:
+        area_data = json.load(f)
+    return render_template('service_areas/location_template.html', area_data=area_data)
+
+@service_areas.route('/new-york-city')
+def new_york_city():
+    with open('service_areas/data/new_york_city.json') as f:
+        area_data = json.load(f)
+    return render_template('service_areas/location_template.html', area_data=area_data)
+
+@service_areas.route('/westchester')
+def westchester():
+    with open('service_areas/data/westchester.json') as f:
+        area_data = json.load(f)
+    return render_template('service_areas/location_template.html', area_data=area_data)
+
+@service_areas.route('/philadelphia')
+def philadelphia():
+    with open('service_areas/data/philadelphia.json') as f:
+        area_data = json.load(f)
+    return render_template('service_areas/location_template.html', area_data=area_data)
+
+@service_areas.route('/central-new-jersey')
+def central_new_jersey():
+    with open('service_areas/data/central_new_jersey.json') as f:
+        area_data = json.load(f)
+    return render_template('service_areas/location_template.html', area_data=area_data)
+
+@service_areas.route('/long-island')
+def long_island():
+    with open('service_areas/data/long_island.json') as f:
+        area_data = json.load(f)
+    return render_template('service_areas/location_template.html', area_data=area_data)
+
+```
+
+app/routes/__init__.py
+```
+# This file can be used to import and register all blueprints
+
+```
+
+app/routes/services.py
+```
+from flask import Blueprint, render_template
+
+services = Blueprint('services', __name__, url_prefix='/services')
+
+@services.route('/')
+def services_index():
+    return render_template('services/services.html')
+
+
+@services.route('/baby-blessings')
+def baby_blessings():
+    return render_template('services/baby-blessings.html')
+
+@services.route('/baptisms')
+def baptisms():
+    return render_template('services/baptisms.html')
+
+@services.route('/celebrations')
+def celebrations():
+    return render_template('services/celebrations.html')
+
+@services.route('/naming-ceremonies')
+def naming_ceremonies():
+    return render_template('services/naming-ceremonies.html')
+
+@services.route('/gallery')
+def gallery():
+    return render_template('services/gallery.html')
+
+```
+
+app/routes/testimonials.py
+```
+from flask import Blueprint, render_template
+
+testimonials = Blueprint('testimonials', __name__, url_prefix='/testimonials')
+
+@testimonials.route('/')
+def index():
+    return render_template('testimonials.html')
+
+```
+
+app/routes/main.py
+```
+from flask import Blueprint, render_template
+
+main = Blueprint('main', __name__)
+
+@main.route('/')
+def home():
+    return render_template('home.html')
+
+@main.route('/about-us')
+def about_us():
+    return render_template('about-us.html')
+
+@main.route('/contact')
+def contact():
+    return render_template('contact.html')
+
+
+@main.route('/privacy-policy')
+def privacy_policy():
+    return render_template('privacy_policy.html')
+
+
+```
+
+app/templates/blog.html
+```
+{% extends "base.html" %}
+{% block head %}
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/blog.css') }}">
+{% endblock %}
+
+{% block title %}Our Blog{% endblock %}
+
+{% block content %}
+  <!-- 1) HERO / PAGE INTRO -->
+  <section id="blog-hero" class="hero-section">
+    <div class="hero-overlay">
+      <div class="container hero-content">
+        <h1>Our Blog</h1>
+        <p>Insights, Stories, and Inspiration for Your Family Ceremonies</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2) BLOG POST LIST / FEED -->
+  <section id="blog-feed" class="section">
+    <div class="container">
+      <div class="blog-posts-grid">
+        <article class="blog-post">
+          <img src="/static/images/blog_post1.jpg" alt="Blog Post 1">
+          <h2>Celebrating New Beginnings</h2>
+          <p class="post-date">March 10, 2024</p>
+          <p>A heartfelt story of how one family celebrated a unique ceremony...</p>
+          <a href="/blog/post1" class="btn tertiary-btn">Read More</a>
+        </article>
+        <article class="blog-post">
+          <img src="/static/images/blog_post2.jpg" alt="Blog Post 2">
+          <h2>Traditions Reimagined</h2>
+          <p class="post-date">February 25, 2024</p>
+          <p>Discover innovative ways to blend tradition with modern celebrations...</p>
+          <a href="/blog/post2" class="btn tertiary-btn">Read More</a>
+        </article>
+        <!-- Additional blog posts -->
+      </div>
+    </div>
+  </section>
+
+  <!-- 3) SIDEBAR (OPTIONAL) -->
+  <!-- Optionally, include a sidebar for search, categories, or recent posts -->
+
+  <!-- 4) PAGINATION -->
+  <section id="pagination" class="section">
+    <div class="container">
+      <nav class="pagination-nav">
+        <a href="#" class="prev">« Older Posts</a>
+        <a href="#" class="next">Newer Posts »</a>
+      </nav>
+    </div>
+  </section>
+
+  <!-- 5) CALL-TO-ACTION (OPTIONAL) -->
+  <section id="blog-cta" class="section cta">
+    <div class="container">
+      <p>Got questions about a topic? Reach out to us!</p>
+      <a href="/contact" class="btn primary-btn">Contact Us</a>
+    </div>
+  </section>
+{% endblock %}
+
+```
+
+app/templates/home.html
+```
+{% extends "base.html" %}
+
+{% block title %}Home - Ceremonies{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+{% endblock %}
+
+{% block content %}
+  <!-- 1) HERO / INTRO SECTION -->
+  <section id="hero" class="hero-section">
+    <div class="hero-overlay">
+      <div class="container hero-content">
+        <h1>Welcoming, Heartfelt Ceremonies for Your Growing Family</h1>
+        <p>Baby Blessings • Baptisms • Naming Ceremonies • Celebrations</p>
+        <a href="/contact.html" class="btn primary-btn">Schedule a Blessing</a>
+      </div>
+    </div>
+    <!-- Hero Image or Subtle Video can be implemented as background -->
+  </section>
+
+  <!-- 2) KEY SERVICES HIGHLIGHT -->
+  <section id="services-highlight" class="section services-highlight">
+    <div class="container">
+      <h2 class="section-title">Our Ceremonies & Services</h2>
+      <p class="section-subtext">Personalized experiences for every milestone</p>
+      <div class="services-grid">
+        <div class="service-item">
+          <img src="baby-blessings.jpg" alt="Baby Blessings">
+          <h3>Baby Blessings</h3>
+          <p>Experience the warmth and joy of welcoming new life.</p>
+          <a href="/services/baby-blessings.html" class="btn secondary-btn">Learn More</a>
+        </div>
+        <div class="service-item">
+          <img src="baptisms.jpg" alt="Baptisms">
+          <h3>Baptisms</h3>
+          <p>Celebrate faith and tradition with a meaningful ceremony.</p>
+          <a href="/services/baptisms.html" class="btn secondary-btn">Learn More</a>
+        </div>
+        <div class="service-item">
+          <img src="naming-ceremonies.jpg" alt="Naming Ceremonies">
+          <h3>Naming Ceremonies</h3>
+          <p>Mark the significance of identity with a personalized event.</p>
+          <a href="/services/naming-ceremonies.html" class="btn secondary-btn">Learn More</a>
+        </div>
+        <div class="service-item">
+          <img src="celebrations.jpg" alt="Celebrations">
+          <h3>Celebrations</h3>
+          <p>Honor life's milestones with elegance and heartfelt joy.</p>
+          <a href="/services/celebrations.html" class="btn secondary-btn">Learn More</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3) EMOTIONAL ENGAGEMENT / TESTIMONIAL TEASER -->
+  <section id="testimonials-teaser" class="section testimonials-teaser">
+    <div class="container">
+      <h2 class="section-title">What Families Are Saying</h2>
+      <div class="testimonial-carousel">
+        <blockquote class="testimonial">
+          <p>"This ceremony truly touched our hearts and made our day unforgettable."</p>
+          <footer>- Client Name</footer>
+        </blockquote>
+        <!-- Additional testimonials can be added here -->
+      </div>
+      <a href="/testimonials.html" class="btn tertiary-btn">Read More</a>
+    </div>
+  </section>
+
+  <!-- 4) ABOUT US PREVIEW -->
+  <section id="about-us-preview" class="section about-us-preview">
+    <div class="container">
+      <h2 class="section-title">Meet Our Team</h2>
+      <p>With years of experience creating meaningful ceremonies, our team is committed to making your day unforgettable.</p>
+      <a href="/about-us.html" class="btn secondary-btn">Learn More</a>
+      <img src="team.jpg" alt="Team Image" class="about-image">
+    </div>
+  </section>
+
+  <!-- 5) SERVICES AREA SPOTLIGHT -->
+  <section id="service-areas-spotlight" class="section service-areas-spotlight">
+    <div class="container">
+      <h2 class="section-title">Where We Serve</h2>
+      <p>From New York City to Philadelphia, we’re here for you.</p>
+      <div class="areas-grid">
+        <a href="{{ url_for('service_areas.northern_new_jersey') }}" class="area-item">Northern New Jersey</a>
+        <a href="{{ url_for('service_areas.new_york_city') }}" class="area-item">New York City</a>
+        <a href="{{ url_for('service_areas.westchester') }}" class="area-item">Westchester</a>
+        <a href="{{ url_for('service_areas.philadelphia') }}" class="area-item">Philadelphia</a>
+        <a href="{{ url_for('service_areas.central_new_jersey') }}" class="area-item">Central New Jersey</a>
+        <a href="{{ url_for('service_areas.long_island') }}" class="area-item">Long Island</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6) FINAL CTA / CONTACT SECTION -->
+  <section id="final-cta" class="section final-cta">
+    <div class="container">
+      <h2 class="section-title">Ready to Begin Your Journey?</h2>
+      <p>Get in touch or schedule your ceremony today</p>
+      <a href="/contact.html" class="btn primary-btn">Contact Us</a>
+      <a href="tel:1234567890" class="btn secondary-btn"><i class="phone-icon"></i> Call Us</a>
+    </div>
+  </section>
+{% endblock %}
+
+```
+
+app/templates/privacy_policy.html
+```
+{% extends "base.html" %}
+{% block head %}
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/privacy_policy.css') }}">
+{% endblock %}
+
+{% block title %}Privacy Policy{% endblock %}
+
+{% block content %}
+  <!-- 1) PAGE INTRO -->
+  <section id="privacy-hero" class="hero-section">
+    <div class="container hero-content">
+      <h1>Privacy Policy</h1>
+      <p>Your information is safe with us.</p>
+    </div>
+  </section>
+
+  <!-- 2) EFFECTIVE DATE & OVERVIEW -->
+  <section id="policy-overview" class="section">
+    <div class="container">
+      <p>Effective Date: January 1, 2024</p>
+      <p>This Privacy Policy outlines how we collect, use, and protect your information while providing our services.</p>
+    </div>
+  </section>
+
+  <!-- 3) INFORMATION COLLECTION -->
+  <section id="info-collection" class="section">
+    <div class="container">
+      <h2 class="section-title">Information We Collect</h2>
+      <ul>
+        <li>Data from contact forms (name, email, phone, etc.)</li>
+        <li>Data from cookies or analytics tools</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 4) USAGE & SHARING -->
+  <section id="usage-sharing" class="section">
+    <div class="container">
+      <h2 class="section-title">How We Use Your Information</h2>
+      <p>We use your information to respond to inquiries, schedule services, and improve your overall experience. In certain cases, third-party service providers (such as payment processors or analytics) may also access this data.</p>
+    </div>
+  </section>
+
+  <!-- 5) COOKIES & TRACKING (OPTIONAL) -->
+  <section id="cookies-tracking" class="section">
+    <div class="container">
+      <h2 class="section-title">Cookies & Tracking</h2>
+      <p>We use cookies to enable basic site functionality and analytics. You may adjust your cookie preferences at any time.</p>
+    </div>
+  </section>
+
+  <!-- 6) SECURITY -->
+  <section id="security" class="section">
+    <div class="container">
+      <h2 class="section-title">Security Measures</h2>
+      <p>We protect your data using SSL, secure servers, and regular security audits.</p>
+    </div>
+  </section>
+
+  <!-- 7) USER RIGHTS / OPT-OUT -->
+  <section id="user-rights" class="section">
+    <div class="container">
+      <h2 class="section-title">Your Choices & Rights</h2>
+      <p>You have the right to request data deletion and opt-out of communications. Contact us for more details.</p>
+    </div>
+  </section>
+
+  <!-- 8) POLICY UPDATES -->
+  <section id="policy-updates" class="section">
+    <div class="container">
+      <h2 class="section-title">Policy Updates</h2>
+      <p>We may update this policy from time to time. Any changes will be posted with an updated effective date.</p>
+    </div>
+  </section>
+
+  <!-- 9) CONTACT FOR PRIVACY QUESTIONS -->
+  <section id="privacy-questions" class="section">
+    <div class="container">
+      <h2 class="section-title">Have Questions?</h2>
+      <p>Please contact us at <strong>privacy@yourbrand.com</strong> for any privacy-related queries.</p>
+    </div>
+  </section>
+{% endblock %}
+
+```
+
+app/templates/contact.html
+```
+{% extends "base.html" %}
+
+{% block title %}Contact Us{% endblock %}
+
+
+{% block head %}
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/contact.css') }}">
+{% endblock %}
+
+
+{% block content %}
+  <!-- 1) HERO / PAGE INTRO -->
+  <section id="contact-hero" class="hero-section contact-hero">
+    <div class="hero-overlay">
+      <div class="container hero-content">
+        <h1>Contact Us</h1>
+        <p>We’d love to help create your perfect ceremony.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2) CONTACT FORM SECTION -->
+  <section id="contact-form-section" class="section contact-form-section">
+    <div class="container">
+      <h2 class="section-title">Get in Touch</h2>
+      <form action="/contact" method="post" class="contact-form">
+        <div class="form-group">
+          <label for="name">Name</label>
+          <input type="text" id="name" name="name" placeholder="Your name" required>
+        </div>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" placeholder="Your email" required>
+        </div>
+        <div class="form-group">
+          <label for="phone">Phone <small>(optional)</small></label>
+          <input type="tel" id="phone" name="phone" placeholder="Your phone number">
+        </div>
+        <div class="form-group">
+          <label for="ceremony_type">Type of Ceremony</label>
+          <select id="ceremony_type" name="ceremony_type" required>
+            <option value="">Select one...</option>
+            <option value="baby_blessings">Baby Blessings</option>
+            <option value="baptisms">Baptisms</option>
+            <option value="naming_ceremonies">Naming Ceremonies</option>
+            <option value="celebrations">Family Celebrations</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="desired_date">Desired Date or Timeframe</label>
+          <input type="text" id="desired_date" name="desired_date" placeholder="e.g., Summer 2024">
+        </div>
+        <div class="form-group">
+          <label for="message">Message / Details</label>
+          <textarea id="message" name="message" rows="5" placeholder="Tell us about your vision"></textarea>
+        </div>
+        <button type="submit" class="btn primary-btn">Send Message</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- 3) ALTERNATIVE CONTACT OPTIONS -->
+  <section id="alternative-contact" class="section alternative-contact">
+    <div class="container">
+      <h2 class="section-title">Prefer Another Way?</h2>
+      <div class="contact-options">
+        <div class="contact-option">
+          <i class="icon-phone"></i>
+          <p>Call us at <strong>(123) 456-7890</strong></p>
+        </div>
+        <div class="contact-option">
+          <i class="icon-email"></i>
+          <p>Email: <strong>hello@yourbrand.com</strong></p>
+        </div>
+        <div class="contact-option">
+          <i class="icon-location"></i>
+          <p>Visit us at: <strong>123 Ceremonies Ave, Suite 100</strong></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4) CALL-TO-ACTION (OPTIONAL) -->
+  <section id="contact-cta" class="section cta">
+    <div class="container">
+      <h2 class="section-title">Ready to Book Now?</h2>
+      <p>Secure your date by completing our booking form.</p>
+      <a href="/booking" class="btn primary-btn">Book Now</a>
+    </div>
+  </section>
+{% endblock %}
+
+```
+
+app/templates/about-us.html
+```
+{% extends "base.html" %}
+
+{% block title %}About Us{% endblock %}
+
+{% block head %}
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/about.css') }}">
+{% endblock %}
+
+
+{% block content %}
+  <!-- 1) HERO / PAGE INTRO -->
+  <section id="about-hero" class="hero-section about-hero">
+    <div class="hero-overlay">
+      <div class="container hero-content">
+        <h1>About Us</h1>
+        <p>Creating meaningful family ceremonies with warmth and care.</p>
+        <p class="tagline">Meet the team behind your special moments.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2) BRAND STORY / MISSION -->
+  <section id="brand-story" class="section brand-story">
+    <div class="container">
+      <h2 class="section-title">Our Story & Mission</h2>
+      <div class="story-content">
+        <p>Our company was founded with a passion for crafting heartfelt ceremonies that unite families and celebrate life’s milestones. Driven by values of inclusivity, tradition, and genuine care, we design celebrations that honor your unique journey.</p>
+        <p>Every ceremony is a blend of time-honored rituals and personal touches, ensuring that each event is as unique as the family it celebrates.</p>
+        <img src="/static/images/brand_story.jpg" alt="Our Story" class="story-image">
+      </div>
+    </div>
+  </section>
+
+  <!-- 3) TEAM INTRODUCTION -->
+  <section id="team-introduction" class="section team-introduction">
+    <div class="container">
+      <h2 class="section-title">Meet the Team</h2>
+      <div class="team-grid">
+        <!-- Celia -->
+        <div class="team-member">
+          <img src="/static/images/celia.jpg" alt="Celia" class="team-photo">
+          <h3>Celia</h3>
+          <p>
+            Celia is a celebrated celebrant who customizes ceremonies for every occasion. With a background in fashion and culinary arts, a seminary degree, and a celebrant certification, she crafts bespoke celebrations that reflect your personality, preferences, and stories. Celia seamlessly blends tradition with modern creativity—and if you fancy a delicious chocolate mousse recipe, she’s got that secret too.
+          </p>
+        </div>
+        <!-- Michael -->
+        <div class="team-member">
+          <img src="/static/images/michael.jpg" alt="Michael" class="team-photo">
+          <h3>Michael</h3>
+          <p>
+            Michael is a compassionate officiant dedicated to adapting ceremonies to your vision. With a warm and professional approach, he artfully combines cherished traditions with personalized elements and selects distinctive readings to make your ceremony both memorable and meaningful. And if you need help untangling a tricky calculus problem, Michael is always ready to lend a hand.
+          </p>
+        </div>
+        <!-- Cari -->
+        <div class="team-member">
+          <img src="/static/images/cari.jpg" alt="Cari" class="team-photo">
+          <h3>Cari</h3>
+          <p>
+            Cari brings the enchanting magic of musical theatre to your ceremony. With experience from Disney Cruise Lines and a proud membership in Actor’s Equity, her vibrant presence and passionate, melodic voice infuse every event with sincerity and fun. With Cari, you can expect a symphony of heartfelt moments—plus a musical tip perfectly suited to your theme.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4) CORE BELIEFS / DISTINCTIVES -->
+  <section id="core-beliefs" class="section core-beliefs">
+    <div class="container">
+      <h2 class="section-title">What Makes Us Different</h2>
+      <ul class="beliefs-list">
+        <li>Personalized Ceremonies</li>
+        <li>Inclusive Approach (interfaith, multicultural)</li>
+        <li>Attention to Detail & Empathy</li>
+        <li>Experience & Credentials</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 5) TESTIMONIAL TEASER -->
+  <section id="about-testimonials" class="section testimonials">
+    <div class="container">
+      <h2 class="section-title">Hear It From Our Families</h2>
+      <blockquote class="testimonial">
+        <p>"The warmth and attention to detail in every ceremony made us feel truly celebrated."</p>
+        <footer>- The Smith Family</footer>
+      </blockquote>
+      <a href="/testimonials" class="btn tertiary-btn">Read More Testimonials</a>
+    </div>
+  </section>
+
+  <!-- 6) CALL-TO-ACTION -->
+  <section id="about-cta" class="section cta">
+    <div class="container">
+      <h2 class="section-title">Ready to Learn More?</h2>
+      <p>We’d love to discuss your family’s special ceremony.</p>
+      <a href="/contact" class="btn primary-btn">Contact Us</a>
+      <a href="/services" class="btn secondary-btn">View Our Services</a>
+    </div>
+  </section>
+{% endblock %}
+
+```
+
+app/templates/testimonials.html
+```
+{% extends "base.html" %}
+{% block head %}
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/testimonials.css') }}">
+{% endblock %}
+
+{% block title %}Testimonials{% endblock %}
+
+{% block content %}
+  <!-- 1) HERO / PAGE INTRO -->
+  <section id="testimonials-hero" class="hero-section">
+    <div class="hero-overlay">
+      <div class="container hero-content">
+        <h1>Testimonials</h1>
+        <p>Heartfelt Experiences from Families We've Served</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2) SHORT INTRO / THANK YOU NOTE -->
+  <section id="thank-you" class="section">
+    <div class="container">
+      <p>We thank our clients for their trust and for allowing us to be part of their most cherished moments. Each ceremony is uniquely special, and your stories inspire us every day.</p>
+    </div>
+  </section>
+
+  <!-- 3) TESTIMONIALS SECTION -->
+  <section id="testimonials-list" class="section">
+    <div class="container">
+      <div class="testimonials-grid">
+        <div class="testimonial-item">
+          <p>"Our ceremony was beautifully personal and deeply moving."</p>
+          <footer>- J.S., NYC</footer>
+        </div>
+        <div class="testimonial-item">
+          <p>"A truly heartfelt experience that exceeded our expectations."</p>
+          <footer>- M.K., NJ</footer>
+        </div>
+        <div class="testimonial-item">
+          <p>"Every detail was thoughtfully curated, making our day unforgettable."</p>
+          <footer>- R.L., Philly</footer>
+        </div>
+        <!-- Additional testimonial items -->
+      </div>
+    </div>
+  </section>
+
+  <!-- 4) (OPTIONAL) FILTER OR CATEGORY -->
+  <!-- Optional: Insert a dropdown or tab system here if needed -->
+
+  <!-- 5) CALL-TO-ACTION -->
+  <section id="testimonial-cta" class="section cta">
+    <div class="container">
+      <h2>Inspired by These Stories?</h2>
+      <p>Create your own cherished moments with our help.</p>
+      <a href="/contact" class="btn primary-btn">Contact Us</a>
+      <a href="/services" class="btn secondary-btn">View Our Gallery</a>
+    </div>
+  </section>
+{% endblock %}
+
+```
+
+app/templates/base.html
+```
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}Ceremonies Home{% endblock %}</title>
+  <!-- Global Styles -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+  {% block head %}{% endblock %}
+</head>
+<body>
+  <header>
+    <!-- FIXED TOP NAVIGATION BAR -->
+    <nav class="fixed-nav">
+      <div class="container">
+        <a href="{{ url_for('main.home') }}" class="logo">Brand Name</a>
+        <ul class="nav-menu">
+          <li><a href="{{ url_for('main.about_us') }}">About Us</a></li>
+          <li class="dropdown">
+            <a href="{{ url_for('services.services_index') }}">Services ▼</a>
+            <ul class="dropdown-content">
+              <li><a href="{{ url_for('services.baby_blessings') }}">Baby Blessings</a></li>
+              <li><a href="{{ url_for('services.baptisms') }}">Baptisms</a></li>
+              <li><a href="{{ url_for('services.naming_ceremonies') }}">Naming Ceremonies</a></li>
+              <li><a href="{{ url_for('services.celebrations') }}">Celebrations</a></li>
+            </ul>
+          </li>
+          <li class="dropdown">
+            <!-- Using the first service area as the default link for the dropdown -->
+            <a href="{{ url_for('service_areas.northern_new_jersey') }}">Service Areas ▼</a>
+            <ul class="dropdown-content">
+              <li><a href="{{ url_for('service_areas.northern_new_jersey') }}">Northern New Jersey</a></li>
+              <li><a href="{{ url_for('service_areas.new_york_city') }}">New York City</a></li>
+              <li><a href="{{ url_for('service_areas.westchester') }}">Westchester</a></li>
+              <li><a href="{{ url_for('service_areas.philadelphia') }}">Philadelphia</a></li>
+              <li><a href="{{ url_for('service_areas.central_new_jersey') }}">Central New Jersey</a></li>
+              <li><a href="{{ url_for('service_areas.long_island') }}">Long Island</a></li>
+            </ul>
+          </li>
+          <li><a href="{{ url_for('testimonials.index') }}">Testimonials</a></li>
+          <li><a href="{{ url_for('main.contact') }}">Contact</a></li>
+        </ul>
+        <a href="{{ url_for('main.contact') }}" class="cta-button">Book Now</a>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer>
+    <div class="container footer-container">
+      <div class="footer-logo">Brand Name</div>
+      <ul class="footer-links">
+        <li><a href="{{ url_for('main.about_us') }}">About Us</a></li>
+        <li><a href="{{ url_for('services.services_index') }}">Services</a></li>
+        <li><a href="{{ url_for('service_areas.northern_new_jersey') }}">Service Areas</a></li>
+        <li><a href="{{ url_for('testimonials.index') }}">Testimonials</a></li>
+        <li><a href="{{ url_for('main.contact') }}">Contact</a></li>
+        <li><a href="{{ url_for('main.privacy_policy') }}">Privacy Policy</a></li>
+      </ul>
+      <div class="footer-social">
+        <!-- Social media icons/links with soft pastel hover effects -->
+      </div>
+      <div class="footer-copy">
+        &copy; <span id="year"></span> Brand Name
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
+
+```
+
+app/templates/service_areas/long-island.html
+```
+{% extends 'base.html' %}
+{% block content %}
+<h2>Long Island</h2>
+<p>Our services extend to Northern Long Island communities.</p>
+{% endblock %}
+
+```
+
+app/templates/service_areas/location_template.html
+```
+{% extends "base.html" %}
+
+{% block head %}
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/location_template.css') }}">
+{% endblock %}
+
+{% block title %}{{ area_data.title }}{% endblock %}
+
+{% block content %}
+  <!-- 1) HERO / PAGE INTRO -->
+  <section id="service-area-hero" class="hero-section">
+    <div class="hero-overlay">
+      <div class="container hero-content">
+        <h1>{{ area_data.hero.headline }}</h1>
+        <p>{{ area_data.hero.subheadline }}</p>
+        {% if area_data.hero.tagline %}
+          <p class="tagline">{{ area_data.hero.tagline }}</p>
+        {% endif %}
+      </div>
+    </div>
+  </section>
+
+  <!-- 2) OVERVIEW / LOCATION INSIGHTS -->
+  <section id="area-overview" class="section overview">
+    <div class="container">
+      {% for paragraph in area_data.overview %}
+        <p>{{ paragraph }}</p>
+      {% endfor %}
+      {% if area_data.overview_image %}
+         <img src="{{ url_for('static', filename=area_data.overview_image) }}" alt="Overview Image" class="overview-image">
+      {% endif %}
+    </div>
+  </section>
+
+  <!-- 3) POPULAR VENUES OR TYPICAL CEREMONY SETTINGS (OPTIONAL) -->
+  {% if area_data.popular_venues %}
+  <section id="popular-venues" class="section">
+    <div class="container">
+      <h2 class="section-title">{{ area_data.popular_venues.title }}</h2>
+      <ul>
+      {% for venue in area_data.popular_venues.items %}
+         <li>{{ venue }}</li>
+      {% endfor %}
+      </ul>
+    </div>
+  </section>
+  {% endif %}
+
+  <!-- 4) SERVICES AVAILABLE -->
+  <section id="services-available" class="section">
+    <div class="container">
+      <h2 class="section-title">{{ area_data.services.title }}</h2>
+      {% for service in area_data.services.items %}
+         <p>{{ service }}</p>
+      {% endfor %}
+      {% if area_data.services.subtext %}
+         <p class="subtext">{{ area_data.services.subtext }}</p>
+      {% endif %}
+    </div>
+  </section>
+
+  <!-- 5) CLIENT TESTIMONIAL / LOCAL STORIES -->
+  {% if area_data.testimonial %}
+  <section id="local-testimonial" class="section">
+    <div class="container">
+      <blockquote class="testimonial">
+        <p>{{ area_data.testimonial.text }}</p>
+        {% if area_data.testimonial.source %}
+          <footer>{{ area_data.testimonial.source }}</footer>
+        {% endif %}
+      </blockquote>
+      {% if area_data.testimonial.link %}
+         <a href="{{ area_data.testimonial.link }}" class="btn tertiary-btn">See More Testimonials</a>
+      {% endif %}
+    </div>
+  </section>
+  {% endif %}
+
+  <!-- 6) CALL-TO-ACTION -->
+  <section id="area-cta" class="section cta">
+    <div class="container">
+      <h2 class="section-title">{{ area_data.cta.headline }}</h2>
+      <p>{{ area_data.cta.subheadline }}</p>
+      <a href="{{ area_data.cta.cta_link }}" class="btn primary-btn">{{ area_data.cta.cta_text }}</a>
+      {% if area_data.cta.secondary_link and area_data.cta.secondary_text %}
+         <a href="{{ area_data.cta.secondary_link }}" class="btn secondary-btn">{{ area_data.cta.secondary_text }}</a>
+      {% endif %}
+    </div>
+  </section>
+{% endblock %}
+
+```
+
+app/templates/service_areas/philadelphia.html
+```
+{% extends 'base.html' %}
+{% block content %}
+<h2>Philadelphia Metropolitan Area</h2>
+<p>Bringing our offerings to the Philadelphia area.</p>
+{% endblock %}
+
+```
+
+app/templates/service_areas/central-new-jersey.html
+```
+{% extends 'base.html' %}
+{% block content %}
+<h2>Central New Jersey</h2>
+<p>Serving central New Jersey regions including Princeton and beyond.</p>
+{% endblock %}
+
+```
+
+app/templates/service_areas/westchester.html
+```
+{% extends 'base.html' %}
+{% block content %}
+<h2>Westchester County</h2>
+<p>Providing services in affluent Westchester communities.</p>
+{% endblock %}
+
+```
+
+app/templates/service_areas/northern-new-jersey.html
+```
+{% extends 'base.html' %}
+{% block content %}
+<h2>Northern New Jersey</h2>
+<p>Serving communities in Northern New Jersey.</p>
+{% endblock %}
+
+```
+
+app/templates/service_areas/new-york-city.html
+```
+{% extends 'base.html' %}
+{% block content %}
+<h2>New York City</h2>
+<p>Offering services to New York City and nearby areas.</p>
+{% endblock %}
+
+```
+
+app/templates/service_areas/service_areas.html
+```
+{% extends "base.html" %}
+
+{% block head %}
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/service_areas.css') }}">
+{% endblock %}
+
+{% block title %}Service Areas{% endblock %}
+
+{% block content %}
+  <!-- 1) HERO / PAGE INTRO -->
+  <section id="service-areas-hero" class="hero-section service-areas-hero">
+    <div class="hero-overlay">
+      <div class="container hero-content">
+        <h1>Our Service Areas</h1>
+        <p>Proudly officiating ceremonies across the region, bringing warmth and personalization wherever you are.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2) OVERVIEW / WELCOME TEXT -->
+  <section id="areas-overview" class="section areas-overview">
+    <div class="container">
+      <p>
+        We cover a wide region including New York City, New Jersey, Philadelphia, and more. Our flexible approach and willingness to travel ensure that we bring our unique touch to your local community.
+      </p>
+      <!-- Optionally include a friendly map graphic -->
+      <img src="/static/images/map_icon.png" alt="Map Icon" class="map-icon">
+    </div>
+  </section>
+
+  <!-- 3) KEY AREAS GRID / LIST -->
+  <section id="areas-grid" class="section areas-grid">
+    <div class="container">
+      <h2 class="section-title">Explore Our Locations</h2>
+      <div class="grid">
+        <div class="grid-item">
+          <img src="/static/images/northern_nj.jpg" alt="Northern New Jersey">
+          <h3>Northern New Jersey</h3>
+          <p>Experience heartfelt ceremonies in the Garden State.</p>
+          <a href="/service_areas/northern_new_jersey" class="btn secondary-btn">Learn More</a>
+        </div>
+        <div class="grid-item">
+          <img src="/static/images/nyc.jpg" alt="New York City">
+          <h3>New York City</h3>
+          <p>Celebrate in the heart of the Big Apple.</p>
+          <a href="/service_areas/new_york_city" class="btn secondary-btn">Learn More</a>
+        </div>
+        <div class="grid-item">
+          <img src="/static/images/westchester.jpg" alt="Westchester">
+          <h3>Westchester</h3>
+          <p>Elegant ceremonies in a charming setting.</p>
+          <a href="/service_areas/westchester" class="btn secondary-btn">Learn More</a>
+        </div>
+        <div class="grid-item">
+          <img src="/static/images/philadelphia.jpg" alt="Philadelphia">
+          <h3>Philadelphia</h3>
+          <p>Timeless traditions in the City of Brotherly Love.</p>
+          <a href="/service_areas/philadelphia" class="btn secondary-btn">Learn More</a>
+        </div>
+        <div class="grid-item">
+          <img src="/static/images/central_nj.jpg" alt="Central New Jersey">
+          <h3>Central New Jersey</h3>
+          <p>Personalized celebrations in the heart of NJ.</p>
+          <a href="/service_areas/central_new_jersey" class="btn secondary-btn">Learn More</a>
+        </div>
+        <div class="grid-item">
+          <img src="/static/images/long_island.jpg" alt="Long Island">
+          <h3>Long Island</h3>
+          <p>Beautiful ceremonies by the shore.</p>
+          <a href="/service_areas/long_island" class="btn secondary-btn">Learn More</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4) WHY LOCATION MATTERS / BENEFITS -->
+  <section id="location-benefits" class="section location-benefits">
+    <div class="container">
+      <h2 class="section-title">Why Location Matters</h2>
+      <p>
+        Our local expertise means we know the best venues, understand cultural nuances, and have established partnerships with trusted vendors. This local knowledge ensures your ceremony is seamlessly executed and uniquely tailored to your community.
+      </p>
+      <blockquote class="testimonial">
+        <p>"Having a local expert made our celebration stress-free and truly special." – A Satisfied Client</p>
+      </blockquote>
+    </div>
+  </section>
+
+  <!-- 5) CALL-TO-ACTION -->
+  <section id="areas-cta" class="section cta">
+    <div class="container">
+      <h2 class="section-title">Not Sure if We Serve Your Area?</h2>
+      <p>Contact us to discuss your location needs.</p>
+      <a href="/contact" class="btn primary-btn">Get in Touch</a>
+    </div>
+  </section>
+{% endblock %}
+
+```
+
+app/templates/service_areas/data/new_york_city.json
+```
+{
+    "title": "New York City",
+    "hero": {
+      "headline": "New York City",
+      "subheadline": "Celebrate in the heart of the Big Apple with style and sophistication.",
+      "tagline": "Where every ceremony becomes a city landmark."
+    },
+    "overview": [
+      "New York City offers a dynamic backdrop for unforgettable ceremonies.",
+      "Our team brings creativity and precision to every event in this vibrant metropolis."
+    ],
+    "overview_image": "images/nyc_overview.jpg",
+    "popular_venues": {
+      "title": "Iconic NYC Venues",
+      "items": ["Central Park", "Historic Churches", "Modern Rooftops"]
+    },
+    "services": {
+      "title": "Our NYC Services",
+      "items": ["Baby Blessings", "Baptisms", "Naming Ceremonies", "Celebrations"],
+      "subtext": "From intimate gatherings to grand celebrations, we tailor each event to your vision."
+    },
+    "testimonial": {
+      "text": "Our NYC ceremony was a perfect blend of tradition and modern flair.",
+      "source": "A Satisfied Client"
+    },
+    "cta": {
+      "headline": "Dreaming of a NYC Celebration?",
+      "subheadline": "Let's bring your vision to life in the city that never sleeps.",
+      "cta_text": "Contact Us",
+      "cta_link": "/contact",
+      "secondary_text": "View All Service Areas",
+      "secondary_link": "/service-areas"
+    }
+  }
+  
+```
+
+app/templates/service_areas/data/west_chester.json
+```
+{
+    "title": "Westchester",
+    "hero": {
+      "headline": "Westchester",
+      "subheadline": "Elegant ceremonies set in a charming suburban backdrop.",
+      "tagline": "Experience sophistication and heartfelt celebration."
+    },
+    "overview": [
+      "Westchester offers a blend of elegance and warmth with its scenic locales.",
+      "Our local expertise ensures a refined and personalized celebration for every occasion."
+    ],
+    "overview_image": "images/westchester_overview.jpg",
+    "popular_venues": {
+      "title": "Popular Venues in Westchester",
+      "items": ["Historic Estates", "Community Halls", "Outdoor Gardens"]
+    },
+    "services": {
+      "title": "Westchester Services",
+      "items": ["Baby Blessings", "Baptisms", "Naming Ceremonies", "Celebrations"],
+      "subtext": "Every ceremony is crafted to honor your unique story in Westchester."
+    },
+    "testimonial": {
+      "text": "Our celebration in Westchester was the epitome of elegance and warmth.",
+      "source": "A Grateful Family"
+    },
+    "cta": {
+      "headline": "Plan Your Westchester Ceremony",
+      "subheadline": "Contact us today to create a truly unforgettable event.",
+      "cta_text": "Contact Us",
+      "cta_link": "/contact",
+      "secondary_text": "View All Service Areas",
+      "secondary_link": "/service-areas"
+    }
+  }
+  
+```
+
+app/templates/service_areas/data/philadelphia.json
+```
+{
+    "title": "Philadelphia",
+    "hero": {
+      "headline": "Philadelphia",
+      "subheadline": "Timeless traditions in the City of Brotherly Love.",
+      "tagline": "Where each ceremony is a heartfelt tribute."
+    },
+    "overview": [
+      "Philadelphia's rich history and vibrant culture make it a perfect setting for meaningful ceremonies.",
+      "Our experienced team ensures every celebration is as unique and enduring as the city itself."
+    ],
+    "overview_image": "images/philadelphia_overview.jpg",
+    "popular_venues": {
+      "title": "Top Venues in Philadelphia",
+      "items": ["Historic Landmarks", "Modern Halls", "Charming Gardens"]
+    },
+    "services": {
+      "title": "Philadelphia Services",
+      "items": ["Baby Blessings", "Baptisms", "Naming Ceremonies", "Celebrations"],
+      "subtext": "We deliver personal and professional ceremonies that resonate with Philadelphia’s spirit."
+    },
+    "testimonial": {
+      "text": "Our ceremony in Philadelphia was steeped in tradition and personal meaning.",
+      "source": "A Proud Family"
+    },
+    "cta": {
+      "headline": "Celebrate in Philadelphia",
+      "subheadline": "Let us help you create a ceremony that echoes with history and heart.",
+      "cta_text": "Contact Us",
+      "cta_link": "/contact",
+      "secondary_text": "View All Service Areas",
+      "secondary_link": "/service-areas"
+    }
+  }
+  
+```
+
+app/templates/service_areas/data/central_new_jersey.json
+```
+{
+    "title": "Central New Jersey",
+    "hero": {
+      "headline": "Central New Jersey",
+      "subheadline": "Personalized ceremonies in the heart of NJ.",
+      "tagline": "Experience warmth and genuine care in every celebration."
+    },
+    "overview": [
+      "Central New Jersey is known for its vibrant communities and accessible venues.",
+      "Our experienced team brings a personalized touch to every ceremony, ensuring it reflects your family’s spirit."
+    ],
+    "overview_image": "images/central_nj_overview.jpg",
+    "popular_venues": {
+      "title": "Featured Venues in Central NJ",
+      "items": ["Local Halls", "Scenic Outdoors", "Intimate Churches"]
+    },
+    "services": {
+      "title": "Central NJ Services",
+      "items": ["Baby Blessings", "Baptisms", "Naming Ceremonies", "Celebrations"],
+      "subtext": "We offer flexible and heartfelt ceremonies tailored for Central New Jersey families."
+    },
+    "testimonial": {
+      "text": "Our ceremony in Central NJ was both intimate and beautifully orchestrated.",
+      "source": "A Happy Client"
+    },
+    "cta": {
+      "headline": "Plan Your Ceremony in Central NJ",
+      "subheadline": "Reach out today to learn how we can make your day unforgettable.",
+      "cta_text": "Contact Us",
+      "cta_link": "/contact",
+      "secondary_text": "View All Service Areas",
+      "secondary_link": "/service-areas"
+    }
+  }
+  
+```
+
+app/templates/service_areas/data/northern_new_jersey.json
+```
+{
+    "title": "Northern New Jersey",
+    "hero": {
+      "headline": "Northern New Jersey",
+      "subheadline": "Creating heartfelt ceremonies across the Garden State.",
+      "tagline": "From Bergen to Morris County and beyond."
+    },
+    "overview": [
+      "Northern New Jersey offers a rich blend of cultural diversity and scenic venues.",
+      "Our team has extensive experience officiating ceremonies in this area."
+    ],
+    "overview_image": "images/northern_nj_overview.jpg",
+    "popular_venues": {
+      "title": "Where We Celebrate in Northern NJ",
+      "items": ["Bergen County Park", "Morris County Church", "Scenic Gardens"]
+    },
+    "services": {
+      "title": "Services Offered Here",
+      "items": ["Baby Blessings", "Baptisms", "Naming Ceremonies", "Celebrations"],
+      "subtext": "We bring warmth and professionalism to every ceremony in this region."
+    },
+    "testimonial": {
+      "text": "Our baby blessing in Northern NJ was nothing short of magical.",
+      "source": "A Happy Family"
+    },
+    "cta": {
+      "headline": "Ready to Plan Your Ceremony in Northern NJ?",
+      "subheadline": "Reach out today for a personalized, memorable event.",
+      "cta_text": "Contact Us",
+      "cta_link": "/contact",
+      "secondary_text": "View All Service Areas",
+      "secondary_link": "/service-areas"
+    }
+  }
+  
+```
+
+app/templates/service_areas/data/long_island.json
+```
+{
+    "title": "Long Island",
+    "hero": {
+      "headline": "Long Island",
+      "subheadline": "Beautiful ceremonies by the shore.",
+      "tagline": "Celebrate life with a touch of coastal charm."
+    },
+    "overview": [
+      "Long Island offers breathtaking seaside venues and a relaxed yet elegant atmosphere.",
+      "Our ceremonies here are designed to capture the beauty of the coast along with heartfelt personalization."
+    ],
+    "overview_image": "images/long_island_overview.jpg",
+    "popular_venues": {
+      "title": "Long Island Venues",
+      "items": ["Beachside Resorts", "Coastal Gardens", "Historic Estates"]
+    },
+    "services": {
+      "title": "Long Island Services",
+      "items": ["Baby Blessings", "Baptisms", "Naming Ceremonies", "Celebrations"],
+      "subtext": "Every ceremony is a unique celebration of life by the beautiful shores of Long Island."
+    },
+    "testimonial": {
+      "text": "Our Long Island ceremony was a perfect blend of elegance and seaside serenity.",
+      "source": "A Delighted Family"
+    },
+    "cta": {
+      "headline": "Celebrate on Long Island",
+      "subheadline": "Contact us to design a coastal ceremony that’s truly yours.",
+      "cta_text": "Contact Us",
+      "cta_link": "/contact",
+      "secondary_text": "View All Service Areas",
+      "secondary_link": "/service-areas"
+    }
+  }
+  
+```
+
+app/templates/services/services.html
+```
+{% extends "base.html" %}
+
+{% block title %}Services – Our Ceremonies & Services{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/services.css') }}">
+{% endblock %}
+{% block content %}
+  <!-- 1) PAGE HERO / INTRO -->
+  <section id="services-hero" class="hero-section services-hero">
+    <div class="hero-overlay">
+      <div class="container hero-content">
+        <h1>Our Ceremonies & Services</h1>
+        <p>Personalized celebrations to welcome your child or loved ones into the world.</p>
+      </div>
+    </div>
+    <!-- Background can be set via CSS (soft pastel gradient or minimal image overlay) -->
+  </section>
+
+  <!-- 2) OVERVIEW / WELCOME TEXT -->
+  <section id="overview" class="section overview">
+    <div class="container">
+      <div class="overview-content">
+        <p>
+          Our ceremonies are designed to celebrate life's most important moments with warmth, personalization, and inclusivity. We honor your family's unique story while providing a heartfelt experience that welcomes new life and cherishes every milestone.
+        </p>
+        <!-- Optional decorative icon or small photo -->
+        <img src="overview-icon.jpg" alt="Celebration Icon" class="overview-icon">
+      </div>
+    </div>
+  </section>
+
+  <!-- 3) SERVICE HIGHLIGHTS (GRID OR ASYMMETRICAL LAYOUT) -->
+  <section id="service-highlights" class="section service-highlights">
+    <div class="container">
+      <h2 class="section-title">Explore Our Main Services</h2>
+      <div class="services-grid">
+        <div class="service-card">
+          <img src="baby-blessings.jpg" alt="Baby Blessings">
+          <h3>Baby Blessings</h3>
+          <p>Celebrate new life with a heartfelt ceremony.</p>
+          <a href="/services/baby-blessings.html" class="btn secondary-btn">Learn More</a>
+        </div>
+        <div class="service-card">
+          <img src="baptisms.jpg" alt="Baptisms">
+          <h3>Baptisms</h3>
+          <p>Create a spiritual foundation in a loving, welcoming way.</p>
+          <a href="/services/baptisms.html" class="btn secondary-btn">Learn More</a>
+        </div>
+        <div class="service-card">
+          <img src="naming-ceremonies.jpg" alt="Naming Ceremonies">
+          <h3>Naming Ceremonies</h3>
+          <p>Honor tradition or forge a new path to celebrate your child's identity.</p>
+          <a href="/services/naming-ceremonies.html" class="btn secondary-btn">Learn More</a>
+        </div>
+        <div class="service-card">
+          <img src="celebrations.jpg" alt="Celebrations">
+          <h3>Celebrations</h3>
+          <p>Mark milestones and moments with a personal touch.</p>
+          <a href="/services/celebrations.html" class="btn secondary-btn">Learn More</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4) ADDITIONAL / SPECIAL SERVICES -->
+  <section id="special-services" class="section special-services">
+    <div class="container">
+      <h2 class="section-title">Looking for Something Else?</h2>
+      <p>
+        We also offer Private Family Gatherings, Interfaith Celebrations, and more. Contact us to discuss your custom ceremony needs.
+      </p>
+      <a href="/contact.html" class="btn tertiary-btn">Contact Us</a>
+    </div>
+  </section>
+
+  <!-- 5) EMOTIONAL GALLERY TEASER (OPTIONAL) -->
+  <section id="gallery-teaser" class="section gallery-teaser">
+    <div class="container">
+      <h2 class="section-title">Ceremony Moments</h2>
+      <div class="gallery-grid">
+        <img src="gallery1.jpg" alt="Ceremony Moment 1">
+        <img src="gallery2.jpg" alt="Ceremony Moment 2">
+        <img src="gallery3.jpg" alt="Ceremony Moment 3">
+      </div>
+      <a href="/gallery.html" class="btn tertiary-btn">View Gallery</a>
+    </div>
+  </section>
+
+  <!-- 6) TESTIMONIAL TEASER (OPTIONAL) -->
+  <section id="testimonials-teaser-services" class="section testimonials-teaser">
+    <div class="container">
+      <h2 class="section-title">Hear from Families We've Served</h2>
+      <div class="testimonial-carousel">
+        <blockquote class="testimonial">
+          <p>"Our ceremony was perfectly tailored to our needs. The warmth and attention to detail were exceptional."</p>
+          <footer>- Client Name</footer>
+        </blockquote>
+        <!-- Additional testimonials can be added here -->
+      </div>
+      <a href="/testimonials.html" class="btn tertiary-btn">Read More</a>
+    </div>
+  </section>
+
+  <!-- 7) CALL-TO-ACTION -->
+  <section id="cta-services" class="section final-cta">
+    <div class="container">
+      <h2 class="section-title">Ready to Book Your Ceremony?</h2>
+      <p>Reach out to discuss the perfect service for your family.</p>
+      <a href="/contact.html" class="btn primary-btn">Contact Us</a>
+      <a href="/service-areas.html" class="btn secondary-btn">Check Service Areas</a>
+    </div>
+  </section>
+{% endblock %}
+
+```
+
+app/templates/services/gallery.html
+```
+{% extends "base.html" %}
+{% block title %}Our Gallery{% endblock %}
+
+{% block head %}
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/specific_service.css') }}">
+{% endblock %}
+
+
+{% block content %}
+  <!-- 1) HERO / PAGE INTRO -->
+  <section id="gallery-hero" class="hero-section gallery-hero">
+    <div class="hero-overlay">
+      <div class="container hero-content">
+        <h1>Our Gallery</h1>
+        <p>A glimpse into the heartfelt moments we've helped create.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2) GALLERY GRID / SLIDESHOW -->
+  <section id="gallery-content" class="section gallery-grid-section">
+    <div class="container">
+      <div class="gallery-grid">
+        <div class="gallery-item">
+          <img src="/static/images/gallery1.jpg" alt="Ceremony Image 1">
+          <p class="caption">Baby Blessing in NYC, Summer 2024</p>
+        </div>
+        <div class="gallery-item">
+          <img src="/static/images/gallery2.jpg" alt="Ceremony Image 2">
+          <p class="caption">Baptism at a serene location</p>
+        </div>
+        <div class="gallery-item">
+          <img src="/static/images/gallery3.jpg" alt="Ceremony Image 3">
+          <p class="caption">Family Celebration moment</p>
+        </div>
+        <div class="gallery-item">
+          <img src="/static/images/gallery4.jpg" alt="Ceremony Image 4">
+          <p class="caption">Naming Ceremony highlight</p>
+        </div>
+        <!-- Additional gallery items can be added here -->
+      </div>
+    </div>
+  </section>
+
+  <!-- 3) OPTIONAL VIDEO SECTION -->
+  <section id="gallery-video" class="section gallery-video">
+    <div class="container">
+      <h2 class="section-title">See the Joy in Motion</h2>
+      <div class="video-wrapper">
+        <!-- Example embedded video (replace URL with your video) -->
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/example_video" title="Ceremony Highlight Video" frameborder="0" allowfullscreen></iframe>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4) CALL-TO-ACTION -->
+  <section id="gallery-cta" class="section cta">
+    <div class="container">
+      <h2 class="section-title">Inspired by Our Work?</h2>
+      <p>Let’s create beautiful moments for your family too.</p>
+      <a href="/contact" class="btn primary-btn">Contact Us to Learn More</a>
+    </div>
+  </section>
+{% endblock %}
+
+```
+
+app/templates/services/baptisms.html
+```
+{% extends "base.html" %}
+{% block title %}Baptisms{% endblock %}
+
+{% block head %}
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/specific_service.css') }}">
+{% endblock %}
+
+
+{% block content %}
+  <!-- 1) HERO / PAGE INTRO -->
+  <section id="baptisms-hero" class="hero-section baptisms-hero">
+    <div class="hero-overlay">
+      <div class="container hero-content">
+        <h1>Baptisms</h1>
+        <p>A sacred ceremony to begin a life of faith and community.</p>
+        <p class="tagline">Traditional or modern approaches to suit your family.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2) OVERVIEW / WHAT IS A BAPTISM? -->
+  <section id="baptisms-overview" class="section overview">
+    <div class="container">
+      <div class="overview-content">
+        <p>Baptism is a spiritual and religious rite symbolizing initiation into faith. Our inclusive and customized approach ensures that the ceremony reflects your unique traditions while honoring the significance of this sacred ritual.</p>
+        <p>We offer an interdenominational experience that is both heartfelt and respectful of your beliefs.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3) BAPTISM CEREMONY DETAILS -->
+  <section id="baptisms-details" class="section details">
+    <div class="container">
+      <h2 class="section-title">Our Approach</h2>
+      <ul class="details-list">
+        <li>Traditional or modern liturgical elements</li>
+        <li>Venue options: church, home, or outdoor setting</li>
+        <li>Role of godparents, mentors, or extended family</li>
+        <li>Ceremony length and typical order of service</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 4) CUSTOMIZATION & PERSONAL TOUCHES -->
+  <section id="baptisms-customization" class="section customization">
+    <div class="container">
+      <h2 class="section-title">Personalizing Your Baptism</h2>
+      <p>We offer options for selecting special readings, incorporating music or cultural traditions, and providing commemorative certificates or keepsakes to make your baptism truly unique.</p>
+    </div>
+  </section>
+
+  <!-- 5) SPOTLIGHT TESTIMONIAL / SOCIAL PROOF -->
+  <section id="baptisms-testimonials" class="section testimonials">
+    <div class="container">
+      <h2 class="section-title">Stories of Faith & Celebration</h2>
+      <blockquote class="testimonial">
+        <p>"Our baptism was beautifully conducted, with every detail reflecting our family's values."</p>
+        <footer>- Family Name</footer>
+      </blockquote>
+      <a href="/testimonials" class="btn tertiary-btn">Read More</a>
+    </div>
+  </section>
+
+  <!-- 6) CALL-TO-ACTION -->
+  <section id="baptisms-cta" class="section cta">
+    <div class="container">
+      <h2 class="section-title">Ready to Plan a Meaningful Baptism?</h2>
+      <p>Let us guide you every step of the way.</p>
+      <a href="/contact" class="btn primary-btn">Contact Us</a>
+      <a href="/service_areas" class="btn secondary-btn">See Service Areas</a>
+    </div>
+  </section>
+{% endblock %}
+
+```
+
+app/templates/services/celebrations.html
+```
+{% extends "base.html" %}
+{% block title %}Family Celebrations{% endblock %}
+
+{% block head %}
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/specific_service.css') }}">
+{% endblock %}
+
+
+{% block content %}
+  <!-- 1) HERO / PAGE INTRO -->
+  <section id="celebrations-hero" class="hero-section celebrations-hero">
+    <div class="hero-overlay">
+      <div class="container hero-content">
+        <h1>Family Celebrations</h1>
+        <p>Mark life's special moments with a personalized touch.</p>
+        <p class="tagline">From milestone birthdays to anniversaries, we make it memorable.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2) OVERVIEW / WHY CELEBRATE? -->
+  <section id="celebrations-overview" class="section overview">
+    <div class="container">
+      <div class="overview-content">
+        <p>Celebrations are a beautiful way to honor milestones and create lasting memories. Whether it’s a birthday, dedication, anniversary, or another special family event, our ceremonies are crafted with care and attention to detail.</p>
+        <p>We believe in creating personal, intimate gatherings that truly reflect your family’s unique story.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3) TYPES OF CELEBRATIONS -->
+  <section id="celebrations-types" class="section details">
+    <div class="container">
+      <h2 class="section-title">Our Celebration Services</h2>
+      <ul class="details-list">
+        <li><strong>Milestone Birthdays:</strong> 1st, 5th, 18th, and more.</li>
+        <li><strong>Renewal of Family Vows</strong></li>
+        <li><strong>Adoption Announcements</strong></li>
+        <li><strong>Other Personalized Ceremonies</strong></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 4) CUSTOMIZING YOUR CELEBRATION -->
+  <section id="celebrations-customization" class="section customization">
+    <div class="container">
+      <h2 class="section-title">Tailor the Experience</h2>
+      <ul class="customization-list">
+        <li>Location choices: home, outdoor venue, or event space</li>
+        <li>Cultural or faith traditions</li>
+        <li>Theming, decorations, special readings or speeches</li>
+        <li>Inclusion of extended family or close friends</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 5) TESTIMONIAL TEASER -->
+  <section id="celebrations-testimonials" class="section testimonials">
+    <div class="container">
+      <h2 class="section-title">Memorable Moments Shared</h2>
+      <blockquote class="testimonial">
+        <p>"Our celebration was a heartwarming event that truly captured the essence of our family."</p>
+        <footer>- Family Name</footer>
+      </blockquote>
+      <a href="/testimonials" class="btn tertiary-btn">Read More</a>
+    </div>
+  </section>
+
+  <!-- 6) CALL-TO-ACTION -->
+  <section id="celebrations-cta" class="section cta">
+    <div class="container">
+      <h2 class="section-title">Have a Special Event in Mind?</h2>
+      <p>We’d love to help you celebrate it in a meaningful way.</p>
+      <a href="/contact" class="btn primary-btn">Contact Us</a>
+      <a href="/service_areas" class="btn secondary-btn">Service Areas</a>
+    </div>
+  </section>
+{% endblock %}
+
+```
+
+app/templates/services/baby-blessings.html
+```
+{% extends "base.html" %}
+{% block title %}Baby Blessings{% endblock %}
+
+{% block head %}
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/specific_service.css') }}">
+{% endblock %}
+
+
+{% block content %}
+  <!-- 1) HERO / PAGE INTRO -->
+  <section id="baby-blessings-hero" class="hero-section baby-blessings-hero">
+    <div class="hero-overlay">
+      <div class="container hero-content">
+        <h1>Baby Blessings</h1>
+        <p>Welcome your little one into the world with a heartfelt, personalized ceremony.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2) OVERVIEW / WHAT IS A BABY BLESSING? -->
+  <section id="baby-blessings-overview" class="section overview">
+    <div class="container">
+      <div class="overview-content">
+        <p>A Baby Blessing is a beautiful celebration that honors the emotional and spiritual significance of welcoming new life. Our ceremony is designed to be both inclusive and personalized, reflecting your family's unique traditions and values.</p>
+        <p>Every child deserves a warm and meaningful welcome, and our approach ensures a memorable experience for parents and loved ones alike.</p>
+        <p>Accompanied by gentle pastel accents and soothing imagery, our Baby Blessing ceremonies create a nurturing atmosphere where every detail is thoughtfully arranged.</p>
+        <img src="/static/images/baby_blessings_icon.jpg" alt="Baby Blessings Icon" class="overview-icon">
+      </div>
+    </div>
+  </section>
+
+  <!-- 3) CEREMONY HIGHLIGHTS -->
+  <section id="baby-blessings-highlights" class="section highlights">
+    <div class="container">
+      <h2 class="section-title">What to Expect</h2>
+      <ul class="highlights-list">
+        <li><strong>Personalized Rituals:</strong> Candles, prayers, and family vows.</li>
+        <li><strong>Venue Flexibility:</strong> Home, garden, or spiritual setting.</li>
+        <li><strong>Inclusive Elements:</strong> Multicultural and interfaith practices.</li>
+        <li><strong>Length & Format:</strong> A balanced, memorable ceremony flow.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 4) OPTIONAL ADD-ONS OR CUSTOMIZATION -->
+  <section id="baby-blessings-customization" class="section customization">
+    <div class="container">
+      <h2 class="section-title">Make It Uniquely Yours</h2>
+      <ul class="customization-list">
+        <li>Readings, music, or cultural traditions</li>
+        <li>Sibling/family involvement</li>
+        <li>Keepsakes: blessing certificates or a memory book</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 5) TESTIMONIAL TEASER / SOCIAL PROOF -->
+  <section id="baby-blessings-testimonials" class="section testimonials">
+    <div class="container">
+      <h2 class="section-title">What Families Say About Our Baby Blessings</h2>
+      <blockquote class="testimonial">
+        <p>"Our baby blessing was a truly touching experience that brought our family together."</p>
+        <footer>- Parent Name</footer>
+      </blockquote>
+      <a href="/testimonials" class="btn tertiary-btn">Read More Testimonials</a>
+    </div>
+  </section>
+
+  <!-- 6) CALL-TO-ACTION -->
+  <section id="baby-blessings-cta" class="section cta">
+    <div class="container">
+      <h2 class="section-title">Ready to Welcome Your Little One?</h2>
+      <p>Contact us to plan the perfect baby blessing ceremony.</p>
+      <a href="/contact" class="btn primary-btn">Contact Us</a>
+      <a href="/services/gallery" class="btn secondary-btn">See Our Gallery</a>
+    </div>
+  </section>
+{% endblock %}
+
+```
+
+app/templates/services/naming-ceremonies.html
+```
+{% extends "base.html" %}
+{% block title %}Naming Ceremonies{% endblock %}
+
+{% block head %}
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/specific_service.css') }}">
+{% endblock %}
+
+
+{% block content %}
+  <!-- 1) HERO / PAGE INTRO -->
+  <section id="naming-hero" class="hero-section naming-hero">
+    <div class="hero-overlay">
+      <div class="container hero-content">
+        <h1>Naming Ceremonies</h1>
+        <p>Celebrate identity and heritage in a warm, personal ceremony.</p>
+        <p class="tagline">Honoring tradition, embracing modern values.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2) OVERVIEW / IMPORTANCE OF A NAMING CEREMONY -->
+  <section id="naming-overview" class="section overview">
+    <div class="container">
+      <div class="overview-content">
+        <p>Naming ceremonies hold deep cultural and familial significance. They celebrate a child's identity and heritage while providing a meaningful way to welcome new life.</p>
+        <p>Our ceremonies emphasize inclusivity and personalization, ensuring every detail reflects your family's values.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3) CEREMONY FORMAT / STRUCTURE -->
+  <section id="naming-format" class="section details">
+    <div class="container">
+      <h2 class="section-title">How We Structure the Ceremony</h2>
+      <ul class="details-list">
+        <li>Gathering and welcome</li>
+        <li>Significance of the chosen name(s)</li>
+        <li>Involvement of family members/guardians</li>
+        <li>Special readings, blessings, or traditions</li>
+        <li>Celebration and closing</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 4) CUSTOM ELEMENTS / PERSONALIZATION -->
+  <section id="naming-customization" class="section customization">
+    <div class="container">
+      <h2 class="section-title">Make It Meaningful</h2>
+      <ul class="customization-list">
+        <li>Cultural traditions from around the world</li>
+        <li>Symbolic rituals (lighting candles, planting a tree, etc.)</li>
+        <li>Custom vows or dedications from parents, godparents, or siblings</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 5) TESTIMONIAL TEASER -->
+  <section id="naming-testimonials" class="section testimonials">
+    <div class="container">
+      <h2 class="section-title">What Parents Are Saying</h2>
+      <blockquote class="testimonial">
+        <p>"Our naming ceremony was a beautiful blend of tradition and personal touch that left a lasting impression."</p>
+        <footer>- Parent Name</footer>
+      </blockquote>
+      <a href="/testimonials" class="btn tertiary-btn">See All Testimonials</a>
+    </div>
+  </section>
+
+  <!-- 6) CALL-TO-ACTION -->
+  <section id="naming-cta" class="section cta">
+    <div class="container">
+      <h2 class="section-title">Ready to Honor Your Child’s Name?</h2>
+      <p>Contact us to create a ceremony that reflects your family's values and heritage.</p>
+      <a href="/contact" class="btn primary-btn">Contact Us</a>
+    </div>
+  </section>
+{% endblock %}
+
+```
+
+app/static/css/services.css
+```
+/* services.css */
+/* Specific styles for the Services and Baby Blessings pages */
+
+/* --- Services Page Hero --- */
+.services-hero {
+    background: linear-gradient(135deg, #fff3e0, #ffe5d9);
+    height: 60vh;
+  }
+  
+  /* --- Baby Blessings Page Hero --- */
+  .baby-blessings-hero {
+    background: url('baby-blessings-hero.jpg') center/cover no-repeat;
+    height: 60vh;
+  }
+  
+  /* --- Overview Section --- */
+  .overview,
+  .overview-baby-blessings {
+    padding: 40px 0;
+    text-align: center;
+  }
+  
+  .overview .overview-content,
+  .overview-baby-blessings .overview-content {
+    max-width: 800px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .overview .overview-content p,
+  .overview-baby-blessings .overview-content p {
+    margin-bottom: 20px;
+  }
+  
+  .overview .overview-icon,
+  .overview-baby-blessings .overview-icon {
+    max-width: 100px;
+    margin-top: 20px;
+  }
+  
+  /* --- Service Highlights --- */
+  .service-highlights {
+    padding: 60px 0;
+    background: #fff;
+    text-align: center;
+  }
+  
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin-top: 40px;
+  }
+  
+  .service-card {
+    background: #f7f7f7;
+    border-radius: 10px;
+    padding: 20px;
+    transition: transform 0.3s;
+  }
+  
+  .service-card:hover {
+    transform: translateY(-5px);
+  }
+  
+  /* --- Special Services --- */
+  .special-services {
+    padding: 40px 0;
+    text-align: center;
+    background: #f0f0f0;
+  }
+  
+  /* --- Gallery Teaser --- */
+  .gallery-teaser {
+    padding: 60px 0;
+    text-align: center;
+  }
+  
+  .gallery-grid {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin: 20px 0;
+  }
+  
+  .gallery-grid img {
+    max-width: 30%;
+    border-radius: 10px;
+  }
+  
+  /* --- Final CTA --- */
+  .final-cta {
+    padding: 60px 0;
+    background: linear-gradient(135deg, #fff3e0, #ffe5d9);
+    text-align: center;
+  }
+  
+```
+
+app/static/css/privacy_policy.css
+```
+/* privacy_policy.css */
+
+/* PAGE INTRO */
+#privacy-hero {
+    position: relative;
+    padding: 80px 0;
+    background: linear-gradient(135deg, #fff3e0, #ffe5d9);
+    text-align: center;
+  }
+  #privacy-hero .hero-content {
+    color: #333;
+  }
+  #privacy-hero h1 {
+    font-size: 2.8rem;
+    margin-bottom: 10px;
+  }
+  #privacy-hero p {
+    font-size: 1.2rem;
+  }
+  
+  /* EFFECTIVE DATE & OVERVIEW */
+  .section {
+    padding: 40px 0;
+    background: #fff;
+    color: #555;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  .section .section-title {
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+    text-align: center;
+    color: #333;
+  }
+  .section p {
+    line-height: 1.6;
+    margin-bottom: 15px;
+  }
+  .section ul {
+    list-style: disc inside;
+    margin-bottom: 15px;
+    padding-left: 20px;
+  }
+  
+  /* Additional Sections (Information Collection, Usage, etc.) */
+  .section h2 {
+    color: #333;
+  }
+  
+  /* CONTACT INFO FOR PRIVACY QUESTIONS */
+  #privacy-questions {
+    text-align: center;
+    padding: 40px 0;
+  }
+  
+  /* Responsive */
+  @media (max-width: 768px) {
+    .section {
+      padding: 20px 15px;
+    }
+    #privacy-hero h1 {
+      font-size: 2.2rem;
+    }
+  }
+  
+```
+
+app/static/css/location_template.css
+```
+/* service_area.css */
+
+/* HERO SECTION */
+.hero-section {
+    position: relative;
+    height: 50vh;
+    background: linear-gradient(135deg, #fff3e0, #ffe5d9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    margin-top: 60px; /* for fixed nav offset */
+  }
+  .hero-section .hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255,255,255,0.3);
+  }
+  .hero-section .hero-content {
+    position: relative;
+    z-index: 1;
+    color: #333;
+    padding: 20px;
+  }
+  .hero-section h1 {
+    font-size: 2.8rem;
+    margin-bottom: 10px;
+  }
+  .hero-section p {
+    font-size: 1.2rem;
+  }
+  .hero-section .tagline {
+    font-size: 1rem;
+    color: #555;
+    margin-top: 10px;
+  }
+  
+  /* SECTION STYLES */
+  .section {
+    padding: 40px 0;
+    text-align: center;
+    color: #555;
+  }
+  .section .section-title {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: #333;
+  }
+  .overview-image {
+    max-width: 400px;
+    margin-top: 20px;
+  }
+  
+  /* BUTTONS */
+  .btn {
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 25px;
+    transition: background 0.3s ease;
+  }
+  .primary-btn {
+    background: #a67c52;
+    color: #fff;
+  }
+  .primary-btn:hover {
+    background: #8c5e3c;
+  }
+  .secondary-btn {
+    background: #fff;
+    color: #a67c52;
+    border: 2px solid #a67c52;
+  }
+  .secondary-btn:hover {
+    background: #a67c52;
+    color: #fff;
+  }
+  .tertiary-btn {
+    background: transparent;
+    border: 2px solid #a67c52;
+    color: #a67c52;
+  }
+  .tertiary-btn:hover {
+    background: #a67c52;
+    color: #fff;
+  }
+  
+```
+
+app/static/css/service_areas.css
+```
+/* service_areas.css */
+
+/* HERO / PAGE INTRO */
+.service-areas-hero {
+    position: relative;
+    height: 50vh;
+    background: linear-gradient(135deg, #fff3e0, #ffe5d9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    margin-top: 60px; /* offset for fixed navigation */
+  }
+  .service-areas-hero .hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.3);
+  }
+  .service-areas-hero .hero-content {
+    position: relative;
+    z-index: 1;
+    color: #333;
+  }
+  .service-areas-hero h1 {
+    font-size: 2.8rem;
+    margin-bottom: 10px;
+  }
+  .service-areas-hero p {
+    font-size: 1.2rem;
+  }
+  
+  /* OVERVIEW / WELCOME TEXT */
+  .areas-overview {
+    padding: 40px 0;
+    background: #fff;
+    text-align: center;
+    color: #555;
+  }
+  .areas-overview p {
+    font-size: 1.1rem;
+    max-width: 800px;
+    margin: 0 auto 20px;
+  }
+  .map-icon {
+    width: 80px;
+    margin-top: 20px;
+  }
+  
+  /* KEY AREAS GRID / LIST */
+  .areas-grid {
+    padding: 60px 0;
+    background: #f7f7f7;
+    text-align: center;
+  }
+  .areas-grid .section-title {
+    font-size: 2rem;
+    margin-bottom: 20px;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+  }
+  .grid-item {
+    background: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    padding: 15px;
+    transition: transform 0.3s ease, background 0.3s ease;
+  }
+  .grid-item:hover {
+    transform: translateY(-5px);
+    background: #fff3e0;
+  }
+  .grid-item img {
+    width: 100%;
+    border-radius: 4px;
+    margin-bottom: 10px;
+  }
+  .grid-item h3 {
+    font-size: 1.5rem;
+    margin: 10px 0;
+    color: #333;
+  }
+  .grid-item p {
+    font-size: 1rem;
+    color: #555;
+    margin-bottom: 10px;
+  }
+  .grid-item .btn {
+    padding: 8px 20px;
+    background: #a67c52;
+    color: #fff;
+    border: none;
+    border-radius: 20px;
+    text-decoration: none;
+    transition: background 0.3s ease;
+  }
+  .grid-item .btn:hover {
+    background: #8c5e3c;
+  }
+  
+  /* WHY LOCATION MATTERS / BENEFITS */
+  .location-benefits {
+    padding: 60px 0;
+    background: #fff;
+    text-align: center;
+    color: #555;
+  }
+  .location-benefits .section-title {
+    font-size: 2rem;
+    margin-bottom: 20px;
+  }
+  .location-benefits p {
+    font-size: 1.1rem;
+    max-width: 800px;
+    margin: 0 auto 20px;
+  }
+  .location-benefits .testimonial {
+    font-style: italic;
+    font-size: 1rem;
+    color: #777;
+    max-width: 600px;
+    margin: 20px auto 0;
+  }
+  
+  /* CALL-TO-ACTION */
+  .areas-cta {
+    padding: 60px 0;
+    background: linear-gradient(135deg, #fff3e0, #ffe5d9);
+    text-align: center;
+  }
+  .areas-cta .section-title {
+    font-size: 2rem;
+    margin-bottom: 20px;
+  }
+  .areas-cta p {
+    font-size: 1rem;
+    color: #555;
+    margin-bottom: 30px;
+  }
+  .areas-cta .btn {
+    padding: 12px 30px;
+    background: #a67c52;
+    color: #fff;
+    border: none;
+    border-radius: 25px;
+    text-decoration: none;
+    transition: background 0.3s ease;
+  }
+  .areas-cta .btn:hover {
+    background: #8c5e3c;
+  }
+  
+  /* Responsive Adjustments */
+  @media (max-width: 768px) {
+    .service-areas-hero h1 {
+      font-size: 2.2rem;
+    }
+    .grid {
+      grid-template-columns: 1fr;
+    }
+  }
+  
+```
+
+app/static/css/specific_service.css
+```
+/* specific_service.css */
+/* Service-Specific Styles for all Services pages */
+
+/* --- Baby Blessings Hero --- */
+.baby-blessings-hero {
+    background: url('/static/images/baby_blessings_hero.jpg') center/cover no-repeat;
+    height: 60vh;
+  }
+  
+  /* --- Baptisms Hero --- */
+  .baptisms-hero {
+    background: url('/static/images/baptisms_hero.jpg') center/cover no-repeat;
+    height: 60vh;
+  }
+  
+  /* --- Naming Ceremonies Hero --- */
+  .naming-hero {
+    background: url('/static/images/naming_hero.jpg') center/cover no-repeat;
+    height: 60vh;
+  }
+  
+  /* --- Celebrations Hero --- */
+  .celebrations-hero {
+    background: url('/static/images/celebrations_hero.jpg') center/cover no-repeat;
+    height: 60vh;
+  }
+  
+  /* --- Gallery Hero --- */
+  .gallery-hero {
+    background: linear-gradient(135deg, #fff3e0, #ffe5d9);
+    height: 60vh;
+  }
+  
+  /* --- Gallery Grid Section --- */
+  .gallery-grid-section {
+    padding: 60px 0;
+    background: #fff;
+    text-align: center;
+  }
+  
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin-top: 40px;
+  }
+  
+  .gallery-item {
+    position: relative;
+    overflow: hidden;
+    border-radius: 10px;
+  }
+  
+  .gallery-item img {
+    width: 100%;
+    display: block;
+    transition: transform 0.3s ease;
+  }
+  
+  .gallery-item:hover img {
+    transform: scale(1.05);
+  }
+  
+  .gallery-item .caption {
+    margin-top: 10px;
+    font-size: 0.9rem;
+    color: #666;
+  }
+  
+  /* --- Gallery Video Section --- */
+  .gallery-video {
+    padding: 60px 0;
+    background: #f0f0f0;
+    text-align: center;
+  }
+  
+  .video-wrapper {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  
+  .video-wrapper iframe {
+    width: 100%;
+    height: auto;
+  }
+  
+  /* --- Common Section Overrides for Service Pages --- */
+  /* Adjust as needed for padding, typography, or background colors */
+  .section {
+    padding: 60px 0;
+  }
+  
+  .section .section-title {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  .section p,
+  .section ul {
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto 20px;
+  }
+  
+```
+
+app/static/css/contact.css
+```
+/* contact.css */
+
+/* HERO / PAGE INTRO */
+.contact-hero {
+    position: relative;
+    height: 50vh;
+    background: linear-gradient(135deg, #fff3e0, #ffe5d9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    margin-top: 60px; /* Offset for fixed nav */
+  }
+  .contact-hero .hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.3);
+  }
+  .contact-hero .hero-content {
+    position: relative;
+    z-index: 1;
+    color: #333;
+    padding: 20px;
+  }
+  .contact-hero h1 {
+    font-size: 2.8rem;
+    margin-bottom: 10px;
+  }
+  .contact-hero p {
+    font-size: 1.2rem;
+  }
+  
+  /* CONTACT FORM SECTION */
+  .contact-form-section {
+    padding: 60px 0;
+    background: #fff;
+    text-align: center;
+  }
+  .contact-form-section .section-title {
+    font-size: 2rem;
+    margin-bottom: 20px;
+  }
+  .contact-form {
+    max-width: 600px;
+    margin: 0 auto;
+    text-align: left;
+  }
+  .contact-form .form-group {
+    margin-bottom: 20px;
+  }
+  .contact-form label {
+    display: block;
+    margin-bottom: 5px;
+    color: #333;
+    font-weight: 600;
+  }
+  .contact-form input,
+  .contact-form select,
+  .contact-form textarea {
+    width: 100%;
+    padding: 10px 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1rem;
+    transition: border 0.3s ease;
+  }
+  .contact-form input:focus,
+  .contact-form select:focus,
+  .contact-form textarea:focus {
+    border-color: #a67c52;
+    outline: none;
+  }
+  .contact-form button {
+    padding: 12px 30px;
+    background: #a67c52;
+    color: #fff;
+    border: none;
+    border-radius: 25px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  .contact-form button:hover {
+    background: #8c5e3c;
+  }
+  
+  /* ALTERNATIVE CONTACT OPTIONS */
+  .alternative-contact {
+    padding: 60px 0;
+    background: #f7f7f7;
+    text-align: center;
+  }
+  .alternative-contact .section-title {
+    font-size: 2rem;
+    margin-bottom: 20px;
+  }
+  .contact-options {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 40px;
+  }
+  .contact-option {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.1rem;
+    color: #333;
+  }
+  .contact-option i {
+    font-size: 1.5rem;
+    color: #a67c52;
+  }
+  
+  /* CALL-TO-ACTION */
+  .cta {
+    padding: 60px 0;
+    background: linear-gradient(135deg, #fff3e0, #ffe5d9);
+    text-align: center;
+  }
+  .cta .section-title {
+    font-size: 2rem;
+    margin-bottom: 20px;
+  }
+  .cta p {
+    font-size: 1rem;
+    color: #555;
+    margin-bottom: 30px;
+  }
+  .cta .btn {
+    padding: 12px 30px;
+    background: #a67c52;
+    color: #fff;
+    border: none;
+    border-radius: 25px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  .cta .btn:hover {
+    background: #8c5e3c;
+  }
+  
+  /* Responsive Adjustments */
+  @media (max-width: 768px) {
+    .contact-options {
+      flex-direction: column;
+    }
+    .contact-hero h1 {
+      font-size: 2.2rem;
+    }
+  }
+  
+```
+
+app/static/css/main.css
+```
+/* main.css */
+/* Global Styles and Layout */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  
+  body {
+    font-family: 'Montserrat', sans-serif;
+    line-height: 1.6;
+    background: #f7f7f7;
+    color: #333;
+  }
+  
+  .container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
+  }
+  
+  /* FIXED TOP NAVIGATION BAR */
+  .fixed-nav {
+    background: #fff;
+    border-bottom: 1px solid #ddd;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+  }
+  .fixed-nav .container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 0;
+  }
+  .logo {
+    font-size: 1.8rem;
+    font-weight: bold;
+    text-decoration: none;
+    color: #333;
+  }
+  .nav-menu {
+    list-style: none;
+    display: flex;
+    align-items: center;
+  }
+  .nav-menu li {
+    margin: 0 10px;
+    position: relative;
+  }
+  .nav-menu a {
+    text-decoration: none;
+    color: #333;
+    padding: 8px 5px;
+    transition: color 0.3s;
+  }
+  .nav-menu a:hover {
+    color: #a67c52;
+  }
+  
+  /* Dropdown Styles */
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    background: #fff;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    padding: 10px 0;
+    border: 1px solid #ddd;
+    z-index: 999;
+    min-width: 150px;
+  }
+  .dropdown:hover .dropdown-content {
+    display: block;
+  }
+  .dropdown-content li {
+    padding: 5px 15px;
+  }
+  .dropdown-content li a {
+    color: #333;
+  }
+  
+  /* CTA Button in Nav */
+  .cta-button {
+    background: #a67c52;
+    color: #fff;
+    padding: 8px 20px;
+    border-radius: 25px;
+    text-decoration: none;
+    transition: background 0.3s;
+  }
+  .cta-button:hover {
+    background: #8c5e3c;
+  }
+  
+  /* FOOTER */
+  footer {
+    background: #333;
+    color: #fff;
+    padding: 20px 0;
+  }
+  .footer-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .footer-logo {
+    font-size: 1.2rem;
+    font-weight: bold;
+  }
+  .footer-links {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    margin: 10px 0;
+  }
+  .footer-links li {
+    margin: 0 10px;
+  }
+  .footer-links a {
+    color: #fff;
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+  .footer-links a:hover {
+    color: #a67c52;
+  }
+  .footer-copy {
+    margin-top: 10px;
+  }
+  
+```
+
+app/static/css/home.css
+```
+/* home.css */
+/* Homepage Specific Styles */
+
+/* 1) HERO / INTRO SECTION */
+.hero-section {
+    position: relative;
+    height: 80vh;
+    background: linear-gradient(135deg, #ffe5d9, #fff3e0); /* peach to mint/light gradient */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    margin-top: 60px; /* offset for fixed nav */
+    overflow: hidden;
+  }
+  .hero-overlay {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: rgba(255,255,255,0.5); /* optional overlay effect */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .hero-content {
+    position: relative;
+    z-index: 1;
+    color: #333;
+    padding: 20px;
+  }
+  .hero-content h1 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    animation: fadeIn 1s ease-in-out;
+  }
+  .hero-content p {
+    font-size: 1.1rem;
+    margin-bottom: 30px;
+    animation: fadeIn 1.5s ease-in-out;
+  }
+  .primary-btn {
+    background: #a67c52;
+    color: #fff;
+    padding: 12px 30px;
+    border: none;
+    border-radius: 25px;
+    text-decoration: none;
+    font-size: 1rem;
+    transition: background 0.3s;
+    animation: fadeIn 2s ease-in-out;
+  }
+  .primary-btn:hover {
+    background: #8c5e3c;
+  }
+  
+  /* 2) KEY SERVICES HIGHLIGHT */
+  .services-highlight {
+    padding: 60px 0;
+    background: #fff;
+    text-align: center;
+  }
+  .services-highlight .section-title {
+    font-size: 2rem;
+    margin-bottom: 10px;
+  }
+  .services-highlight .section-subtext {
+    font-size: 1rem;
+    margin-bottom: 40px;
+    color: #666;
+  }
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+  }
+  .service-item {
+    background: #f7f7f7;
+    border-radius: 10px;
+    padding: 20px;
+    transition: transform 0.3s;
+  }
+  .service-item:hover {
+    transform: translateY(-5px);
+  }
+  .service-item img {
+    width: 100%;
+    border-radius: 10px;
+    margin-bottom: 15px;
+  }
+  .service-item h3 {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+  }
+  .service-item p {
+    font-size: 0.9rem;
+    margin-bottom: 15px;
+  }
+  
+  /* 3) EMOTIONAL ENGAGEMENT / TESTIMONIAL TEASER */
+  .testimonials-teaser {
+    padding: 60px 0;
+    background: #f0f0f0;
+    text-align: center;
+  }
+  .testimonials-teaser .section-title {
+    font-size: 2rem;
+    margin-bottom: 20px;
+  }
+  .testimonial-carousel {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    gap: 20px;
+    padding: 20px 0;
+    justify-content: center;
+  }
+  .testimonial {
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    width: 300px;
+    flex: 0 0 auto;
+    scroll-snap-align: center;
+    animation: fadeIn 1s ease-in-out;
+  }
+  .testimonial p {
+    font-style: italic;
+    font-size: 1rem;
+  }
+  
+  /* 4) ABOUT US PREVIEW */
+  .about-us-preview {
+    padding: 60px 0;
+    background: #fff;
+    text-align: center;
+  }
+  .about-us-preview .section-title {
+    font-size: 2rem;
+    margin-bottom: 20px;
+  }
+  .about-us-preview p {
+    font-size: 1rem;
+    margin-bottom: 20px;
+    color: #555;
+  }
+  .about-us-preview .btn {
+    margin-bottom: 20px;
+  }
+  .about-image {
+    max-width: 100%;
+    border-radius: 10px;
+    margin-top: 20px;
+  }
+  
+  /* 5) SERVICES AREA SPOTLIGHT */
+  .service-areas-spotlight {
+    padding: 60px 0;
+    background: #f7f7f7;
+    text-align: center;
+  }
+  .service-areas-spotlight .section-title {
+    font-size: 2rem;
+    margin-bottom: 10px;
+  }
+  .service-areas-spotlight p {
+    font-size: 1rem;
+    margin-bottom: 40px;
+    color: #666;
+  }
+  .areas-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+  }
+  .area-item {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 15px 25px;
+    text-decoration: none;
+    color: #333;
+    transition: background 0.3s;
+  }
+  .area-item:hover {
+    background: #f0f0f0;
+  }
+  
+  /* 6) FINAL CTA / CONTACT SECTION */
+  .final-cta {
+    padding: 60px 0;
+    background: linear-gradient(135deg, #fff3e0, #ffe5d9);
+    text-align: center;
+  }
+  .final-cta .section-title {
+    font-size: 2rem;
+    margin-bottom: 20px;
+  }
+  .final-cta p {
+    font-size: 1rem;
+    margin-bottom: 30px;
+    color: #555;
+  }
+  .final-cta .btn {
+    background: #a67c52;
+    color: #fff;
+    padding: 12px 30px;
+    border: none;
+    border-radius: 25px;
+    text-decoration: none;
+    transition: background 0.3s;
+  }
+  .final-cta .btn:hover {
+    background: #8c5e3c;
+  }
+  
+  /* Button Variations */
+  .secondary-btn {
+    background: #a67c52;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 20px;
+    text-decoration: none;
+    transition: background 0.3s;
+  }
+  .secondary-btn:hover {
+    background: #8c5e3c;
+  }
+  .tertiary-btn {
+    background: transparent;
+    border: 2px solid #a67c52;
+    color: #a67c52;
+    padding: 10px 20px;
+    border-radius: 20px;
+    text-decoration: none;
+    transition: background 0.3s, color 0.3s;
+  }
+  .tertiary-btn:hover {
+    background: #a67c52;
+    color: #fff;
+  }
+  
+  /* Animations */
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  
+  /* Responsive Styles */
+  @media (max-width: 768px) {
+    .services-grid {
+      grid-template-columns: 1fr;
+    }
+    .areas-grid {
+      flex-direction: column;
+      align-items: center;
+    }
+    .testimonial-carousel {
+      flex-direction: column;
+    }
+  }
+  
+```
+
+app/static/css/blog.css
+```
+/* blog.css */
+
+/* HERO / PAGE INTRO */
+#blog-hero {
+    position: relative;
+    height: 50vh;
+    background: linear-gradient(135deg, #ffe5d9, #fff3e0);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    margin-top: 60px;
+  }
+  #blog-hero .hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255,255,255,0.3);
+  }
+  #blog-hero .hero-content {
+    position: relative;
+    z-index: 1;
+    color: #333;
+  }
+  #blog-hero h1 {
+    font-size: 2.8rem;
+    margin-bottom: 10px;
+  }
+  #blog-hero p {
+    font-size: 1.2rem;
+  }
+  
+  /* BLOG POST LIST / FEED */
+  #blog-feed {
+    padding: 60px 0;
+    background: #fff;
+  }
+  .blog-posts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+  }
+  .blog-post {
+    background: #f7f7f7;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform 0.3s ease;
+  }
+  .blog-post:hover {
+    transform: translateY(-5px);
+  }
+  .blog-post img {
+    width: 100%;
+    display: block;
+  }
+  .blog-post h2 {
+    font-size: 1.8rem;
+    margin: 15px;
+    color: #333;
+  }
+  .blog-post .post-date {
+    margin: 0 15px;
+    font-size: 0.9rem;
+    color: #777;
+  }
+  .blog-post p {
+    margin: 15px;
+    font-size: 1rem;
+    color: #555;
+  }
+  .blog-post .btn {
+    margin: 15px;
+    padding: 10px 20px;
+    background: #a67c52;
+    color: #fff;
+    border: none;
+    border-radius: 20px;
+    text-decoration: none;
+    transition: background 0.3s ease;
+  }
+  .blog-post .btn:hover {
+    background: #8c5e3c;
+  }
+  
+  /* PAGINATION */
+  #pagination {
+    padding: 40px 0;
+    text-align: center;
+  }
+  .pagination-nav a {
+    margin: 0 15px;
+    text-decoration: none;
+    color: #a67c52;
+    font-size: 1.1rem;
+  }
+  .pagination-nav a:hover {
+    color: #8c5e3c;
+  }
+  
+  /* CALL-TO-ACTION */
+  #blog-cta {
+    padding: 40px 0;
+    background: linear-gradient(135deg, #fff3e0, #ffe5d9);
+    text-align: center;
+  }
+  #blog-cta p {
+    font-size: 1rem;
+    color: #555;
+    margin-bottom: 20px;
+  }
+  #blog-cta .btn {
+    padding: 12px 30px;
+    background: #a67c52;
+    color: #fff;
+    border: none;
+    border-radius: 25px;
+    text-decoration: none;
+    transition: background 0.3s ease;
+  }
+  #blog-cta .btn:hover {
+    background: #8c5e3c;
+  }
+  
+  /* Responsive */
+  @media (max-width: 768px) {
+    .blog-posts-grid {
+      grid-template-columns: 1fr;
+    }
+    #blog-hero h1 {
+      font-size: 2.2rem;
+    }
+  }
+  
+```
+
+app/static/css/testimonials.css
+```
+/* testimonials.css */
+
+/* HERO / PAGE INTRO */
+.testimonials-hero {
+    position: relative;
+    height: 50vh;
+    background: linear-gradient(135deg, #ffe5d9, #fff3e0);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    margin-top: 60px; /* offset for fixed nav */
+  }
+  .testimonials-hero .hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255,255,255,0.3);
+  }
+  .testimonials-hero .hero-content {
+    position: relative;
+    z-index: 1;
+    color: #333;
+  }
+  .testimonials-hero h1 {
+    font-size: 2.8rem;
+    margin-bottom: 10px;
+  }
+  .testimonials-hero p {
+    font-size: 1.2rem;
+  }
+  
+  /* SHORT INTRO / THANK YOU NOTE */
+  #thank-you {
+    padding: 40px 0;
+    background: #fff;
+    text-align: center;
+    color: #555;
+    font-size: 1.1rem;
+  }
+  
+  /* TESTIMONIALS SECTION */
+  .testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    padding: 40px 0;
+  }
+  .testimonial-item {
+    background: #f7f7f7;
+    padding: 20px;
+    border-radius: 8px;
+    transition: opacity 0.3s ease;
+    opacity: 0;
+    animation: fadeIn 1s forwards;
+  }
+  .testimonial-item p {
+    font-style: italic;
+    margin-bottom: 10px;
+  }
+  .testimonial-item footer {
+    font-size: 0.9rem;
+    color: #777;
+  }
+  
+  /* CALL-TO-ACTION */
+  #testimonial-cta {
+    padding: 60px 0;
+    background: linear-gradient(135deg, #fff3e0, #ffe5d9);
+    text-align: center;
+  }
+  #testimonial-cta h2 {
+    font-size: 2rem;
+    margin-bottom: 10px;
+  }
+  #testimonial-cta p {
+    font-size: 1rem;
+    margin-bottom: 20px;
+  }
+  #testimonial-cta .btn {
+    padding: 12px 30px;
+    background: #a67c52;
+    color: #fff;
+    border: none;
+    border-radius: 25px;
+    text-decoration: none;
+    margin: 0 10px;
+    transition: background 0.3s ease;
+  }
+  #testimonial-cta .btn:hover {
+    background: #8c5e3c;
+  }
+  
+  /* Animation */
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  
+```
+
+app/static/css/about.css
+```
+/* about.css */
+
+/* HERO / PAGE INTRO */
+.about-hero {
+    position: relative;
+    height: 60vh;
+    background: linear-gradient(135deg, #ffe5d9, #fff3e0);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    margin-top: 60px; /* Offset for fixed navigation */
+  }
+  .about-hero .hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.3);
+  }
+  .about-hero .hero-content {
+    position: relative;
+    z-index: 1;
+    color: #333;
+    padding: 20px;
+  }
+  .about-hero h1 {
+    font-size: 3rem;
+    margin-bottom: 10px;
+  }
+  .about-hero p {
+    font-size: 1.2rem;
+  }
+  .about-hero .tagline {
+    font-size: 1rem;
+    color: #555;
+    margin-top: 10px;
+  }
+  
+  /* BRAND STORY / MISSION */
+  .brand-story {
+    padding: 60px 0;
+    background: #fff;
+    text-align: center;
+  }
+  .brand-story .section-title {
+    font-size: 2rem;
+    margin-bottom: 20px;
+  }
+  .brand-story .story-content {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  .brand-story .story-content p {
+    margin-bottom: 20px;
+    line-height: 1.6;
+    color: #555;
+  }
+  .brand-story .story-image {
+    max-width: 100%;
+    border-radius: 10px;
+    margin-top: 20px;
+  }
+  
+  /* TEAM INTRODUCTION */
+  .team-introduction {
+    padding: 60px 0;
+    background: #f7f7f7;
+    text-align: center;
+  }
+  .team-introduction .section-title {
+    font-size: 2rem;
+    margin-bottom: 20px;
+  }
+  .team-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+  .team-member {
+    background: #fff;
+    border-radius: 10px;
+    padding: 20px;
+    transition: transform 0.3s;
+    text-align: left;
+  }
+  .team-member:hover {
+    transform: translateY(-5px);
+  }
+  .team-photo {
+    width: 100%;
+    height: auto;
+    border-radius: 50%;
+    margin-bottom: 15px;
+  }
+  .team-member h3 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    color: #333;
+  }
+  .team-member p {
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #555;
+  }
+  
+  /* CORE BELIEFS / DISTINCTIVES */
+  .core-beliefs {
+    padding: 60px 0;
+    background: #fff;
+    text-align: center;
+  }
+  .core-beliefs .section-title {
+    font-size: 2rem;
+    margin-bottom: 20px;
+  }
+  .beliefs-list {
+    list-style: none;
+    padding: 0;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  .beliefs-list li {
+    font-size: 1rem;
+    color: #555;
+    margin: 10px 0;
+    padding-left: 20px;
+    position: relative;
+  }
+  .beliefs-list li::before {
+    content: "✔";
+    position: absolute;
+    left: 0;
+    color: #a67c52;
+  }
+  
+  /* TESTIMONIAL TEASER */
+  .testimonials {
+    padding: 60px 0;
+    background: #f0f0f0;
+    text-align: center;
+  }
+  .testimonials .section-title {
+    font-size: 2rem;
+    margin-bottom: 20px;
+  }
+  .testimonial {
+    font-style: italic;
+    font-size: 1rem;
+    color: #555;
+    max-width: 800px;
+    margin: 0 auto 20px;
+  }
+  .testimonial footer {
+    font-size: 0.9rem;
+    color: #777;
+    margin-top: 10px;
+  }
+  .testimonials .btn {
+    margin-top: 20px;
+  }
+  
+  /* CALL-TO-ACTION */
+  .cta {
+    padding: 60px 0;
+    background: linear-gradient(135deg, #fff3e0, #ffe5d9);
+    text-align: center;
+  }
+  .cta .section-title {
+    font-size: 2rem;
+    margin-bottom: 20px;
+  }
+  .cta p {
+    font-size: 1rem;
+    color: #555;
+    margin-bottom: 30px;
+  }
+  
+  /* Responsive Adjustments */
+  @media (max-width: 768px) {
+    .about-hero h1 {
+      font-size: 2.5rem;
+    }
+    .team-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+  
+```
+
+app/static/js/script.js
+```
+// Add your JavaScript here
+```
